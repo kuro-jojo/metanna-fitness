@@ -8,5 +8,6 @@ Cette application gère une salle de sport
 
     Pour la Base de données
         symfony console make:docker:database
+    On utilise également un webmail avec l'image schickling/mailcatcher
         
     docker-composer up -d
