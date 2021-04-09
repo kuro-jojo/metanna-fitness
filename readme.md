@@ -11,7 +11,7 @@ Cette application gère une salle de sport
     On utilise également un webmail avec l'image schickling/mailcatcher
         
     docker-composer up -d -->
-# Template et Bootstrap
+   # Template et Bootstrap
     Utilisation du template de startBootstrap : sd-admin-2 
     Disponible ici https://github.com/StartBootstrap/startbootstrap-sb-admin-2.git
     
