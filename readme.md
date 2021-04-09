@@ -1,5 +1,5 @@
 Cette application gère une salle de sport
-
+<!-- 
 ## Intégration de docker
 
     # Prérequis :
@@ -10,4 +10,4 @@ Cette application gère une salle de sport
         symfony console make:docker:database
     On utilise également un webmail avec l'image schickling/mailcatcher
         
-    docker-composer up -d
+    docker-composer up -d -->
