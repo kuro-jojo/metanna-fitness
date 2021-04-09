@@ -2,6 +2,7 @@ version: '3.7'
 services:
     database:
         image: 'mysql:latest'
+        command: --default-authentication-plugin=mysql_native_password
         environment:
             MYSQL_ROOT_PASSWORD: password
             MYSQL_DATABASE: main
@@ -11,7 +12,28 @@ services:
             # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
             # See https://docs.docker.com/compose/compose-file/#ports for more information.
             - '3306'
-        
+        volumes:
+            - db-data:/var/lib/mysql
+        networks:
+            - dev
+
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: phpmyadmin_docker_symfony
+        restart: always
+        depends_on:
+            - database
+        ports:
+            - 8080:80
+        environment:
+            PMA_HOST: database
+        networks:
+            - dev
     mailer:
         image: schickling/mailcatcher
         ports: [1025,1080]
+
+networks:
+    dev:
+volumes:
+    db-data:
