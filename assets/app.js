@@ -11,4 +11,16 @@ import './styles/app.scss';
 
 import { Tooltip, Toast, Popover } from 'bootstrap';
 // start the Stimulus application
-import './bootstrap';
+import './js/bootstrap';
+import './js/sb-admin-2';
+import './js/sb-admin-2-min';
+
+// import './js/chart.js/Chart-min';
+// import './js/demo/chart-area-demo';
+// import './js/demo/chart-bar-demo';
+// import './js/demo/chart-pie-demo';
+// import './js/demo/datatables-demo';
+
+import './jquery/jquery';
+import './js/jquery-easing/jquery.easing-min';
+import './vendor/bootstrap/js/bootstrap.bundle.min';

@@ -21,6 +21,11 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.9.2",
-        "bootstrap": "^5.0.0-beta3"
+        "bootstrap": "^5.0.0-beta3",
+        "@fortawesome/fontawesome-free": "5.15.1",
+        "chart.js": "2.9.4",
+        "datatables.net-bs4": "1.10.22",
+        "jquery": "3.5.1",
+        "jquery.easing": "^1.4.1"
     }
 }
