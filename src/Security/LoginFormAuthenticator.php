@@ -95,7 +95,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         return $credentials['password'];
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
@@ -104,12 +104,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) :? Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $this->flashy->error("Informations invalides");
 
         return new RedirectResponse($this->urlGenerator->generate('app_login'));
-
     }
     protected function getLoginUrl()
     {

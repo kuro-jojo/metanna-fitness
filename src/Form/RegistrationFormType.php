@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,12 +34,13 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Prénom(s)',
                 'label_attr' => ['class' => 'text-gray-900']
             ])
-            ->add('telephone', TextType::class, [
+            ->add('telephone', TelType::class, [
                 'attr' => [
                     'class' => 'form-control form-control-user',
+                    'placeholder'=>'(00221) 77 XXX XX XX'
                 ],
                 'label' => 'Numéro de Téléphone',
-                'label_attr' => ['class' => 'text-gray-900']
+                'label_attr' => ['class' => 'text-gray-900'],
             ])
             ->add('email', EmailType::class, [
                 'attr' => [

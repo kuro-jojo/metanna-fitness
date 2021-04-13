@@ -4,11 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	{% for flashError in app.flashes('verify_email_error') %}
-		<div class="alert alert-danger" role="alert">{{ flashError }}</div>
-	{% endfor %}
-
-	<div class="container">
+	<div class="container" style="padding-right:10em">
 
 		<div class="card o-hidden border-0 shadow-lg my-5">
 			<div
@@ -23,17 +19,17 @@
 							</div>
 							{{ form_start(registrationForm) }}
 							<div>
-								<div class="col-sm-8">
+								<div class="col-sm-12">
 									{{ form_row(registrationForm.nom) }}
 								</div>
 							</div>
 							<div>
-								<div class="col-sm-8">
+								<div class="col-sm-12">
 									{{ form_row(registrationForm.prenom) }}
 								</div>
 							</div>
 							<div>
-								<div class=" col-sm-5">
+								<div class="col-sm-8">
 									{{ form_row(registrationForm.telephone) }}
 								</div>
 							</div>

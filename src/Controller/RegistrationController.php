@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,19 +19,25 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
+
+    private  const   ROLE_RESPONSABLE = "ROLE_RESPONSABLE";
+
     private $emailVerifier;
     private $flashy;
+    private $em;
+    
 
-    public function __construct(EmailVerifier $emailVerifier, FlashyNotifier $flashy)
+    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $em, FlashyNotifier $flashy)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->em = $em;
         $this->flashy = $flashy;
     }
 
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,FlashyNotifier $flashy): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, FlashyNotifier $flashy): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -59,8 +66,8 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-            $flashy->primaryDark("Le responsable a bien reçu le mail de confirmation",$this->generateUrl("app_home"));
-            return $this->redirectToRoute('app_home');
+            $flashy->primaryDark("Le responsable a bien reçu le mail de confirmation", $this->generateUrl("app_home"));
+            return $this->redirectToRoute('app_register');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -89,13 +96,13 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
-
             return $this->redirectToRoute('app_register');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->flashy->success('Votre adresse email a bien été vérifiée.',$this->generateUrl("app_login"));
-
+        $this->flashy->success('Votre adresse email a bien été vérifiée.', $this->generateUrl("app_login"));
+        $user->setRoles([$this::ROLE_RESPONSABLE]);
+        $this->em->flush();
         return $this->redirectToRoute('app_login');
     }
 }
