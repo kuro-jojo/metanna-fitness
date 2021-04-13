@@ -8,7 +8,7 @@
 
 {% endblock %}
 {% block body %}
-	<form method="post" class="user">
+	<form method="post" class="user" novalidate>
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 		{% endif %}
@@ -34,7 +34,7 @@
 											<h1 class="h4 text-gray-900 mb-4">Se connecter</h1>
 										</div>
 										<div class="form-group">
-											<input type="email" class="form-control " value="{{ last_username }}" id="inputEmail" placeholder="Enter Email Address..." required autofocus>
+											<input type="email" name="email" class="form-control " value="{{ last_username }}" id="inputEmail"  required autofocus>
 										</div>
 										<div class="form-group">
 											<input type="password" class="form-control " name="password" id="inputPassword" placeholder="Password" required>
@@ -43,18 +43,18 @@
 										<div class="form-group">
 											<div class="checkbox custom-control custom-checkbox small">
 												<input type="checkbox" name="_remember_me" class="custom-control-input" id="customCheck">
-												<label class="custom-control-label" for="customCheck">Remember Me</label>
+												<label class="custom-control-label" for="customCheck">Se souvenir de moi</label>
 											</div>
 										</div>
 										<button class="btn btn-info btn-block" type="submit">
-											Login
+											Se connecter
 										</button>
 										<hr>
 										<div class="text-center">
-											<a class="small" href="#">Forgot Password?</a>
+											<a class="small" href="#">Mot de passe oublié?</a>
 										</div>
 										<div class="text-center">
-											<a class="small" href="">Create an Account!</a>
+											<a class="small" href="{{path('app_register')}}">Create an Account!</a>
 										</div>
 									</div>
 								</div>

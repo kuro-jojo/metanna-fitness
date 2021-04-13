@@ -97,6 +97,9 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.2.0"
     },
+    "mercuryseries/flashy-bundle": {
+        "version": "v3.0.2"
+    },
     "monolog/monolog": {
         "version": "2.2.0"
     },
@@ -530,6 +533,9 @@
     },
     "symfony/yaml": {
         "version": "v5.2.5"
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.3.0"
     },
     "twig/extra-bundle": {
         "version": "v3.3.0"
