@@ -1,25 +1,44 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="author" content="Jonathan">
-		<title>{% block title %}Welcome!{% endblock %}</title>
-		{# Run `composer require symfony/webpack-encore-bundle`
-						           and uncomment the following Encore helpers to start using Symfony UX #}
+		<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+		<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 
+		<style>
+            .flashy__body{
+                text-decoration:none;
+            }
+
+        </style>
 		{% block javascripts %}
+
 			<!-- Custom scripts for all pages-->
 			{{ encore_entry_script_tags('app') }}
-
-
 		{% endblock %}
 	</head>
+
 	<body>
+		<!-- Flashy depends on jQuery -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<!-- Load Flashy default JavaScript -->
+		<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+		<!-- Include Flashy default partial -->
+		{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 		{% block body %}{% endblock %}
 	</body>
+
 </html>

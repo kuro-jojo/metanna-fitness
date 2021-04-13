@@ -1,0 +1,11 @@
+    /* Register page*/
+    
+    .register-title {
+        font-size: 1.5em;
+    }
+    
+    @media screen and (max-width: 1200px) {
+        .register-title {
+            font-size: 1.2em;
+        }
+    }

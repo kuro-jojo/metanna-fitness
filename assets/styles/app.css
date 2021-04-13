@@ -1,3 +1,7 @@
 @import "./sb-admin-2.css";
-@import "./sb-admin-2-min.css";
+@import "./sb-admin-2.min.css";
 @import '../vendor/fontawesome-free/css/all.min.css';
+
+/* Custom style */
+
+@import "./custom_styles.css";
