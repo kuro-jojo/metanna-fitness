@@ -49,11 +49,13 @@ class ClientRegisterFormType extends AbstractType
                     'class' => 'form-control form-control-user',
                     'placeholder' => '(00221) 77 XXX XX XX'
                 ],
-                'label' => 'Numéro de Téléphone',
+                'label' => 'Téléphone',
                 'label_attr' => ['class' => 'text-gray-900'],
             ])
             ->add('dateNaissance', DateType::class, [
                 'widget'=>'single_text',
+                'label' => 'Date de naissance',
+
             ])
             ->add('photo');
     }

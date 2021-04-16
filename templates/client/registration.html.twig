@@ -12,8 +12,11 @@
 			margin-left: 20%;
 		}
 		.profil_image {
-			width: 300px;
+			width: auto;
 			height: auto;
+		}
+		.card{
+			border:none;
 		}
 	</style>
 {% endblock %}
@@ -46,29 +49,32 @@
 							{{form_label(formClientRegister.nom)}}
 							{{form_widget(formClientRegister.nom)}}
 						</div>
-						<div class="row g-3">
-							<div class="col-md-6">
-								{{form_label(formClientRegister.telephone)}}
-								{{form_widget(formClientRegister.telephone)}}
-							</div>
-						</div>
-						<div class="row g-2">
-							<div class="col-md-6">
-								{{form_label(formClientRegister.dateNaissance)}}
-								{{form_widget(formClientRegister.dateNaissance)}}
-							</div>
-						</div>
-						<div class="mb-3" style="">
-							<div class="row g-0">
-								<div class="col-md-6">
-									{{form_label(formClientRegister.photo)}}
-									{{form_widget(formClientRegister.photo)}}
+						<div class="col-md-6" style="margin-left:inherit">
+							<div class="row">
+								<div class="g-3">
+									<div class="col-md-10">
+										{{form_label(formClientRegister.telephone)}}
+										{{form_widget(formClientRegister.telephone)}}
+									</div>
 								</div>
-								<div class="col-md-1"></div>
-								<div class="col-md-4 card ">
-									<img class="profil_image" src="{{asset('img/logo.jpg')}}" alt="Photo de profil du client">
+								<div class="g-2">
+									<div class="col-md-10">
+										{{form_label(formClientRegister.dateNaissance)}}
+										{{form_widget(formClientRegister.dateNaissance)}}
+									</div>
+								</div>
+								<div class="g-2">
+									<div class="col-md-10">
+										{{form_label(formClientRegister.photo)}}
+										{{form_widget(formClientRegister.photo)}}
+									</div>
 								</div>
 							</div>
+						</div>
+						<div class="col-md-1"></div>
+
+						<div class="col card">
+								<img class="profil_image" src="{{asset('img/logo.jpg')}}" alt="Photo de profil du client">
 						</div>
 						{{form_end(formClientRegister)}}
 					</div>
@@ -76,5 +82,5 @@
 			</div>
 		</div>
 
-		
+
 	{% endblock %}
