@@ -1,0 +1,80 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+	{{parent()}}
+	<style>
+		.content {
+			background-color: #fff;
+		}
+		label {
+			color: #000
+		}
+		.form {
+			margin-left: 20%;
+		}
+		.profil_image {
+			width: 300px;
+			height: auto;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<div id="wrapper">
+		{% include "layouts/partials/_sidebar.html.twig" %}
+		<!-- Content Wrapper -->
+		<div
+			id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content" class="content">
+				{% include "layouts/partials/_nav.html.twig" %}
+				<h1 class="h2 text-dark text-center fst-italic mb-5">Inscrire un nouveau client</h1>
+				<div class="container form">
+					<div class="col-8">
+						{{form_start(formClientRegister,
+							{
+								'attr':
+									{
+										'class':'row g-3'
+									}
+							})
+						}}
+						<div class="col-md-6">
+							{{form_label(formClientRegister.prenom)}}
+							{{form_widget(formClientRegister.prenom)}}
+						</div>
+						<div class="col-md-6">
+							{{form_label(formClientRegister.nom)}}
+							{{form_widget(formClientRegister.nom)}}
+						</div>
+						<div class="row g-3">
+							<div class="col-md-6">
+								{{form_label(formClientRegister.telephone)}}
+								{{form_widget(formClientRegister.telephone)}}
+							</div>
+						</div>
+						<div class="row g-2">
+							<div class="col-md-6">
+								{{form_label(formClientRegister.dateNaissance)}}
+								{{form_widget(formClientRegister.dateNaissance)}}
+							</div>
+						</div>
+						<div class="mb-3" style="">
+							<div class="row g-0">
+								<div class="col-md-6">
+									{{form_label(formClientRegister.photo)}}
+									{{form_widget(formClientRegister.photo)}}
+								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-4 card ">
+									<img class="profil_image" src="{{asset('img/logo.jpg')}}" alt="Photo de profil du client">
+								</div>
+							</div>
+						</div>
+						{{form_end(formClientRegister)}}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+	{% endblock %}
