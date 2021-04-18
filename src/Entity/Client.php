@@ -59,7 +59,7 @@ class Client
     private $profileFileName;
 
     /**
-     * @ORM\OneToOne(targetEntity=Registration::class, mappedBy="registredClient", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Registration::class, mappedBy="registeredClient", cascade={"persist", "remove"})
      */
     private $myRegistration;
 
