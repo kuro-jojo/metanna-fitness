@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
@@ -20,29 +24,39 @@ class Client
     private $id;
 
     /**
+     * @Assert\NotBlank(
+     *      message="Veuillez saisir le nom du client")
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
+     * @Assert\NotBlank(
+     *      message="Veuillez saisir le(s) prénom(s)du client")
      * @ORM\Column(type="string", length=255)
      */
     private $prenom;
 
     /**
+     * @Assert\Regex(
+     *      pattern="/^(00221)?(7[786])(\d){7}$/",
+     *      message="Respectez le format 77 xxx xx xx ",
+     *          )
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $telephone;
 
     /**
-     * @ORM\Column(type="date")
+     * @Assert\NotBlank(
+     *      message="Veuillez entrer la date de naissance")
+     * @ORM\Column(type="date",nullable=false)
      */
     private $dateNaissance;
 
-    /**
+    /*
      * @ORM\Column(type="string", length=255)
      */
-    private $photo;
+    private $profileFileName;
 
     /**
      * @ORM\OneToOne(targetEntity=Registration::class, mappedBy="registredClient", cascade={"persist", "remove"})
@@ -115,21 +129,21 @@ class Client
         return $this->dateNaissance;
     }
 
-    public function setDateNaissance(\DateTimeInterface $dateNaissance): self
+    public function setDateNaissance(?\DateTimeInterface $dateNaissance): self
     {
         $this->dateNaissance = $dateNaissance;
 
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getProfileFileName(): ?string
     {
-        return $this->photo;
+        return $this->profileFileName;
     }
 
-    public function setPhoto(string $photo): self
+    public function setProfileFileName(string $profileFileName): self
     {
-        $this->photo = $photo;
+        $this->profileFileName = $profileFileName;
 
         return $this;
     }
@@ -142,8 +156,8 @@ class Client
     public function setMyRegistration(Registration $myRegistration): self
     {
         // set the owning side of the relation if necessary
-        if ($myRegistration->getRegistredClient() !== $this) {
-            $myRegistration->setRegistredClient($this);
+        if ($myRegistration->getRegisteredClient() !== $this) {
+            $myRegistration->setRegisteredClient($this);
         }
 
         $this->myRegistration = $myRegistration;
@@ -209,5 +223,4 @@ class Client
 
         return $this;
     }
-    
 }

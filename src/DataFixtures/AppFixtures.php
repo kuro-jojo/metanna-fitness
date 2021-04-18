@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Settings;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -30,6 +31,13 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
 
+        $settings = new Settings;
+
+        $settings->setDefaultRegistrationAmount(25000);
+        $settings->setDefaultSubsAmount(15000);
+        $settings->setCode("ADMIN");
+
+        $manager->persist($settings);
         $manager->flush();
     }
 }
