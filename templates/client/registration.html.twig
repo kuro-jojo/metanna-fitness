@@ -1,0 +1,129 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+	{{parent()}}
+	<style>
+		.content {
+			background-color: #fff;
+		}
+		label {
+			color: #000
+		}
+		.form {
+			margin-left: 20%;
+		}
+		.profil_image {
+			width: 250px;
+			height: 250px;
+		}
+		.card {
+			border: none;
+		}
+	</style>
+{% endblock %}
+
+{% block javascripts %}
+	{{parent()}}
+	{# 
+											Code for image preview
+										 #}
+
+	<script>
+		function showPreview(event) {
+if (event.target.files.length > 0) {
+var src = URL.createObjectURL(event.target.files[0]);
+var preview = document.getElementById('profilPreview');
+preview.src = src;
+
+}
+}
+	</script>
+{% endblock %}
+
+{% block body %}
+	<div id="wrapper">
+		{% include "layouts/partials/_sidebar.html.twig" %}
+		<!-- Content Wrapper -->
+		<div
+			id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content" class="content">
+				{% include "layouts/partials/_nav.html.twig" %}
+				<h1 class="h2 text-dark fst-italic mb-5 text-center">Inscrire un nouveau client</h1>
+				<div class="container form">
+					<div class="col-10">
+						{{form_start(formClientRegister,
+							{
+								'attr':
+									{
+										'class':'row g-3'
+									}
+							})
+						}}
+						<div class="col-md-6">
+							<label for="client_register_form_prenom" class="form-label">Prénom(s) du Client</label>
+
+							{{form_widget(formClientRegister.registeredClient.prenom)}}
+							{{form_errors(formClientRegister.registeredClient.prenom)}}
+						</div>
+						<div class="col-md-6">
+							<label for="client_register_form_nom" class="form-label">Nom du Client</label>
+							{{form_widget(formClientRegister.registeredClient.nom)}}
+							{{form_errors(formClientRegister.registeredClient.nom)}}
+						</div>
+						<div class="col-md-6" style="margin-left:inherit">
+							<div class="row">
+								<div class="g-3">
+									<div class="col-md-12">
+										<label for="client_register_form_telephone" class="form-label">Téléphone</label>
+										{{form_widget(formClientRegister.registeredClient.telephone)}}
+										{{form_errors(formClientRegister.registeredClient.telephone)}}
+									</div>
+								</div>
+								<div class="g-2">
+									<div class="col-md-12">
+										<label for="client_register_form_dateNaissance" class="form-label">Date de naissance</label>
+										{{form_widget(formClientRegister.registeredClient.dateNaissance)}}
+										{{form_errors(formClientRegister.registeredClient.dateNaissance)}}
+									</div>
+								</div>
+								<div class="g-2">
+									<div class="col-md-12">
+										<label for="client_register_form_photoProfil" class="form-label">Photo de profil</label>
+										{{form_widget(formClientRegister.registeredClient.photoProfil)}}
+										{{form_errors(formClientRegister.registeredClient.photoProfil)}}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-1"></div>
+
+						<div class="col-md-5">
+							<img class="profil_image" id="profilPreview" src="{{asset('img/'~path)}}" alt="Photo de profil du client">
+						</div>
+						<div class="row mt-4 p-0">
+							<div class="col-md-4 text-center">
+								<label for="client_registration_form_dateOfRegistration" class="form-label">Date d'inscription</label>
+								<input type="text" id="client_registration_form_dateOfRegistration" name="client_registration_form[dateOfRegistration]" required="required" disabled="disabled" class="text-center form-control" value="{{registration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}">
+							</div>
+							<div class="col-md-4 text-center">
+								<label for="client_registration_form_deadline" class="form-label">Date de fin de l'inscription</label>
+								<input type="text" id="client_registration_form_deadline" name="client_registration_form[deadline]" required="required" disabled="disabled" class="text-center form-control" value="{{registration.deadline|localizeddate('long', 'none', 'fr')}}">
+
+							</div>
+							<div class="col-md-4 text-center">
+								<label for="client_registration_form_amountOfRegistration" class="form-label">Montant de l'inscription</label>
+								<input type="text" id="client_registration_form_amountOfRegistration" name="client_registration_form[amountOfRegistration]" required="required" disabled="disabled" class="text-center form-control" value="{{registration.amountOfRegistration ~ " FCFA"}}">
+
+							</div>
+						</div>
+						<div class="d-grid gap-2 col-6 mx-auto mt-5">
+							<button class="btn btn-outline-primary" type="submit">Finaliser l'inscription</button>
+						</div>
+						{{form_end(formClientRegister)}}
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	{% endblock %}

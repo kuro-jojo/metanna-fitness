@@ -19,21 +19,29 @@
 		{% endblock %}
 
 		<style>
-            .flashy__body{
-                text-decoration:none;
-            }
-
-        </style>
+			.flashy__body {
+				text-decoration: none;
+			}
+			.flashy{
+				margin-top:90px;
+			}
+		</style>
 		{% block javascripts %}
-
 			<!-- Custom scripts for all pages-->
 			{{ encore_entry_script_tags('app') }}
+		<script src="//code.jquery.com/jquery.js"></script>
+
 		{% endblock %}
 	</head>
 
 	<body>
 		<!-- Flashy depends on jQuery -->
-		<script src="//code.jquery.com/jquery.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+		<script>
+			$(document).ready(function () {
+bsCustomFileInput.init()
+})
+		</script>
 		<!-- Load Flashy default JavaScript -->
 		<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
 		<!-- Include Flashy default partial -->

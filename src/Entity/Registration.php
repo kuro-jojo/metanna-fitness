@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\RegistrationRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Repository\RegistrationRepository;
+use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=RegistrationRepository::class)
  */
@@ -25,18 +26,18 @@ class Registration
     /**
      * @ORM\Column(type="integer")
      */
-    private $amountOfRegistration;
-
+    public $amountOfRegistration;
     /**
      * @ORM\Column(type="date")
      */
     private $deadline;
 
     /**
+     * @Assert\Valid
      * @ORM\OneToOne(targetEntity=Client::class, inversedBy="myRegistration", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $registredClient;
+    private $registeredClient;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="registrationsRealized")
@@ -53,7 +54,7 @@ class Registration
         return $this->dateOfRegistration;
     }
 
-    public function setDateOfRegistration(\DateTimeInterface $dateOfRegistration): self
+    public function setDateOfRegistration(?\DateTimeInterface $dateOfRegistration): self
     {
         $this->dateOfRegistration = $dateOfRegistration;
 
@@ -77,21 +78,21 @@ class Registration
         return $this->deadline;
     }
 
-    public function setDeadline(\DateTimeInterface $deadline): self
+    public function setDeadline(?\DateTimeInterface $deadline): self
     {
         $this->deadline = $deadline;
 
         return $this;
     }
 
-    public function getRegistredClient(): ?Client
+    public function getRegisteredClient(): ?Client
     {
-        return $this->registredClient;
+        return $this->registeredClient;
     }
 
-    public function setRegistredClient(Client $registredClient): self
+    public function setRegisteredClient(Client $registeredClient): self
     {
-        $this->registredClient = $registredClient;
+        $this->registeredClient = $registeredClient;
 
         return $this;
     }
