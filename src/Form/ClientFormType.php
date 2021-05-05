@@ -54,18 +54,22 @@ class ClientFormType extends AbstractType
                 ],
                 'label' => 'Téléphone',
                 'label_attr' => ['class' => 'text-gray-900'],
-                
+
             ])
             ->add('dateNaissance', DateType::class, [
-                'widget'=>'single_text',
+                'widget' => 'single_text',
                 'label' => 'Date de naissance',
+                'attr' => [
+                    'class' => 'text-center text-dark'
+                ]
             ])
-            ->add('photoProfil',FileType::class,[
-                'label'=>'Photo de profil',
-                'mapped'=>false,
-                'attr'=>[
-                    'placeholder'=>'Sélectionner une photo',
-                    'onchange'=>'showPreview(event)'
+            ->add('photoProfil', FileType::class, [
+                'label' => 'Photo de profil',
+                'mapped' => false,
+                'attr' => [
+                    'placeholder' => 'Sélectionner une photo',
+                    'onchange' => 'showPreview(event)',
+                    'value'=>'hello'
                 ],
                 'constraints' => [
                     new File([
@@ -87,8 +91,8 @@ class ClientFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Client::class,
-            'attr'=>[
-                'novalidate'=>'novalidate'
+            'attr' => [
+                'novalidate' => 'novalidate'
             ]
         ]);
     }

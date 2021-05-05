@@ -13,16 +13,13 @@ class ClientRegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            // ->add('dateOfRegistration', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'Date de naissance',
-            //     'format' => 'd MMMM yyyy',
-            //     'html5'=>false,
-            //     'attr' => [
-            //         'disabled' => true,
-            //         'class'=>'text-center'
-            //     ]
-            // ])
+            ->add('dateOfRegistration', DateType::class, [
+                'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'text-center text-dark',
+                    'onchange'=>'deadlineDate()'
+                ]
+            ])
             // ->add('deadline', DateType::class, [
             //     'widget' => 'single_text',
             //     'label' => 'Date de naissance',
@@ -49,8 +46,8 @@ class ClientRegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Registration::class,
-            'attr'=>[
-                'novalidate'=>'novalidate'
+            'attr' => [
+                'novalidate' => 'novalidate'
             ]
         ]);
     }

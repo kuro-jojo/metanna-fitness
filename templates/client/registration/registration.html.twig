@@ -2,12 +2,7 @@
 {% block stylesheets %}
 	{{parent()}}
 	<style>
-		.content {
-			background-color: #fff;
-		}
-		label {
-			color: #000
-		}
+		
 		.form {
 			margin-left: 20%;
 		}
@@ -18,14 +13,13 @@
 		.card {
 			border: none;
 		}
+		
 	</style>
 {% endblock %}
 
 {% block javascripts %}
 	{{parent()}}
-	{# 
-											Code for image preview
-										 #}
+	{# Code for image preview #}
 
 	<script>
 		function showPreview(event) {
@@ -35,6 +29,29 @@ var preview = document.getElementById('profilPreview');
 preview.src = src;
 
 }
+}
+function deadlineDate() {
+var d = document.getElementById('client_registration_form_dateOfRegistration');
+var input = d.value;
+var dateEntered = new Date(input);
+var dd = dateEntered.getDate();
+var mm = dateEntered.getMonth() + 1;
+var yyyy = dateEntered.getFullYear() + 1;
+if (dd < 10) {
+dd = '0' + dd;
+}
+if (mm == 13) {
+mm = 1;
+}
+if (mm < 10) {
+mm = '0' + mm;
+}
+const formatter = new Intl.DateTimeFormat('fr', {month: 'long'});
+
+const month = formatter.format(new Date(yyyy, mm - 1, dd));
+var deadline = dd + ' ' + month + ' ' + yyyy;
+
+document.getElementById('client_registration_form_deadline').value = deadline;
 }
 	</script>
 {% endblock %}
@@ -103,7 +120,8 @@ preview.src = src;
 						<div class="row mt-4 p-0">
 							<div class="col-md-4 text-center">
 								<label for="client_registration_form_dateOfRegistration" class="form-label">Date d'inscription</label>
-								<input type="text" id="client_registration_form_dateOfRegistration" name="client_registration_form[dateOfRegistration]" required="required" disabled="disabled" class="text-center form-control" value="{{registration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}">
+								{{form_widget(formClientRegister.dateOfRegistration)}}
+								{{form_errors(formClientRegister.dateOfRegistration)}}
 							</div>
 							<div class="col-md-4 text-center">
 								<label for="client_registration_form_deadline" class="form-label">Date de fin de l'inscription</label>

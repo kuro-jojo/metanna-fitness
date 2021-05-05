@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RegistrationRepository;
 use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass=RegistrationRepository::class)
  */
@@ -44,6 +45,10 @@ class Registration
      */
     private $responsableOfRegistration;
 
+    public function __construct()
+    {
+        $this->dateOfRegistration = new \DateTime();
+    }
     public function getId(): ?int
     {
         return $this->id;

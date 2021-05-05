@@ -1,0 +1,101 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+	{{parent()}}
+	<style>
+		body {
+			overflow: hidden;
+		}
+		th {
+			color: #000;
+			text-align: center;
+		}
+		td {
+			text-align: center;
+		}
+
+		.table-responsive {
+			height: 75vh;
+			overflow-y: auto;
+			width: 100%;
+			background-color: #fff;
+		}
+		thead tr:nth-child(1) th {
+			background: #fff;
+			position: sticky;
+			top: -5px;
+			border: 3px solid #000;
+			/* z-index: 0; */
+		}
+
+		.profil {
+			width: 100px;
+			height: 100px;
+			border-radius: 10px
+		}
+		.thumbnail:hover {
+			position: absolute;
+			top: 30%;
+			left: 50%;
+			width: 300px;
+			height: auto;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	<div id="wrapper">
+		{% include "layouts/partials/_sidebar.html.twig" %}
+		<!-- Content Wrapper -->
+		<div
+			id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content" class="content">
+
+				{% include "layouts/partials/_nav.html.twig" %}
+				<h1 class="h2 text-dark text-decoration-underline mb-2 text-center">Liste des clients inscrits à la salle</h1>
+
+				<div class="container py-5">
+					<div
+						class="mx-auto bg-white rounded">
+
+						<!-- Fixed header table-->
+						<div class="table-responsive">
+							<table class="table table-fixed table-hover">
+								<thead>
+									<tr>
+										<th scope="col">Code client</th>
+										<th scope="col">Nom</th>
+										<th scope="col">Prénom(s)</th>
+										<th scope="col">Téléphone</th>
+										<th scope="col">Email</th>
+										<th scope="col">Date de Naissance</th>
+										<th scope="col">Date d'inscription</th>
+										<th scope="col">Montant</th>
+										<th scope="col">Profil</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									{% for client in clients %}
+										<tr>
+											<th scope="row">{{client.id}}</th>
+											<td>{{client.nom}}</td>
+											<td>{{client.prenom}}</td>
+											<td>{{client.telephone}}</td>
+											<td></td>
+											<td>{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+											<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+											<td class="td">{{client.myRegistration.amountOfRegistration}}</td>
+											<td class="td"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
+										</tr>
+									{% endfor %}
+
+								</tbody>
+							</table>
+						</div>
+						<!-- End -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

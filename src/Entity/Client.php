@@ -38,26 +38,20 @@ class Client
     private $prenom;
 
     /**
+     *  @Assert\NotBlank(
+     *      message="Veuillez entrer un numéro de téléphone")
      * @Assert\Regex(
      *      pattern="/^(00221)?(7[786])(\d){7}$/",
      *      message="Respectez le format 77 xxx xx xx ",
      *          )
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $telephone;
 
     /**
-     * @Assert\NotBlank(
-     *      message="Veuillez entrer la date de naissance")
-     * @ORM\Column(type="date",nullable=false)
+     * @ORM\Column(type="date",nullable=true)
      */
     private $dateNaissance;
-
-    /*
-     * @ORM\Column(type="string", length=255)
-     */
-    private $profileFileName;
-
     /**
      * @ORM\OneToOne(targetEntity=Registration::class, mappedBy="registeredClient", cascade={"persist", "remove"})
      */
@@ -77,6 +71,11 @@ class Client
      * @ORM\OneToOne(targetEntity=ClientCard::class, cascade={"persist", "remove"})
      */
     private $myCard;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $profilFileName;
 
     public function __construct()
     {
@@ -132,18 +131,6 @@ class Client
     public function setDateNaissance(?\DateTimeInterface $dateNaissance): self
     {
         $this->dateNaissance = $dateNaissance;
-
-        return $this;
-    }
-
-    public function getProfileFileName(): ?string
-    {
-        return $this->profileFileName;
-    }
-
-    public function setProfileFileName(string $profileFileName): self
-    {
-        $this->profileFileName = $profileFileName;
 
         return $this;
     }
@@ -220,6 +207,18 @@ class Client
     public function setMyCard(?ClientCard $myCard): self
     {
         $this->myCard = $myCard;
+
+        return $this;
+    }
+
+    public function getProfilFileName(): ?string
+    {
+        return $this->profilFileName;
+    }
+
+    public function setProfilFileName(string $profilFileName): self
+    {
+        $this->profilFileName = $profilFileName;
 
         return $this;
     }
