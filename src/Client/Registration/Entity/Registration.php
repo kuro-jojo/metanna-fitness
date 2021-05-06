@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Client\Registration\Entity;
 
+use App\Entity\User;
+use App\Client\Entity\Client;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RegistrationRepository;
 use Symfony\Component\Validator\Constraints\Valid;
@@ -35,7 +37,7 @@ class Registration
 
     /**
      * @Assert\Valid
-     * @ORM\OneToOne(targetEntity=Client::class, inversedBy="myRegistration", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Client::class, inversedBy="myRegistration", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $registeredClient;

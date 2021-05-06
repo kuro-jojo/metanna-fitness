@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\Client\Repository;
 
-use App\Entity\Client;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Client\Entity\Client;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Client|null find($id, $lockMode = null, $lockVersion = null)

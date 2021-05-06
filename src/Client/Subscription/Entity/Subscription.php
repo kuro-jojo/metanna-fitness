@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Entity;
+namespace App\Client\Subscription\Entity;
 
-use App\Repository\SubscriptionRepository;
+use App\Entity\User;
+use App\Client\Entity\Client;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SubscriptionRepository;
 
 /**
  * @ORM\Entity(repositoryClass=SubscriptionRepository::class)

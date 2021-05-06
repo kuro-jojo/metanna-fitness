@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Form;
+namespace App\Client\Form;
 
-use App\Entity\Client;
+use App\Client\Entity\Client;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ClientFormType extends AbstractType
 {

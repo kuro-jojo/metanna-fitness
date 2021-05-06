@@ -2,22 +2,24 @@
 
 namespace App\Client\Registration\Controller;
 
-use App\Entity\Client;
-use App\Entity\Registration;
-use App\Entity\Subscription;
-use App\Service\FileUploader;
-use App\Form\ClientRegistrationFormType;
-use App\Repository\ClientRepository;
-use App\Repository\SettingsRepository;
 use DateInterval;
+use App\Client\Entity\Client;
+use App\Service\FileUploader;
+use App\Client\Entity\ClientSearch;
+use App\Client\Form\ClientSearchType;
+use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use MercurySeries\FlashyBundle\FlashyNotifier;
+use App\Client\Repository\ClientRepository;
 use Symfony\Component\HttpFoundation\Request;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Client\Registration\Entity\Registration;
+use App\Client\Subscription\Entity\Subscription;
+use App\Client\Registration\Form\ClientRegistrationFormType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -131,9 +133,48 @@ class RegistrationController extends AbstractController
 
     /**
      * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/registration/list",name="app_client_registration_list")
-     * listO of all registred customers
+     * @Route("/client/register/search", name="app_client_registration_search")
+     * 
+     * search a customer
      *
+     * @return Response
+     */
+    public function search(Request $request,ClientRepository $clientRepository): Response
+    {
+        $clientSearch = new ClientSearch;
+        $form = $this->createForm(ClientSearchType::class,$clientSearch);
+        $form->handleRequest($request);
+
+        $client = $form->get('clientCode')->getData() !=null ? $clientRepository->find($form->get('clientCode')->getData()) : null;
+        
+        return $this->render('client/registration/cancel.html.twig',[
+            'form'=>$form->createView(),
+            'client'=> $client
+        ]);
+    }
+
+  /**
+     * @IsGranted("ROLE_RESPONSABLE")
+     * @Route("/client/register/cancel/{id<\d+>}", name="app_client_registration_cancel")
+     * 
+     * cancel the registration of a customer
+     *
+     * @return Response
+     */
+    public function cancel(Client $client,Request $request,ClientRepository $clientRepository,EntityManagerInterface $em): Response
+    {
+        $em->remove($client->getMyRegistration());
+        $em->flush();
+        $this->flashy->info("Résiliation accomplie !!");
+
+        return $this->redirectToRoute("app_client_registration_list");
+    }
+    /**
+     * @IsGranted("ROLE_RESPONSABLE")
+     * @Route("/client/registration/list",name="app_client_registration_list")
+     * list of all registred customers
+     *
+     * @param  mixed $clientRepository
      * @return Response
      */
     public function listOfRegistration(ClientRepository $clientRepository): Response

@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientActivitiesRepository;
+use App\Client\Entity\Client;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ClientActivitiesRepository;
 
 /**
  * @ORM\Entity(repositoryClass=ClientActivitiesRepository::class)

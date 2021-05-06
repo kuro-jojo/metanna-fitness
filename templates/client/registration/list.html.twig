@@ -9,8 +9,10 @@
 			color: #000;
 			text-align: center;
 		}
-		td {
-			text-align: center;
+		td,
+		th {
+			text-align: center !important;
+			vertical-align: unset !important;
 		}
 
 		.table-responsive {
@@ -32,13 +34,13 @@
 			height: 100px;
 			border-radius: 10px
 		}
-		.thumbnail:hover {
+		/* .thumbnail:hover {
 			position: absolute;
 			top: 30%;
 			left: 50%;
 			width: 300px;
 			height: auto;
-		}
+		} */
 	</style>
 {% endblock %}
 {% block body %}
@@ -83,9 +85,11 @@
 											<td>{{client.telephone}}</td>
 											<td></td>
 											<td>{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
-											<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-											<td class="td">{{client.myRegistration.amountOfRegistration}}</td>
-											<td class="td"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
+											{% if client.myRegistration is not null %}
+												<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+												<td class="td">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
+												<td class="td"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
+											{% endif %}
 										</tr>
 									{% endfor %}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Client\Subscription\Repository;
 
 use App\Entity\Subscription;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

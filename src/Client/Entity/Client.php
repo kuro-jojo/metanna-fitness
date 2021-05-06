@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace App\Client\Entity;
 
+use App\Entity\ClientCard;
+use App\Entity\ClientActivities;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ClientRepository;
+use App\Client\Repository\ClientRepository;
 use Doctrine\Common\Collections\Collection;
+use App\Client\Registration\Entity\Registration;
+use App\Client\Subscription\Entity\Subscription;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\DateTime;
