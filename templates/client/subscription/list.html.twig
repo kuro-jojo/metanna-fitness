@@ -49,7 +49,7 @@
 			<div id="content" class="content">
 
 				{% include "layouts/partials/_nav.html.twig" %}
-				<h1 class="h2 text-dark text-decoration-underline mb-2 text-center">Liste des clients inscrits à la salle</h1>
+				<h1 class="h2 text-dark text-decoration-underline mb-2 text-center">Liste des abonnés à la salle</h1>
 
 				<div class="  py-5">
 					<div
@@ -96,13 +96,13 @@
 
 											{% set content = "" %}
 											{% set color = "success" %}
-											{% if timeRemaining is null %}
+											{% if timeRemaining[client.id] is null %}
 												{% set content = "Pas démarré" %}
 												{% set color = "info" %}
 											{% else %}
-												{% set content = "Expire dans " ~ timeRemaining ~ 
+												{% set content = "Expire dans " ~ timeRemaining[client.id] ~ 
 												" jours" %}
-												{% if timeRemaining <= 7 %}
+												{% if timeRemaining[client.id] <= 7 %}
 													{% set color = "danger" %}
 												{% endif %}
 											{% endif %}
@@ -124,7 +124,5 @@
 				</div>
 			</div>
 		</div>
-
-		{% include "layouts/partials/_footer.html.twig" %}
 	</div>
 </div>{% endblock %}

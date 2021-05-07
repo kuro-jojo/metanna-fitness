@@ -65,13 +65,13 @@ class ClientController extends AbstractController
             $subscriptionStart = $client->getMySubscription()->getStartOfSubs();
 
             // $nowDay = date("j");
-            if ($subscriptionStart <= new DateTime() ) {
+            if ($subscriptionStart <= new \DateTime() ) {
                 // Check subscription state 
                 // if ($nowDay < $subscriptionEndDay) {
                 //     $subscriptionEndDay += 30;
                 // }
                 // Get the remaining days before subs expiration
-                $timeRemaining =  $subscriptionEnd->diff(new DateTime(),true)->days;
+                $timeRemaining =  $subscriptionEnd->diff(new \DateTime(),true)->days;
             }
         }
         return $this->render('client/subscription/renew.html.twig', [
