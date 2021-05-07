@@ -5,7 +5,16 @@
 {% block stylesheets %}
 	{{parent()}}
 	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
+	<style>
+		button[type="submit"] {
+			border: 1px solid #e0ca00;
+			color: #000
+		}
+		button[type="submit"]:hover,
+		a {
+			color: #e0ca00
+		}
+	</style>
 {% endblock %}
 {% block body %}
 	<form method="post" class="user" novalidate>
@@ -34,10 +43,10 @@
 											<h1 class="h4 text-gray-900 mb-4">Se connecter</h1>
 										</div>
 										<div class="form-group">
-											<input type="email" name="email" class="form-control " value="{{ last_username }}" id="inputEmail"  required autofocus>
+											<input type="email" name="email" class="form-control" value="{{ last_username }}" id="inputEmail" required autofocus>
 										</div>
 										<div class="form-group">
-											<input type="password" class="form-control " name="password" id="inputPassword" placeholder="Password" required>
+											<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password" required>
 											<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 										</div>
 										<div class="form-group">
@@ -46,7 +55,7 @@
 												<label class="custom-control-label" for="customCheck">Se souvenir de moi</label>
 											</div>
 										</div>
-										<button class="btn btn-info btn-block" type="submit">
+										<button class="btn btn-block" type="submit">
 											Se connecter
 										</button>
 										<hr>

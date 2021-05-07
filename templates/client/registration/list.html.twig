@@ -14,19 +14,15 @@
 			text-align: center !important;
 			vertical-align: unset !important;
 		}
-
 		.table-responsive {
 			height: 75vh;
-			overflow-y: auto;
-			width: 100%;
-			background-color: #fff;
+			overflow: auto;
+			width: 95%;
+			margin-left: 50px
 		}
-		thead tr:nth-child(1) th {
-			background: #fff;
+		.header {
 			position: sticky;
-			top: -5px;
-			border: 3px solid #000;
-			/* z-index: 0; */
+			top: 0;
 		}
 
 		.profil {
@@ -55,27 +51,27 @@
 				{% include "layouts/partials/_nav.html.twig" %}
 				<h1 class="h2 text-dark text-decoration-underline mb-2 text-center">Liste des clients inscrits à la salle</h1>
 
-				<div class="container py-5">
+				<div class="  py-5">
 					<div
 						class="mx-auto bg-white rounded">
 
 						<!-- Fixed header table-->
 						<div class="table-responsive">
-							<table class="table table-fixed table-hover">
-								<thead>
+							<table class="table table-hover">
+								<thead class="thead-dark">
 									<tr>
-										<th scope="col">Code client</th>
-										<th scope="col">Nom</th>
-										<th scope="col">Prénom(s)</th>
-										<th scope="col">Téléphone</th>
-										<th scope="col">Email</th>
-										<th scope="col">Date de Naissance</th>
-										<th scope="col">Date d'inscription</th>
-										<th scope="col">Montant</th>
-										<th scope="col">Profil</th>
+										<th class="header" scope="col">Code client</th>
+										<th class="header" scope="col">Nom</th>
+										<th class="header" scope="col">Prénom(s)</th>
+										<th class="header" scope="col">Téléphone</th>
+										<th class="header" scope="col">Email</th>
+										<th class="header" scope="col">Date de Naissance</th>
+										<th class="header" scope="col">Date d'inscription</th>
+										<th class="header" scope="col">Montant</th>
+										<th class="header" scope="col">Profil</th>
+										<th class="header" scope="col">Statut</th>
 									</tr>
 								</thead>
-
 								<tbody>
 									{% for client in clients %}
 										<tr>
@@ -83,12 +79,19 @@
 											<td>{{client.nom}}</td>
 											<td>{{client.prenom}}</td>
 											<td>{{client.telephone}}</td>
-											<td></td>
+											<td>{{client.email}}</td>
 											<td>{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
 											{% if client.myRegistration is not null %}
 												<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
 												<td class="td">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
 												<td class="td"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
+												<td class="text-info">Inscrit</td>
+
+											{% else %}
+												<td></td>
+												<td></td>
+												<td class="td"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
+												<td class="text-info">Inscription résiliée</td>
 											{% endif %}
 										</tr>
 									{% endfor %}
@@ -100,6 +103,8 @@
 					</div>
 				</div>
 			</div>
+
+			{% include "layouts/partials/_footer.html.twig" %}
 		</div>
 	</div>
 {% endblock %}

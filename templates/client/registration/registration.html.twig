@@ -2,7 +2,7 @@
 {% block stylesheets %}
 	{{parent()}}
 	<style>
-		
+
 		.form {
 			margin-left: 20%;
 		}
@@ -13,7 +13,16 @@
 		.card {
 			border: none;
 		}
-		
+		button[type="submit"]:hover {
+			background-color: #e0ca00;
+			color: #000;
+
+
+		}
+		button[type="submit"] {
+			border: 1px solid #e0ca00;
+			color: #000
+		}
 	</style>
 {% endblock %}
 
@@ -54,10 +63,11 @@ var deadline = dd + ' ' + month + ' ' + yyyy;
 document.getElementById('client_registration_form_deadline').value = deadline;
 }
 	</script>
+
 {% endblock %}
 
 {% block body %}
-	<div id="wrapper">
+	<div id="wrapper" onload="dateMax()">
 		{% include "layouts/partials/_sidebar.html.twig" %}
 		<!-- Content Wrapper -->
 		<div
@@ -65,8 +75,8 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 			<!-- Main Content -->
 			<div id="content" class="content">
 				{% include "layouts/partials/_nav.html.twig" %}
-				<h1 class="h2 text-dark fst-italic mb-5 text-center">Inscrire un nouveau client</h1>
-				<div class="container form">
+				<h1 class="h2 text-dark fst-italic m-5 text-center">Inscrire un nouveau client</h1>
+				<div class="container d-flex justify-content-center">
 					<div class="col-10">
 						{{form_start(formClientRegister,
 							{
@@ -96,6 +106,13 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 										{{form_errors(formClientRegister.registeredClient.telephone)}}
 									</div>
 								</div>
+								<div class="g-3">
+									<div class="col-md-12">
+										<label for="client_register_form_email" class="form-label">Email</label>
+										{{form_widget(formClientRegister.registeredClient.email)}}
+										{{form_errors(formClientRegister.registeredClient.email)}}
+									</div>
+								</div>
 								<div class="g-2">
 									<div class="col-md-12">
 										<label for="client_register_form_dateNaissance" class="form-label">Date de naissance</label>
@@ -103,7 +120,7 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 										{{form_errors(formClientRegister.registeredClient.dateNaissance)}}
 									</div>
 								</div>
-								<div class="g-2">
+								<div class="g-2 mb-3">
 									<div class="col-md-12">
 										<label for="client_register_form_photoProfil" class="form-label">Photo de profil</label>
 										{{form_widget(formClientRegister.registeredClient.photoProfil)}}
@@ -114,7 +131,7 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 						</div>
 						<div class="col-md-1"></div>
 
-						<div class="col-md-5">
+						<div class="col-md-4 d-flex justify-content-center">
 							<img class="profil_image" id="profilPreview" src="{{asset('img/'~path)}}" alt="Photo de profil du client">
 						</div>
 						<div class="row mt-4 p-0">
@@ -134,14 +151,15 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 
 							</div>
 						</div>
-						<div class="d-grid gap-2 col-6 mx-auto mt-5">
-							<button class="btn btn-outline-primary" type="submit">Finaliser l'inscription</button>
+						<div class="d-grid gap-2 col-6 mx-auto mt-5 mb-5">
+							<button class="btn" type="submit">Finaliser l'inscription</button>
 						</div>
 						{{form_end(formClientRegister)}}
 					</div>
 				</div>
 			</div>
+			{% include "layouts/partials/_footer.html.twig" %}
 		</div>
 
-
-	{% endblock %}
+	</div>
+{% endblock %}

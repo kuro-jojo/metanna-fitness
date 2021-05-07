@@ -6,6 +6,8 @@ use App\Client\Entity\ClientSearch;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ClientSearchType extends AbstractType
 {
@@ -17,7 +19,7 @@ class ClientSearchType extends AbstractType
                 'attr'=>[
                     'placeholder'=>'Rechercher un client ',
                     'class'=>'pl-2'
-                ]
+                ],
             ])
         ;
     }

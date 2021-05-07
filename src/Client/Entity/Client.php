@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use App\Client\Registration\Entity\Registration;
 use App\Client\Subscription\Entity\Subscription;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -51,7 +52,13 @@ class Client
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $telephone;
-
+    /**
+     * @Assert\Email(
+     *      message="L'adresse email est incorrecte")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     */
+    private $email;
     /**
      * @ORM\Column(type="date",nullable=true)
      */
@@ -127,6 +134,17 @@ class Client
         return $this;
     }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
     public function getDateNaissance(): ?\DateTimeInterface
     {
         return $this->dateNaissance;

@@ -1,129 +1,131 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul
+	class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-			<!-- Sidebar - Brand -->
-			<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{path('app_home')}}">
-				<div class="sidebar-brand-icon rotate-n-15">
-					<i class="fas fa-dumbbell"></i>
-				</div>
-				<div class="sidebar-brand-text mx-3">Salle de sport</div>
+	<!-- Sidebar - Brand -->
+	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{path('app_home')}}">
+		<div class="sidebar-brand-icon rotate-n-15">
+			<i class="fas fa-dumbbell"></i>
+		</div>
+		<div class="sidebar-brand-text mx-3">Salle de sport</div>
+	</a>
+
+	<!-- Divider -->
+	<hr
+	class="sidebar-divider my-0">
+
+	<!-- Nav Item - Dashboard -->
+	<li class="nav-item">
+		<a class="nav-link" href="{{path('app_home')}}">
+			<i class="fas fa-fw fa-tachometer-alt"></i>
+			<span>Dashboard</span>
+		</a>
+	</li>
+
+	<!-- Divider -->
+	<hr
+	class="sidebar-divider">
+
+	<!-- Heading -->
+	<div class="sidebar-heading">
+		Client
+	</div>
+
+	<!-- Nav Item - Registration Collapse Menu -->
+	<li class="nav-item">
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRegistration" aria-expanded="true" aria-controls="collapseRegistration">
+			<i class="far fa-registered"></i>
+			<span>Inscriptions des clients</span>
+		</a>
+		<div id="collapseRegistration" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<h6 class="collapse-header">Que faire:</h6>
+				<a class="collapse-item" href="{{path('app_register_client')}}">Inscrire un nouveau client</a>
+				<a class="collapse-item" href="{{path('app_client_registration_cancel_search')}}">Résilier une inscription</a>
+				<a class="collapse-item" href="{{path('app_client_registration_list')}}">Liste des inscrits</a>
+			</div>
+		</div>
+	</li>
+
+	<!-- Nav Item - Subscription Collapse Menu -->
+	<li class="nav-item">
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubs" aria-expanded="true" aria-controls="collapseSubs">
+			<i class="fas fa-registered"></i>
+			<span>Les Abonnements</span>
+		</a>
+		<div id="collapseSubs" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<h6 class="collapse-header">Que faire:</h6>
+				<a class="collapse-item" href="{{path('app_client_subscription_renew_search')}}">Faire un abonnement</a>
+				<a class="collapse-item" href="#">Liste des abonnés</a>
+			</div>
+		</div>
+	</li>
+
+	<!-- Nav Item - Subscription Collapse Menu -->
+	<li class="nav-item">
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcitvities" aria-expanded="true" aria-controls="collapseAcitvities">
+			<i class="fas fa-hourglass-half"></i>
+			<span>Activité des clients</span>
+		</a>
+		<div id="collapseAcitvities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<h6 class="collapse-header">Que faire:</h6>
+				<a class="collapse-item" href="#">Activité d'un client</a>
+				<a class="collapse-item" href="#">Toutes les activités</a>
+			</div>
+		</div>
+	</li>
+
+	<!-- Divider -->
+	<hr class="sidebar-divider">
+
+	{% if "ROLE_ADMIN" in app.user.roles %}
+
+		<!-- Heading -->
+		<div class="sidebar-heading">
+			Administration
+		</div>
+
+		<!-- Nav Item - Pages Collapse Menu -->
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGestionResponsable" aria-expanded="true" aria-controls="collapseGestionResponsable">
+				<i class="fas fa-fw fa-folder"></i>
+				<span>Responsables</span>
 			</a>
-
-			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
-
-			<!-- Nav Item - Dashboard -->
-			<li class="nav-item">
-				<a class="nav-link" href="{{path('app_home')}}">
-					<i class="fas fa-fw fa-tachometer-alt"></i>
-					<span>Dashboard</span>
-				</a>
-			</li>
-
-			<!-- Divider -->
-			<hr class="sidebar-divider">
-
-			<!-- Heading -->
-			<div class="sidebar-heading">
-				Client
+			<div id="collapseGestionResponsable" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+					<h6 class="collapse-header">Que faire:</h6>
+					<a class="collapse-item" href="{{path('app_register_responsable')}}">Ajouter un responsable</a>
+					<a class="collapse-item" href="#">Toutes les activités</a>
+				</div>
 			</div>
+		</li>
+	{% endif %}
 
-			<!-- Nav Item - Registration Collapse Menu -->
-			<li class="nav-item">
-				<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRegistration" aria-expanded="true" aria-controls="collapseRegistration">
-					<i class="far fa-registered"></i>
-					<span>Inscriptions des clients</span>
-				</a>
-				<div id="collapseRegistration" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">Que faire:</h6>
-						<a class="collapse-item" href="{{path('app_register_client')}}">Inscrire un nouveau client</a>
-						<a class="collapse-item" href="{{path('app_client_registration_search')}}">Résilier une inscription</a>
-						<a class="collapse-item" href="{{path('app_client_registration_list')}}">Liste des inscrits</a>
-					</div>
-				</div>
-			</li>
+	<!-- Nav Item - Charts -->
+	<li class="nav-item">
+		<a class="nav-link" href="charts.html">
+			<i class="fas fa-fw fa-chart-area"></i>
+			<span>Charts</span>
+		</a>
+	</li>
 
-			<!-- Nav Item - Subscription Collapse Menu -->
-			<li class="nav-item">
-				<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubs" aria-expanded="true" aria-controls="collapseSubs">
-					<i class="fas fa-registered"></i>
-					<span>Les Abonnements</span>
-				</a>
-				<div id="collapseSubs" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">Que faire:</h6>
-						<a class="collapse-item" href="#">Faire un abonnement</a>
-						<a class="collapse-item" href="#">Liste des abonnés</a>
-					</div>
-				</div>
-			</li>
-			
-			<!-- Nav Item - Subscription Collapse Menu -->
-			<li class="nav-item">
-				<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcitvities" aria-expanded="true" aria-controls="collapseAcitvities">
-					<i class="fas fa-hourglass-half"></i>
-					<span>Activité des clients</span>
-				</a>
-				<div id="collapseAcitvities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">Que faire:</h6>
-						<a class="collapse-item" href="#">Activité d'un client</a>
-						<a class="collapse-item" href="#">Toutes les activités</a>
-					</div>
-				</div>
-			</li>
+	<!-- Nav Item - Tables -->
+	<li class="nav-item">
+		<a class="nav-link" href="tables.html">
+			<i class="fas fa-fw fa-table"></i>
+			<span>Tables</span>
+		</a>
+	</li>
 
-			<!-- Divider -->
-			<hr
-			class="sidebar-divider">
+	<!-- Divider -->
+	<hr
+	class="sidebar-divider d-none d-md-block">
 
-			{% if "ROLE_ADMIN" in app.user.roles %}
-			
-			<!-- Heading -->
-			<div class="sidebar-heading">
-				Administration
-			</div>
+	<!-- Sidebar Toggler (Sidebar) -->
+	<div class="text-center d-none d-md-inline">
+		<button class="rounded-circle border-0" id="sidebarToggle"></button>
+	</div>
 
-			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item">
-				<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGestionResponsable" aria-expanded="true" aria-controls="collapseGestionResponsable">
-					<i class="fas fa-fw fa-folder"></i>
-					<span>Responsables</span>
-				</a>
-				<div id="collapseGestionResponsable" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<h6 class="collapse-header">Que faire:</h6>
-						<a class="collapse-item" href="{{path('app_register_responsable')}}">Ajouter un responsable</a>
-						<a class="collapse-item" href="#">Toutes les activités</a>
-					</div>
-				</div>
-			</li>
-			{% endif %}
-
-			<!-- Nav Item - Charts -->
-			<li class="nav-item">
-				<a class="nav-link" href="charts.html">
-					<i class="fas fa-fw fa-chart-area"></i>
-					<span>Charts</span>
-				</a>
-			</li>
-
-			<!-- Nav Item - Tables -->
-			<li class="nav-item">
-				<a class="nav-link" href="tables.html">
-					<i class="fas fa-fw fa-table"></i>
-					<span>Tables</span>
-				</a>
-			</li>
-
-			<!-- Divider -->
-			<hr
-			class="sidebar-divider d-none d-md-block">
-
-			<!-- Sidebar Toggler (Sidebar) -->
-			<div class="text-center d-none d-md-inline">
-				<button class="rounded-circle border-0" id="sidebarToggle"></button>
-			</div>
-
-		</ul>
-		<!-- End of Sidebar -->
+</ul>
+<!-- End of Sidebar -->

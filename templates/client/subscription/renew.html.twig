@@ -44,7 +44,6 @@
 			text-align: center !important;
 			vertical-align: unset !important;
 		}
-
 		.table-responsive {
 			height: 75vh;
 			overflow: auto;
@@ -56,6 +55,7 @@
 			top: 0;
 		}
 
+
 		.profil {
 			width: 100px;
 			height: 100px;
@@ -63,9 +63,10 @@
 		}
 	</style>
 {% endblock %}
+
 {% block body %}
 	{% form_theme form 'form_div_layout.html.twig' %}
-	<div id="wrapper">
+	<div id="wrapper" onload="dateMax()">
 		{% include "layouts/partials/_sidebar.html.twig" %}
 		<!-- Content Wrapper -->
 		<div
@@ -117,44 +118,70 @@
 						<table class="table table-hover">
 							<thead class="thead-dark">
 								<tr>
-									<th class="header" scope="col">Code client</th>
-									<th class="header" scope="col">Nom</th>
-									<th class="header" scope="col">Prénom(s)</th>
-									<th class="header" scope="col">Téléphone</th>
-									<th class="header" scope="col">Email</th>
-									<th class="header" scope="col">Date de Naissance</th>
-									<th class="header" scope="col">Date d'inscription</th>
-									<th class="header" scope="col">Montant</th>
-									<th class="header" scope="col">Statut</th>
+									<th scope="col">Code client</th>
+									<th scope="col">Nom</th>
+									<th scope="col">Prénom(s)</th>
+									<th scope="col">Téléphone</th>
+									<th scope="col">Email</th>
+									<th scope="col">Date de Naissance</th>
+									<th scope="col">Date d'inscription</th>
+									<th scope="col">Date de l'abonnement</th>
+									<th scope="col">Montant</th>
+									<th scope="col">Statut de l'abonnement</th>
 								</tr>
 							</thead>
-
 							<tbody>
-								<tr class="">
+								<tr>
 									<th scope="row">{{client.id}}</th>
 									<td>{{client.nom}}</td>
 									<td>{{client.prenom}}</td>
-									<td>{{client.telephone}}</td>
-									<td></td>
+									<td>{{'+221 '~ client.telephone}}</td>
+									<td>{{client.email}}</td>
 
-									<td>{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+									{% if client.dateNaissance is not null %}
+										<td>{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+									{% else %}
+										<td></td>
+									{% endif %}
 									{% if client.myRegistration is not null %}
 										<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-										<td class="td">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
-										<td class="text-info">Inscrit</td>
+									{% else %}
+										<td></td>
+									{% endif %}
+									{% if client.mySubscription is not null %}
+										<td>{{client.mySubscription.startOfSubs|localizeddate('long', 'none', 'fr')}}</td>
+										<td class="td">{{client.mySubscription.amountOfSubs  ~ ' FCFA'}}</td>
+										{% set content = "" %}
+										{% set color = "success" %}
+										{% if timeRemaining is null %}
+											{% if client.mySubscription.startOfSubs > client.myRegistration.dateOfRegistration %}
+												{% set content = "En cours" %}
+												{% else %}	
+											{% set content = "Pas démarré" %}
+											{% endif %}
+											{% set color = "info" %}
+										{% else %}
+											{% set content = "Expire dans " ~ timeRemaining ~ 
+												" jours" %}
+											{% if timeRemaining <= 7 %}
+												{% set color = "danger" %}
+											{% endif %}
+										{% endif %}
+										<th>
+											<span class="text-{{color}}">{{content}}</span>
+										</th>
 									{% else %}
 										<td></td>
 										<td></td>
-										<td class="text-info">Inscription résiliée</td>
+										<td></td>
 									{% endif %}
-
 								</tr>
 							</tbody>
 						</table>
-						{% if client.myRegistration is not null %}
+						{% if client.mySubscription is not null  and timeRemaining is not null and timeRemaining <= 7 %}
 
 							<div class="text-center mt-5">
-								<button class="btn btn-danger btn-block col-3 text-white" data-bs-toggle="modal" data-bs-target="#cancelModal">Résilier l'inscription</button>
+								<button class="btn btn-success btn-block col-3" data-bs-toggle="modal" data-bs-target="#cancelModal">Renouveler l'abonnement</button>
 							</div>
 						{% endif %}
 					</div>
@@ -163,28 +190,25 @@
 					<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
-								<div class="modal-header text-warning">
-									<h5 class="modal-title" id="exampleModalLabel">Résiliation de l'inscription</h5>
+								<div class="modal-header">
+									<h5 class="modal-title text-warning" id="exampleModalLabel">Renouvelement de l'abonnement</h5>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
-								<div class="modal-body text-dark text-center">
-									<p>Vous êtes sur le point de
-										<b>mettre fin</b>
-										à l'inscription de <br>M ou  Mme
+								<div class="modal-body text-dark text-center	">
+									<p>Souhaitez-vous renouveler l'abonnement de
+										<br>M ou  Mme
 										{{client.nom}}
 										{{client.prenom}}!!</p>
 								</div>
 								<div class="modal-footer justify-content-center">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-									<a href="{{path("app_client_registration_cancel",{id:client.id})}}" class="btn btn-danger">Résilier</a>
+									<a href="{{path("app_client_subscription_renew",{id:client.id})}}" class="btn text-dark" style="background-color: #e0ca00">Confirmer</a>
 								</div>
 							</div>
 						</div>
 					</div>
 				{% endif %}
 			</div>
-			{% include "layouts/partials/_footer.html.twig" %}
-
 		</div>
 	</div>
 

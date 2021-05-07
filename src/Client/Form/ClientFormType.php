@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ClientFormType extends AbstractType
 {
@@ -56,11 +57,20 @@ class ClientFormType extends AbstractType
                 'label_attr' => ['class' => 'text-gray-900'],
 
             ])
+            ->add('email', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control form-control-user',
+                    'placeholder' => 'johndoe@example.com'
+                ],
+                'label' => 'Adresse email',
+                'label_attr' => ['class' => 'text-gray-900'],
+
+            ])
             ->add('dateNaissance', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Date de naissance',
                 'attr' => [
-                    'class' => 'text-center text-dark'
+                    'class' => 'text-center text-dark',
                 ]
             ])
             ->add('photoProfil', FileType::class, [

@@ -19,17 +19,25 @@
 		{% endblock %}
 
 		<style>
+			body,
+			#wrapper #content-wrapper {
+				background-color: #fff
+			}
 			.flashy__body {
 				text-decoration: none;
 			}
-			.flashy{
-				margin-top:90px;
+			.flashy {
+				margin-top: 90px;
+			}
+			.form-control:focus {
+				outline: none !important;
+				box-shadow: none;
 			}
 		</style>
 		{% block javascripts %}
 			<!-- Custom scripts for all pages-->
 			{{ encore_entry_script_tags('app') }}
-		<script src="//code.jquery.com/jquery.js"></script>
+			<script src="//code.jquery.com/jquery.js"></script>
 
 		{% endblock %}
 	</head>
@@ -47,6 +55,7 @@ bsCustomFileInput.init()
 		<!-- Include Flashy default partial -->
 		{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 		{% block body %}{% endblock %}
+
 	</body>
 
 </html>

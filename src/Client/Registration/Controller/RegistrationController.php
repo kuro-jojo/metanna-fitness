@@ -27,12 +27,10 @@ class RegistrationController extends AbstractController
     private const SETTING_CODE = "ADMIN";
 
     private $flashy;
-    private $session;
 
-    public function __construct(FlashyNotifier $flashy, SessionInterface $session)
+    public function __construct(FlashyNotifier $flashy)
     {
         $this->flashy = $flashy;
-        $this->session = $session;
     }
     /**
      * @IsGranted("ROLE_RESPONSABLE")
@@ -131,37 +129,17 @@ class RegistrationController extends AbstractController
     }
 
 
+
+
     /**
      * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/register/search", name="app_client_registration_search")
-     * 
-     * search a customer
-     *
-     * @return Response
-     */
-    public function search(Request $request,ClientRepository $clientRepository): Response
-    {
-        $clientSearch = new ClientSearch;
-        $form = $this->createForm(ClientSearchType::class,$clientSearch);
-        $form->handleRequest($request);
-
-        $client = $form->get('clientCode')->getData() !=null ? $clientRepository->find($form->get('clientCode')->getData()) : null;
-        
-        return $this->render('client/registration/cancel.html.twig',[
-            'form'=>$form->createView(),
-            'client'=> $client
-        ]);
-    }
-
-  /**
-     * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/register/cancel/{id<\d+>}", name="app_client_registration_cancel")
+     * @Route("/client/registration/cancel/{id<\d+>}", name="app_client_registration_cancel")
      * 
      * cancel the registration of a customer
      *
      * @return Response
      */
-    public function cancel(Client $client,Request $request,ClientRepository $clientRepository,EntityManagerInterface $em): Response
+    public function cancel(Client $client, Request $request, ClientRepository $clientRepository, EntityManagerInterface $em): Response
     {
         $em->remove($client->getMyRegistration());
         $em->flush();
