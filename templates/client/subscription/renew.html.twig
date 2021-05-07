@@ -1,0 +1,217 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+	{{parent()}}
+	<style>
+		body {
+			overflow: hidden;
+		}
+		input[type="text"],
+		select {
+			outline: none;
+		}
+		input {
+			padding: 0;
+			border-radius: 0;
+			border: none;
+			font-size: 20px;
+			color: #bbb;
+			background: none;
+			letter-spacing: 1px;
+			word-spacing: 10px;
+			font-family: 'Arvo', sans-serif;
+			width: 80%;
+		}
+		.form {
+			border: 3px solid #b8b204;
+		}
+		.glyphicon {
+			color: #b8b204;
+			font-size: 20px;
+			line-height: 25px;
+			position: relative;
+			right: -15%;
+			cursor: pointer;
+		}
+
+
+		/** For table*/
+		th {
+			color: #000;
+			text-align: center;
+		}
+		td,
+		th {
+			text-align: center !important;
+			vertical-align: unset !important;
+		}
+		.table-responsive {
+			height: 75vh;
+			overflow: auto;
+			width: 95%;
+			margin-left: 50px
+		}
+		.header {
+			position: sticky;
+			top: 0;
+		}
+
+
+		.profil {
+			width: 100px;
+			height: 100px;
+			border-radius: 10px
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	{% form_theme form 'form_div_layout.html.twig' %}
+	<div id="wrapper" onload="dateMax()">
+		{% include "layouts/partials/_sidebar.html.twig" %}
+		<!-- Content Wrapper -->
+		<div
+			id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content" class="content">
+
+				{% include "layouts/partials/_nav.html.twig" %}
+
+				<div class="row mt-5">
+					<div class="col-sm-5 mx-auto">
+						<div
+							class="bg-dark p-1 rounded shadow">
+
+							<!-- Underlined search bars with buttons -->
+							<div class="form">
+								{{form_start(form,{
+									'attr' : {
+										'id':'form'
+									}
+									}
+								)}}
+								{{form_widget(form.clientCode)}}
+								<span class="glyphicon glyphicon-search col-xs-1 p-0" data-toggle="tooltip" title="Search" onclick="document.getElementById('form').submit()">
+									<i class="fas fa-search"></i>
+								</span>
+								{{form_end(form)}}
+							</div>
+						</div>
+						{% if error is not null %}
+							<span class="invalid-feedback d-block">
+								<span class="d-block">
+									<span class="form-error-icon badge badge-danger text-uppercase">Erreur</span>
+									<span class="form-error-message">{{error}}</span>
+								</span>
+							</span>
+						{% endif %}
+					</div>
+				</div>
+				{% if clientCode is not null and client is null and error is null %}
+					<div class="text-center justify-content-center mt-5">
+						<h2 class="text-dark">Désolé
+							<br>
+							Aucun client ne correspond à votre recherche</h2>
+					</div>
+				{% endif %}
+				{%  if client is not null %}
+					<div class="table-responsive mt-5">
+						<table class="table table-hover">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Code client</th>
+									<th scope="col">Nom</th>
+									<th scope="col">Prénom(s)</th>
+									<th scope="col">Téléphone</th>
+									<th scope="col">Email</th>
+									<th scope="col">Date de Naissance</th>
+									<th scope="col">Date d'inscription</th>
+									<th scope="col">Date de l'abonnement</th>
+									<th scope="col">Montant</th>
+									<th scope="col">Statut de l'abonnement</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row">{{client.id}}</th>
+									<td>{{client.nom}}</td>
+									<td>{{client.prenom}}</td>
+									<td>{{'+221 '~ client.telephone}}</td>
+									<td>{{client.email}}</td>
+
+									{% if client.dateNaissance is not null %}
+										<td>{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+									{% else %}
+										<td></td>
+									{% endif %}
+									{% if client.myRegistration is not null %}
+										<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+									{% else %}
+										<td></td>
+									{% endif %}
+									{% if client.mySubscription is not null %}
+										<td>{{client.mySubscription.startOfSubs|localizeddate('long', 'none', 'fr')}}</td>
+										<td class="td">{{client.mySubscription.amountOfSubs  ~ ' FCFA'}}</td>
+										{% set content = "" %}
+										{% set color = "success" %}
+										{% if timeRemaining is null %}
+											{% if client.mySubscription.startOfSubs > client.myRegistration.dateOfRegistration %}
+												{% set content = "En cours" %}
+												{% else %}	
+											{% set content = "Pas démarré" %}
+											{% endif %}
+											{% set color = "info" %}
+										{% else %}
+											{% set content = "Expire dans " ~ timeRemaining ~ 
+												" jours" %}
+											{% if timeRemaining <= 7 %}
+												{% set color = "danger" %}
+											{% endif %}
+										{% endif %}
+										<th>
+											<span class="text-{{color}}">{{content}}</span>
+										</th>
+									{% else %}
+										<td></td>
+										<td></td>
+										<td></td>
+									{% endif %}
+								</tr>
+							</tbody>
+						</table>
+						{% if client.mySubscription is not null  and timeRemaining is not null and timeRemaining <= 7 %}
+
+							<div class="text-center mt-5">
+								<button class="btn btn-success btn-block col-3" data-bs-toggle="modal" data-bs-target="#cancelModal">Renouveler l'abonnement</button>
+							</div>
+						{% endif %}
+					</div>
+
+					<!-- Modal -->
+					<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title text-warning" id="exampleModalLabel">Renouvelement de l'abonnement</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body text-dark text-center	">
+									<p>Souhaitez-vous renouveler l'abonnement de
+										<br>M ou  Mme
+										{{client.nom}}
+										{{client.prenom}}!!</p>
+								</div>
+								<div class="modal-footer justify-content-center">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+									<a href="{{path("app_client_subscription_renew",{id:client.id})}}" class="btn text-dark" style="background-color: #e0ca00">Confirmer</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<!-- Button trigger modal -->
+
+{% endblock %}

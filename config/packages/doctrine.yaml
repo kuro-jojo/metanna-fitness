@@ -17,3 +17,21 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            AppClient:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Client/Entity'
+                prefix: 'App\Client\Entity'
+                alias: AppClient
+            AppRegistration:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Client/Registration/Entity'
+                prefix: 'App\Client\Registration\Entity'
+                alias: AppRegistration
+            AppSubscription:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Client/Subscription/Entity'
+                prefix: 'App\Client\Subscription\Entity'
+                alias: AppSubscription

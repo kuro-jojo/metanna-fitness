@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\Client\Repository;
 
-use App\Entity\Client;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Client\Entity\Client;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Client|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,15 +36,17 @@ class ClientRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Client
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    
+    // public function findOneRegistered($id): ?Client
+    // {
+    //     return $this->createQueryBuilder('c')
+    //         ->andWhere('c.id = :val')
+    //         ->leftJoin("Registration","r",null,"")
+    //         ->andWhere('c.myRegistration IS NOT NULL')
+    //         ->setParameter('val', $id)
+    //         ->getQuery()
+    //         ->getOneOrNullResult()
+    //     ;
+    // }
+    
 }

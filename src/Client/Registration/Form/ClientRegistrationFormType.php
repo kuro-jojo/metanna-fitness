@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Form;
+namespace App\Client\Registration\Form;
 
-use App\Entity\Registration;
+use App\Client\Form\ClientFormType;
 use Symfony\Component\Form\AbstractType;
+use App\Client\Registration\Entity\Registration;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -13,16 +14,13 @@ class ClientRegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            // ->add('dateOfRegistration', DateType::class, [
-            //     'widget' => 'single_text',
-            //     'label' => 'Date de naissance',
-            //     'format' => 'd MMMM yyyy',
-            //     'html5'=>false,
-            //     'attr' => [
-            //         'disabled' => true,
-            //         'class'=>'text-center'
-            //     ]
-            // ])
+            ->add('dateOfRegistration', DateType::class, [
+                'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'text-center text-dark',
+                    'onchange'=>'deadlineDate()'
+                ]
+            ])
             // ->add('deadline', DateType::class, [
             //     'widget' => 'single_text',
             //     'label' => 'Date de naissance',
@@ -49,8 +47,8 @@ class ClientRegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Registration::class,
-            'attr'=>[
-                'novalidate'=>'novalidate'
+            'attr' => [
+                'novalidate' => 'novalidate'
             ]
         ]);
     }

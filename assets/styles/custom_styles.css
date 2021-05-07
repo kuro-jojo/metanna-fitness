@@ -1,11 +1,20 @@
-    /* Register page*/
-    
+.content {
+    background-color: #fff;
+}
+
+label {
+    color: #000
+}
+
+
+/* Register page*/
+
+.register-title {
+    font-size: 1.5em;
+}
+
+@media screen and (max-width: 1200px) {
     .register-title {
-        font-size: 1.5em;
+        font-size: 1.2em;
     }
-    
-    @media screen and (max-width: 1200px) {
-        .register-title {
-            font-size: 1.2em;
-        }
-    }
+}
