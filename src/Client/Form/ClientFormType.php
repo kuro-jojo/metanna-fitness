@@ -19,35 +19,17 @@ class ClientFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add(
-                'nom',
-                null,
-                [
-                    'label' => 'Nom du client',
-                    'label_attr' =>
-                    [
-                        'class' => 'form-label',
-                    ],
-                    'attr' =>
-                    [
-                        'placeholder' => 'Doe'
-                    ]
+            ->add('nom', TextType::class, [
+                'label' => 'Nom du client',
+                'attr' => [
+                    'placeholder' => 'Doe'
                 ]
-            )
-            ->add(
-                'prenom',
-                null,
-                [
-                    'label_attr' =>
-                    [
-                        'class' => 'form-label',
-                    ],
-                    'attr' =>
-                    [
-                        'placeholder' => 'John'
-                    ]
+            ])
+            ->add('prenom', null, [
+                'attr' => [
+                    'placeholder' => 'John'
                 ]
-            )
+            ])
             ->add('telephone', TelType::class, [
                 'attr' => [
                     'class' => 'form-control form-control-user',
@@ -79,7 +61,7 @@ class ClientFormType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Sélectionner une photo',
                     'onchange' => 'showPreview(event)',
-                    'value'=>'hello'
+                    'value' => 'hello'
                 ],
                 'constraints' => [
                     new File([
