@@ -35,7 +35,16 @@ class ClientRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    public function findOnlyRegistered()
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.myRegistration', 'r', 'r.id = c.myRegistration.id' )
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     
     // public function findOneRegistered($id): ?Client
     // {

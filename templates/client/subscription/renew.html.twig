@@ -1,4 +1,7 @@
 {% extends "base.html.twig" %}
+
+{% block title %}Abonnement d'un client{% endblock %}
+
 {% block stylesheets %}
 	{{parent()}}
 	<style>
@@ -79,7 +82,7 @@
 				<div class="row mt-5">
 					<div class="col-sm-5 mx-auto">
 						<div
-							class="bg-dark p-1 rounded shadow">
+							class="bg-white text-dark  rounded shadow mt-5">
 
 							<!-- Underlined search bars with buttons -->
 							<div class="form">
@@ -125,7 +128,7 @@
 									<th scope="col">Email</th>
 									<th scope="col">Date de Naissance</th>
 									<th scope="col">Date d'inscription</th>
-									<th scope="col">Date de l'abonnement</th>
+									<th scope="col">Fin de l'abonnement</th>
 									<th scope="col">Montant</th>
 									<th scope="col">Statut de l'abonnement</th>
 								</tr>
@@ -149,7 +152,7 @@
 										<td></td>
 									{% endif %}
 									{% if client.mySubscription is not null %}
-										<td>{{client.mySubscription.startOfSubs|localizeddate('long', 'none', 'fr')}}</td>
+										<td>{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
 										<td class="td">{{client.mySubscription.amountOfSubs  ~ ' FCFA'}}</td>
 										{% set content = "" %}
 										{% set color = "success" %}
@@ -178,7 +181,8 @@
 								</tr>
 							</tbody>
 						</table>
-						{% if client.mySubscription is not null  and timeRemaining is not null and timeRemaining <= 7 %}
+						{# {% if client.mySubscription is not null  and timeRemaining is not null and timeRemaining <= 7 %} #}
+						{% if client.mySubscription is not null %}
 
 							<div class="text-center mt-5">
 								<button class="btn btn-success btn-block col-3" data-bs-toggle="modal" data-bs-target="#cancelModal">Renouveler l'abonnement</button>
