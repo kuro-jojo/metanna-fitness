@@ -1,8 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register
+{% block title %}Enregistrer un responsable
 {% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<style>
 
+		.form {
+			margin-left: 20%;
+		}
+		button[type="submit"]:hover {
+			background-color: #e0ca00;
+			color: #000;
+
+
+		}
+		button[type="submit"] {
+			border: 1px solid #e0ca00;
+			color: #000
+		}
+	</style>
+{% endblock %}
 {% block body %}
 	<div
 		id="wrapper">
@@ -27,7 +45,7 @@
 								<div class="col-sm-7">
 									<div class="p-5">
 										<div class="text-center ">
-											<h1 class="text-gray-900 mb-4 register-title">Créer un nouveau responsable de salle</h1>
+											<h1 class="text-gray-900 mb-4 register-title">Enregistrer un nouveau responsable de salle</h1>
 										</div>
 										{{ form_start(registrationForm) }}
 										<div>
@@ -62,7 +80,7 @@
 											</div>
 										</div>
 										<div class="container mt-5">
-											<button type="submit" class="btn btn-info btn-user btn-block">
+											<button type="submit" class="btn btn-user btn-block">
 												Créer le compte
 											</button>
 										</div>

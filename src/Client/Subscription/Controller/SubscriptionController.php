@@ -34,18 +34,21 @@ class SubscriptionController extends AbstractController
     public function renew(Client $client, EntityManagerInterface $em): Response
     {
         $subscription = $client->getMySubscription();
-        $dateSubsStart = clone $subscription->getStartOfSubs();
+        $dateSubsStart = $subscription->getStartOfSubs();
         $dateSubsEnd = clone $subscription->getEndOfSubs();
 
-        date_add($dateSubsStart, new DateInterval("P1M"));
-        date_add($dateSubsEnd, new DateInterval("P1M"));
-
-        $subscription->setStartOfSubs($dateSubsStart);
+        // Si l'abonnement a expirée on redéfinit la date de début de l'abonnement
+        if ($dateSubsEnd >= new \DateTime) {
+            $dateSubsStart = new \DateTime;
+            $subscription->setStartOfSubs($dateSubsStart);
+        }
+        date_add($dateSubsEnd, new \DateInterval("P1M"));
         $subscription->setEndOfSubs($dateSubsEnd);
+        
         $em->flush();
         $this->flashy->info("Abonnement renouvelé !!");
 
-        return $this->redirectToRoute("app_client_registration_list");
+        return $this->redirectToRoute("app_client_subscription_list");
     }
 
     /**
@@ -56,9 +59,9 @@ class SubscriptionController extends AbstractController
      * @param  mixed $clientRepository
      * @return Response
      */
-    public function listOfRegistration(ClientRepository $clientRepository): Response
+    public function listOfSubscription(ClientRepository $clientRepository): Response
     {
-        $clients = $clientRepository->findAll();
+        $clients = $clientRepository->findOnlyRegistered();
         $timeRemaining =null;
         foreach ($clients as $key => $client) {
             if ($client->getMySubscription() == null) {

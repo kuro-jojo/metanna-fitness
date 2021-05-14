@@ -18,7 +18,7 @@ class ClientSearchType extends AbstractType
                 'label'=>false,
                 'attr'=>[
                     'placeholder'=>'Rechercher un client ',
-                    'class'=>'pl-2'
+                    'class'=>'pl-2 text-dark'
                 ],
             ])
         ;
