@@ -12,6 +12,7 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class EmailVerifier
 {
+    private const ROLE_RESPONSABLE = "ROLE_RESPONSABLE";
     private $verifyEmailHelper;
     private $mailer;
     private $entityManager;
@@ -50,7 +51,7 @@ class EmailVerifier
         $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
 
         $user->setIsVerified(true);
-
+        $user->setRoles([$this::ROLE_RESPONSABLE]);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }

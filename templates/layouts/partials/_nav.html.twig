@@ -1,35 +1,12 @@
 <header class="p-3 bg-dark text-white navbar navbar-expand topbar mb-4 static-top shadow" style="height:3rem">
 	<div class="container">
-		<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-			<a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-				<svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-			</a>
-
-			<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-				<li>
-					<a href="#" class="nav-link px-2 text-secondary">Home</a>
-				</li>
-				<li>
-					<a href="#" class="nav-link px-2 text-white">Features</a>
-				</li>
-				<li>
-					<a href="#" class="nav-link px-2 text-white">Pricing</a>
-				</li>
-				<li>
-					<a href="#" class="nav-link px-2 text-white">FAQs</a>
-				</li>
-				<li>
-					<a href="#" class="nav-link px-2 text-white">About</a>
-				</li>
-			</ul>
-		</div>
 		<!-- Topbar Navbar -->
 		<ul
-			class="navbar-nav ml-auto">
+			class="navbar-nav ml-auto" style="position:absolute; right:4%">
 			<!-- Nav Item - User Information -->
 			<li class="nav-item dropdown no-arrow">
 				<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="mr-2 d-none d-lg-inline text-gray-700 ">{{app.user.prenom}}
+					<span class="mr-2 d-none d-lg-inline text-white ">{{app.user.prenom}}
 						{{app.user.nom}}</span>
 					<img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}" width="100">
 				</a>
@@ -37,7 +14,7 @@
 				<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
 					<a class="dropdown-item" href="#">
 						<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-						Profile
+						Mon profil
 					</a>
 					<a class="dropdown-item" href="#">
 						<i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>

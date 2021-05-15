@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in
+{% block title %}Connexion
 {% endblock %}
 {% block stylesheets %}
 	{{parent()}}
@@ -21,9 +21,9 @@
 {% endblock %}
 {% block body %}
 	<form method="post" class="user" novalidate>
-		{% if error %}
+		{# {% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-		{% endif %}
+		{% endif %} #}
 
 		<div
 			class="container" style="margin-top: 10%">

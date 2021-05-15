@@ -16,8 +16,6 @@ class SecurityController extends AbstractController
      */
     public function login(Request $request,AuthenticationUtils $authenticationUtils,SessionInterface $session): Response
     {
-
-
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
@@ -32,11 +30,8 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="app_logout")
      */
-    public function logout(SessionInterface $session,Request $request)
+    public function logout()
     {
-        // $session->start();
-        // $referer = empty($session->get('referer','')) ? $request->headers->get('referer') : $session->get('referer',''); 
-        // $session->set('referer',$referer);
         return $this->redirectToRoute("app_login");
     }
 }

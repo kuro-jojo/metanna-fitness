@@ -76,13 +76,29 @@
 		</div>
 	</li>
 
+
 	<!-- Divider -->
 	<hr class="sidebar-divider">
+	<li class="nav-item">
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcitvities" aria-expanded="true" aria-controls="collapseAcitvities">
+			<i class="fas fa-hourglass-half"></i>
+			<span>Activité des clients</span>
+		</a>
+		<div id="collapseAcitvities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<h6 class="collapse-header">Que faire:</h6>
+				<a class="collapse-item" href="#">Activité d'un client</a>
+				<a class="collapse-item" href="#">Toutes les activités</a>
+			</div>
+		</div>
+	</li>
 
+	<!-- Divider -->
+	<hr class="sidebar-divider">
 	{% if "ROLE_ADMIN" in app.user.roles %}
 
 		<!-- Heading -->
-		<div class="sidebar-heading">
+		<div class="sidebar-heading" style="font-size:0.62em">
 			Administration
 		</div>
 
@@ -96,34 +112,18 @@
 				<div class="bg-white py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Que faire:</h6>
 					<a class="collapse-item" href="{{path('app_register_responsable')}}">Ajouter un responsable</a>
-					<a class="collapse-item" href="#">Toutes les activités</a>
+					<a class="collapse-item" href="{{path('app_responsable_service')}}">Toutes les activités</a>
 				</div>
 			</div>
 		</li>
 	{% endif %}
-
-	<!-- Nav Item - Charts -->
-	<li class="nav-item">
-		<a class="nav-link" href="charts.html">
-			<i class="fas fa-fw fa-chart-area"></i>
-			<span>Charts</span>
-		</a>
-	</li>
-
-	<!-- Nav Item - Tables -->
-	<li class="nav-item">
-		<a class="nav-link" href="tables.html">
-			<i class="fas fa-fw fa-table"></i>
-			<span>Tables</span>
-		</a>
-	</li>
 
 	<!-- Divider -->
 	<hr
 	class="sidebar-divider d-none d-md-block">
 
 	<!-- Sidebar Toggler (Sidebar) -->
-	<div class="text-center d-none d-md-inline">
+	<div class="text-center d-none d-md-inline" style="position:relative;bottom:-35%">
 		<button class="rounded-circle border-0" id="sidebarToggle"></button>
 	</div>
 
