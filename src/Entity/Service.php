@@ -18,12 +18,12 @@ class Service
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $startOfService;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime",nullable=true)
      */
     private $endOfService;
 
