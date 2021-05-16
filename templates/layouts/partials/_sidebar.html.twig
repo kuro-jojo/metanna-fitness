@@ -79,16 +79,19 @@
 
 	<!-- Divider -->
 	<hr class="sidebar-divider">
+	<div class="sidebar-heading">
+		Vente
+	</div>
 	<li class="nav-item">
-		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcitvities" aria-expanded="true" aria-controls="collapseAcitvities">
-			<i class="fas fa-hourglass-half"></i>
-			<span>Activité des clients</span>
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSales" aria-expanded="true" aria-controls="collapseSales">
+			<i class="fas fa-cubes"></i>
+			<span>Produits</span>
 		</a>
-		<div id="collapseAcitvities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+		<div id="collapseSales" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Que faire:</h6>
-				<a class="collapse-item" href="#">Activité d'un client</a>
-				<a class="collapse-item" href="#">Toutes les activités</a>
+				<a class="collapse-item" href="{{path('app_article_list')}}">Vendre un produit</a>
+				<a class="collapse-item" href="#">Gerer le stock</a>
 			</div>
 		</div>
 	</li>
@@ -98,7 +101,7 @@
 	{% if "ROLE_ADMIN" in app.user.roles %}
 
 		<!-- Heading -->
-		<div class="sidebar-heading" style="font-size:0.62em">
+		<div class="sidebar-heading">
 			Administration
 		</div>
 
@@ -123,7 +126,7 @@
 	class="sidebar-divider d-none d-md-block">
 
 	<!-- Sidebar Toggler (Sidebar) -->
-	<div class="text-center d-none d-md-inline" style="position:relative;bottom:-35%">
+	<div class="text-center d-none d-md-inline" style="position:relative;bottom:-100px">
 		<button class="rounded-circle border-0" id="sidebarToggle"></button>
 	</div>
 
