@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -14,12 +14,13 @@ class ArticleController extends AbstractController
 {
     /**
      * IsGranted("ROLE_RESPONSABLE")
-     * @Route("/article/list/{id<\d+>}", name="app_article_list")
+     * @Route("/article/list/{id<\d+>}/{article}", name="app_article_list")
      */
-    public function listOfArticles(int $id = -1, ArticleRepository $articleRepository, CategoryRepository $categoryRepository): Response
+    public function listOfArticles(int $id = -1, string $article = "", ArticleRepository $articleRepository, CategoryRepository $categoryRepository): Response
     {
         $categories = $categoryRepository->findAll();
         $error_category = null;
+
         $articles = null;
         $category_name = null;
         if ($id == -1) {
@@ -41,7 +42,27 @@ class ArticleController extends AbstractController
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
             'categories' => $categories,
-            'category' => $category_name
+            'category' => $category_name,
+            'id' => $id
         ]);
     }
+
+    /**
+     * 
+     * @Route("/article/search/{id<\d+>}", name="app_article_search")
+     */
+
+     public function articleSearch(int $id = -1 , Request $request,ArticleRepository $articleRepository,CategoryRepository $categoryRepository) : Response
+     {
+        $label = $request->query->get('label');
+
+        $articles = $articleRepository->findByLabel($label);
+        $categories = $categoryRepository->findAll();
+        
+        return $this->render('article/index.html.twig', [
+            'articles' => $articles,
+            'categories' => $categories,
+            'id' => $id
+        ]);
+     }
 }

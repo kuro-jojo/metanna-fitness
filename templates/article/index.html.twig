@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SalesController!
-{% endblock %}
+{% block title %}Vente de produits{% endblock %}
 
 {% block stylesheets %}
 	{{parent()}}
 	<style>
+		a:hover {
+			text-decoration: none;
+		}
 
 		.searchbar {
 			margin-bottom: auto;
@@ -97,12 +99,14 @@
 							<h2 class="text-center mb-4">Nos produits</h2>
 							<p class="text-center">Retrouver dans cette rubrique tous les produits disponibles à la vente. Faite une recherche pour trouver rapidement un produit.</p>
 							<div class="d-flex justify-content-center h-100">
-								<div class="searchbar">
-									<input class="search_input" type="text" name="" placeholder="Search...">
-									<a href="#" class="search_icon">
-										<i class="fas fa-search"></i>
-									</a>
-								</div>
+								<form action="{{path('app_article_search',{id:id})}}" id="form" method="GET">
+									<div class="searchbar">
+										<input class="search_input" type="text" name="label" placeholder="Search...">
+										<a href="#" class="search_icon" onclick="document.getElementById('form').submit();">
+											<i class="fas fa-search"></i>
+										</a>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -124,7 +128,9 @@
 										<li class="breadcrumb-item">
 											<a href="#">Categorie</a>
 										</li>
-										<li class="breadcrumb-item active" aria-current="page">{{category}}</li>
+										{% if category is defined %}
+											<li class="breadcrumb-item active" aria-current="page">{{category}}</li>
+										{% endif %}
 									</ol>
 								</nav>
 							</div>
@@ -140,7 +146,7 @@
 									<ul class="list-group category_block">
 										{% for category in categories %}
 											<li class="list-group-item">
-												<a href="{{path('app_article_list',{id:category.id})}}">{{category.name}}</a>
+												<a href="{{path('app_article_list',{id:category.id})}}" class="d-block">{{category.name}}</a>
 											</li>
 										{% endfor %}
 									</ul>
@@ -148,51 +154,56 @@
 							</div>
 							<div class="col">
 								<div class="row">
-									{% for article in articles %}
-										<div class="col-md-4 mb-3">
-											<div class="card">
-												<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-												<div class="card-body">
-													<h4 class="card-title text-dark">{{article.label}}
-													</h4>
-													<p class="mb-5"></p>
-													<div class="row">
-														<div class="col-md-12">
-															<p class="text-dark d-block">Prix :
-																{{article.price ~ ' FCFA'}}</p>
-														</div>
-														<div class="col">
-															<a href="#" class="btn btn-perso btn-block">Ajouter</a>
+									{% if articles is empty %}
+										<h1 class="text-center text-dark mt-5">Aucun produit</h1>
+
+									{% else %}
+										{% for article in articles %}
+											<div class="col-md-4 mb-3">
+												<div class="card">
+													<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+													<div class="card-body">
+														<h4 class="card-title text-dark">{{article.label}}
+														</h4>
+														<p class="mb-5"></p>
+														<div class="row">
+															<div class="col-md-12">
+																<p class="text-dark d-block">Prix :
+																	{{article.price ~ ' FCFA'}}</p>
+															</div>
+															<div class="col">
+																<a href="#" class="btn btn-perso btn-block">Ajouter</a>
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									{% endfor %}
+										{% endfor %}
 
-								</div>
-								<div class="col-12">
-									<nav aria-label="...">
-										<ul class="pagination">
-											<li class="page-item disabled">
-												<a class="page-link" href="#" tabindex="-1">Previous</a>
-											</li>
-											<li class="page-item">
-												<a class="page-link" href="#">1</a>
-											</li>
-											<li class="page-item active">
-												<a class="page-link" href="#">2
-													<span class="sr-only">(current)</span>
-												</a>
-											</li>
-											<li class="page-item">
-												<a class="page-link" href="#">3</a>
-											</li>
-											<li class="page-item">
-												<a class="page-link" href="#">Next</a>
-											</li>
-										</ul>
-									</nav>
+									</div>
+									<div class="col-12">
+										<nav aria-label="...">
+											<ul class="pagination">
+												<li class="page-item disabled">
+													<a class="page-link" href="#" tabindex="-1">Previous</a>
+												</li>
+												<li class="page-item">
+													<a class="page-link" href="#">1</a>
+												</li>
+												<li class="page-item active">
+													<a class="page-link" href="#">2
+														<span class="sr-only">(current)</span>
+													</a>
+												</li>
+												<li class="page-item">
+													<a class="page-link" href="#">3</a>
+												</li>
+												<li class="page-item">
+													<a class="page-link" href="#">Next</a>
+												</li>
+											</ul>
+										</nav>
+									{% endif %}
 								</div>
 							</div>
 						</div>
