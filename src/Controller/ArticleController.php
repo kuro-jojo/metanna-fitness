@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,28 +13,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleController extends AbstractController
 {
+
+    private $articleRepository;
+    private $categoryRepository;
+    private $paginator;
+    private $request;
+
+    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository,PaginatorInterface $paginator)
+    {
+        $this->articleRepository = $articleRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->paginator = $paginator;
+    }
     /**
      * IsGranted("ROLE_RESPONSABLE")
      * @Route("/article/list/{id<\d+>}/{article}", name="app_article_list")
      */
-    public function listOfArticles(int $id = -1, string $article = "", ArticleRepository $articleRepository, CategoryRepository $categoryRepository): Response
+    public function listOfArticles(int $id = -1, string $article = "",Request $request): Response
     {
-        $categories = $categoryRepository->findAll();
+        $categories = $this->categoryRepository->findAll();
         $error_category = null;
 
         $articles = null;
         $category_name = null;
         if ($id == -1) {
             if ($categories[0] != null) {
-                $articles = $articleRepository->findByCategory($categories[0]);
+          
+                $articles = $this->paginator->paginate($this->articleRepository->findByCategoryQuery($categories[0]),$request->query->getInt('page',1),9);
                 $category_name = $categories[0]->getName();
             } else {
                 $error_category = "Aucune catégorie disponible";
             }
         } else {
-            if ($categoryRepository->find($id) != null) {
-                $articles = $articleRepository->findByCategory($id);
-                $category_name = $categoryRepository->find($id)->getName();
+            if ($this->categoryRepository->find($id) != null) {
+                $articles = $this->paginator->paginate($this->articleRepository->findByCategoryQuery($id),$request->query->getInt('page',1),9);
+                $category_name = $this->categoryRepository->find($id)->getName();
             }else {
                 return $this->redirectToRoute('app_article_list');
                 
