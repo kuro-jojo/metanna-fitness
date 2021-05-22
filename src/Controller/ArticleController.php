@@ -2,34 +2,47 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+/**
+ * @IsGranted("ROLE_RESPONSABLE")
+ * @Route("/article",name="app_article")
+ */
 class ArticleController extends AbstractController
 {
 
     private $articleRepository;
     private $categoryRepository;
     private $paginator;
-    private $request;
 
-    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository,PaginatorInterface $paginator)
+    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator)
     {
         $this->articleRepository = $articleRepository;
         $this->categoryRepository = $categoryRepository;
         $this->paginator = $paginator;
     }
     /**
-     * IsGranted("ROLE_RESPONSABLE")
-     * @Route("/article/list/{id<\d+>}/{article}", name="app_article_list")
+     * @Route("/list/{id<\d+>}/{article}", name="_list")
+     * return list Of Articles depends on the category
+     *
+     * @param  mixed $id
+     * @param  mixed $article
+     * @param  mixed $request
+     * @return Response
      */
-    public function listOfArticles(int $id = -1, string $article = "",Request $request): Response
+    public function listOfArticles(int $id = -1, string $article = "", Request $request): Response
     {
         $categories = $this->categoryRepository->findAll();
         $error_category = null;
@@ -38,19 +51,18 @@ class ArticleController extends AbstractController
         $category_name = null;
         if ($id == -1) {
             if ($categories[0] != null) {
-          
-                $articles = $this->paginator->paginate($this->articleRepository->findByCategoryQuery($categories[0]),$request->query->getInt('page',1),9);
+
+                $articles = $this->paginator->paginate($this->articleRepository->findByCategoryQuery($categories[0]), $request->query->getInt('page', 1), 9);
                 $category_name = $categories[0]->getName();
             } else {
                 $error_category = "Aucune catégorie disponible";
             }
         } else {
             if ($this->categoryRepository->find($id) != null) {
-                $articles = $this->paginator->paginate($this->articleRepository->findByCategoryQuery($id),$request->query->getInt('page',1),9);
+                $articles = $this->paginator->paginate($this->articleRepository->findByCategoryQuery($id), $request->query->getInt('page', 1), 9);
                 $category_name = $this->categoryRepository->find($id)->getName();
-            }else {
+            } else {
                 return $this->redirectToRoute('app_article_list');
-                
             }
         }
         return $this->render('article/index.html.twig', [
@@ -62,21 +74,51 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * 
-     * @Route("/article/search/{id<\d+>}", name="app_article_search")
+     * @Route("/search/{id<\d+>}", name="_search")
+     * articleSearch
+     *
+     * @param  mixed $id
+     * @param  mixed $request
+     * @param  mixed $articleRepository
+     * @param  mixed $categoryRepository
+     * @return Response
      */
-
-     public function articleSearch(int $id = -1 , Request $request,ArticleRepository $articleRepository,CategoryRepository $categoryRepository) : Response
-     {
+    public function articleSearch(int $id = -1, Request $request, ArticleRepository $articleRepository, CategoryRepository $categoryRepository): Response
+    {
         $label = $request->query->get('label');
 
         $articles = $articleRepository->findByLabel($label);
         $categories = $categoryRepository->findAll();
-        
+
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
             'categories' => $categories,
             'id' => $id
         ]);
-     }
+    }
+    /**
+     * @IsGranted("ROLE_RESPONSABLE")
+     * @Route("/add/{id<\d+>}" , name="_add")
+     */
+    public function addArticle(Article $article, Request $request, SessionInterface $session, FlashyNotifier $flashy, EntityManagerInterface $em): Response
+    {
+        // First way to treat the sale : sell each article separately (wihtout session)
+
+        // Get the product quantity
+        $quantity = $request->query->get('quantity');
+        $stock = $article->getStock();
+
+        //update the stock
+        if ($quantity != null) {
+            if ($quantity > $stock || $quantity < 0) {
+                $flashy->warning("Quantité incorrecte!");
+            } else {
+                $article->setStock($stock - $quantity);
+                $em->flush();
+                $flashy->info("Produit vendu!!");
+            }
+        }
+
+        return $this->redirectToRoute('app_article_list');
+    }
 }

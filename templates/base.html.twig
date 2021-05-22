@@ -19,7 +19,7 @@
 		{% endblock %}
 
 		<style>
-			body{
+			body {
 				overflow: auto;
 			}
 			body,
@@ -33,9 +33,21 @@
 				margin-top: 90px;
 			}
 			.form-control:focus,
-			.form-control.is-invalid:focus {
+			.form-control.is-invalid {
 				outline: none !important;
-				box-shadow: none;
+				box-shadow: none !important;
+			}
+			a,
+			button {
+				outline: none !important;
+				box-shadow: none !important;
+			}
+			.btn-perso{
+				background-color: #e0ca00;
+				color:#fff
+			}
+			.btn-perso:hover{
+				color: #000;
 			}
 		</style>
 		{% block javascripts %}

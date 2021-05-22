@@ -78,10 +78,6 @@
 			text-decoration: none;
 			color: #343a40;
 		}
-		.btn-perso {
-			background-color: #e0ca00;
-			color: #fff;
-		}
 	</style>
 {% endblock %}
 {% block body %}
@@ -169,12 +165,47 @@
 														<p class="mb-5"></p>
 														<div class="row">
 															<div class="col-md-12">
-																<p class="text-dark d-block">Prix :
+																<p class="text-dark d-block fw-bold">Prix :
 																	{{article.price ~ ' FCFA'}}</p>
 															</div>
-															<div class="col">
-																<a href="#" class="btn btn-perso btn-block">Ajouter</a>
-															</div>
+															{% if article.stock == 0 %}
+																<div class="col-md-12 mb-4 mt-3">
+																	<p class="text-danger d-block text-center fw-bold">En rupture de stock</p>
+																</div>
+															{% else %}
+																<div class="col-md-12">
+																	<p class="text-dark d-block">Quantité disponible :
+																		{{article.stock }}</p>
+																</div>
+																<div class="col">
+																	<a href="#" class="btn btn-perso btn-block" data-bs-toggle="modal" data-bs-target="#chooseQty-{{article.id}}">Ajouter</a>
+																</div>
+
+																<div class="modal fade" id="chooseQty-{{article.id}}" aria-labelledby="label" aria-hidden="true">
+																	<div class="modal-dialog">
+																		<div class="modal-content text-dark">
+																			<div class="modal-header">
+																				<h5 class="modal-title" id="label">Quantité</h5>
+																				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+																			</div>
+																			<form action="{{path('app_article_add',{id:article.id}) }}" id="form_add-{{article.id}}">
+																				<div class="modal-body mx-auto mt-2">
+																					Choisissez la quantité de produit "{{article.label}}":
+																					<div class="col-4 mx-auto mt-4">
+																						<input type="number" class="form-control" min="0" max={{article.stock}} value="0" name="quantity">
+																					</div>
+																				</div>
+																				<div class="modal-footer d-flex justify-content-center">
+																					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+																					<button type="submit" class="btn btn-perso" >Continuer</button>
+																				</div>
+																			</form>
+																		</div>
+																	</div>
+
+																</div>
+															{% endif %}
 														</div>
 													</div>
 												</div>
