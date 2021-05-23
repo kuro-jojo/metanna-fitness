@@ -63,6 +63,7 @@ class SubscriptionController extends AbstractController
     {
         $clients = $clientRepository->findOnlyRegistered();
         $timeRemaining =null;
+
         foreach ($clients as $key => $client) {
             if ($client->getMySubscription() == null) {
                 unset($clients[$key]);
@@ -71,7 +72,6 @@ class SubscriptionController extends AbstractController
                 
                 $subscriptionEnd = $client->getMySubscription()->getEndOfSubs();
                 $subscriptionStart = $client->getMySubscription()->getStartOfSubs();
-                
                 if ($subscriptionStart <= new \DateTime()) {
                     
                     $time=  $subscriptionEnd->diff(new \DateTime(), true)->days;
