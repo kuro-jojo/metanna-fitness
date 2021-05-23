@@ -1,5 +1,6 @@
-<header class="p-3 bg-dark text-white navbar navbar-expand topbar mb-4 static-top shadow" style="height:3rem">
-	<div class="container">
+<header class="p-3 bg-orange text-white navbar navbar-expand topbar mb-4 static-top shadow" style="height:3rem">
+	<div
+		class="container">
 		<!-- Topbar Navbar -->
 		<ul
 			class="navbar-nav ml-auto" style="position:absolute; right:4%">
@@ -33,22 +34,22 @@
 			</li>
 		</ul>
 	</div>
-</header>
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Vous voulez vous déconnecter?</h5>
-				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">×</span>
-				</button>
-			</div>
-			<div class="modal-body">Selectionner "Déconnexion" pour quitter la session active.</div>
-			<div class="modal-footer">
-				<button class="btn btn-danger" type="button" data-dismiss="modal">Annuler</button>
-				<a class="btn btn-outline-warning" href="{{path('app_logout')}}">Déconnexion</a>
+	<!-- Logout Modal-->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header text-dark">
+					<h5 class="modal-title" id="logoutModal">Vous voulez vous déconnecter?</h5>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body text-dark">Selectionner "Déconnexion" pour quitter la session active.</div>
+				<div class="modal-footer">
+					<button class="btn btn-dark" type="button" data-dismiss="modal">Annuler</button>
+					<a class="btn btn-orange" href="{{path('app_logout')}}">Déconnexion</a>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</header>

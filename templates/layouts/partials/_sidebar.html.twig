@@ -1,21 +1,21 @@
 <ul
-	class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+	class="navbar-nav bg-orange sidebar sidebar-dark accordion" id="accordionSidebar">
 
 	<!-- Sidebar - Brand -->
 	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{path('app_home')}}">
 		<div class="sidebar-brand-icon rotate-n-15">
 			<i class="fas fa-dumbbell"></i>
 		</div>
-		<div class="sidebar-brand-text mx-3">Salle de sport</div>
+		<div class="sidebar-brand-text">Metanna Fitness</div>
 	</a>
 
 	<!-- Divider -->
 	<hr
-	class="sidebar-divider my-0">
+	class="sidebar-divider bg-dark  mt-4">
 
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item">
-		<a class="nav-link" href="{{path('app_home')}}">
+		<a class="nav-link" href="{{path('app_home')}}" >
 			<i class="fas fa-fw fa-tachometer-alt"></i>
 			<span>Dashboard</span>
 		</a>
@@ -23,7 +23,7 @@
 
 	<!-- Divider -->
 	<hr
-	class="sidebar-divider">
+	class="sidebar-divider bg-dark">
 
 	<!-- Heading -->
 	<div class="sidebar-heading">
@@ -34,7 +34,7 @@
 	<li class="nav-item">
 		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRegistration" aria-expanded="true" aria-controls="collapseRegistration">
 			<i class="far fa-registered"></i>
-			<span>Inscriptions des clients</span>
+			<span>Inscription</span>
 		</a>
 		<div id="collapseRegistration" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
@@ -50,7 +50,7 @@
 	<li class="nav-item">
 		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubs" aria-expanded="true" aria-controls="collapseSubs">
 			<i class="fas fa-registered"></i>
-			<span>Les Abonnements</span>
+			<span>Abonnement</span>
 		</a>
 		<div id="collapseSubs" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
@@ -65,7 +65,7 @@
 	<li class="nav-item">
 		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcitvities" aria-expanded="true" aria-controls="collapseAcitvities">
 			<i class="fas fa-hourglass-half"></i>
-			<span>Activité des clients</span>
+			<span>Activité</span>
 		</a>
 		<div id="collapseAcitvities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
@@ -78,27 +78,30 @@
 
 
 	<!-- Divider -->
-	<hr class="sidebar-divider">
+	<hr class="sidebar-divider bg-dark">
+	<div class="sidebar-heading">
+		Vente
+	</div>
 	<li class="nav-item">
-		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcitvities" aria-expanded="true" aria-controls="collapseAcitvities">
-			<i class="fas fa-hourglass-half"></i>
-			<span>Activité des clients</span>
+		<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSales" aria-expanded="true" aria-controls="collapseSales">
+			<i class="fas fa-cubes"></i>
+			<span>Produits</span>
 		</a>
-		<div id="collapseAcitvities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+		<div id="collapseSales" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Que faire:</h6>
-				<a class="collapse-item" href="#">Activité d'un client</a>
-				<a class="collapse-item" href="#">Toutes les activités</a>
+				<a class="collapse-item" href="{{path('app_article_list')}}">Vendre un produit</a>
+				<a class="collapse-item" href="#">Gerer le stock</a>
 			</div>
 		</div>
 	</li>
 
 	<!-- Divider -->
-	<hr class="sidebar-divider">
+	<hr class="sidebar-divider bg-dark">
 	{% if "ROLE_ADMIN" in app.user.roles %}
 
 		<!-- Heading -->
-		<div class="sidebar-heading" style="font-size:0.62em">
+		<div class="sidebar-heading">
 			Administration
 		</div>
 
@@ -120,10 +123,10 @@
 
 	<!-- Divider -->
 	<hr
-	class="sidebar-divider d-none d-md-block">
+	class="sidebar-divider bg-dark d-none d-md-block">
 
 	<!-- Sidebar Toggler (Sidebar) -->
-	<div class="text-center d-none d-md-inline" style="position:relative;bottom:-35%">
+	<div class="text-center d-none d-md-inline" style="position:relative;bottom:-100px">
 		<button class="rounded-circle border-0" id="sidebarToggle"></button>
 	</div>
 

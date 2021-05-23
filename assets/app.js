@@ -23,6 +23,6 @@ import './js/sb-admin-2-min';
 // import './js/demo/chart-pie-demo';
 // import './js/demo/datatables-demo';
 
-import './vendor/jquery/jquery-min';
+import './js/jquery/jquery-min';
 import './js/jquery-easing/jquery.easing-min';
 import './vendor/bootstrap/js/bootstrap.bundle.min';

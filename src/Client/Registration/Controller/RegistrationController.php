@@ -149,17 +149,24 @@ class RegistrationController extends AbstractController
     }
     /**
      * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/registration/list",name="app_client_registration_list")
+     * @Route("/client/registration/list/{showOnlyRegistered}",name="app_client_registration_list")
      * list of all registred customers
      *
      * @param  mixed $clientRepository
      * @return Response
      */
-    public function listOfRegistration(ClientRepository $clientRepository): Response
+    public function listOfRegistration(bool $showOnlyRegistered = false, ClientRepository $clientRepository): Response
     {
-        $clients = $clientRepository->findAll();
+        $checked = "";
+        if ($showOnlyRegistered) {
+            $clients = $clientRepository->findOnlyRegistered();
+            $checked = "checked";
+        } else {
+            $clients = $clientRepository->findAll();
+        }
         return $this->render("client/registration/list.html.twig", [
-            'clients' => $clients
+            'clients' => $clients,
+            'checked' => $checked
         ]);
     }
 }
