@@ -172,7 +172,7 @@ a:hover {
 .searchbar {
     margin-bottom: auto;
     height: 60px;
-    background-color: #fff;
+    background-color: #3a3b45;
     border-radius: 30px;
     padding: 10px;
 }
@@ -194,8 +194,8 @@ a:hover {
 }
 
 .searchbar:hover>.search_icon {
-    background: white;
-    color: #e0ca00;
+    background: #FF4500;
+    color: #fff;
 }
 
 .search_icon {
@@ -211,13 +211,14 @@ a:hover {
 }
 
 .breadcrumb {
-    padding: 0.75em;
-    background: #3a3b45;
+    padding: 0.65em !important;
+    background: #f8f9fc;
+    padding: 120px
 }
 
 .breadcrumb-item a {
-    color: #fff;
-    text-decoration: none
+    color: #000;
+    text-decoration: none;
 }
 
 .container-perso {
@@ -226,7 +227,7 @@ a:hover {
 }
 
 .card-header {
-    background-color: #FF4500;
+    background-color: #FF4500 !important;
 }
 
 .category_block:hover {

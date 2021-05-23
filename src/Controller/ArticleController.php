@@ -83,13 +83,12 @@ class ArticleController extends AbstractController
      * @param  mixed $categoryRepository
      * @return Response
      */
-    public function articleSearch(int $id = -1, Request $request, ArticleRepository $articleRepository, CategoryRepository $categoryRepository): Response
+    public function articleSearch(int $id = -1, Request $request): Response
     {
         $label = $request->query->get('label');
 
-        $articles = $articleRepository->findByLabel($label);
-        $categories = $categoryRepository->findAll();
-
+        $articles = $this->paginator->paginate($this->articleRepository->findByLabel($label), $request->query->getInt('page', 1), 9);
+        $categories = $this->categoryRepository->findAll();
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
             'categories' => $categories,

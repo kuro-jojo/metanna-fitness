@@ -5,9 +5,7 @@
 
 {% block stylesheets %}
 	{{parent()}}
-	<style>
-		
-	</style>
+	<style></style>
 {% endblock %}
 {% block body %}
 	<div id="wrapper">
@@ -21,13 +19,15 @@
 				{% include "layouts/partials/_nav.html.twig" %}
 				<div class="d-grid gap-2 col-6 mx-auto mb-5">
 					<div class="col">
-						<div class="h-100 p-5 text-white bg-dark rounded-3">
+						<div class="h-100 p-5 text-dark bg-light rounded-3">
 							<h2 class="text-center mb-4">Nos produits</h2>
 							<p class="text-center">Retrouver dans cette rubrique tous les produits disponibles à la vente. Faite une recherche pour trouver rapidement un produit.</p>
+
+							{# Recherche de produits #}
 							<div class="d-flex justify-content-center h-100">
 								<form action="{{path('app_article_search',{id:id})}}" id="form" method="GET">
 									<div class="searchbar">
-										<input class="search_input" type="text" name="label" placeholder="Rechercher un client...">
+										<input class="search_input text-white" type="text" name="label" placeholder="Rechercher un article...">
 										<a href="#" class="search_icon" onclick="document.getElementById('form').submit();">
 											<i class="fas fa-search"></i>
 										</a>
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 				{% if categories is empty %}
-					<div class="text-center text-dark">
+					<div class="text-center text-white">
 						<h2>Désolé!!
 							<br>Aucun produit disponible</h2>
 					</div>
@@ -118,17 +118,41 @@
 																				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
 																			</div>
+
+																			<div class="modal-body mx-auto mt-2">
+																				Choisissez la quantité de produit "{{article.label}}":
+																				<div class="col-4 mx-auto mt-4">
+																					<input id="quantity-{{article.id}}" type="number" class="form-control" min="0" max={{article.stock}} value="0" name="quantity">
+																				</div>
+																			</div>
+																			<div class="modal-footer d-flex justify-content-center">
+																				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+																				<button type="" class="btn btn-orange" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#amountModal-{{article.id}}" onclick="getAmount({{article.price}},'quantity-{{article.id}}','amount-{{article.id}}')">Continuer</button>
+																			</div>
+																		</div>
+																	</div>
+
+																</div>
+
+																<div class="modal fade" id="amountModal-{{article.id}}" aria-labelledby="label" aria-hidden="true">
+																	<div class="modal-dialog">
+																		<div class="modal-content text-dark">
+																			<div class="modal-header">
+																				<h5 class="modal-title" id="label">Montant à payer</h5>
+																				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+																			</div>
 																			<form action="{{path('app_article_add',{id:article.id}) }}" id="form_add-{{article.id}}">
 																				<div class="modal-body mx-auto mt-2">
-																					Choisissez la quantité de produit "{{article.label}}":
-																					<div class="col-4 mx-auto mt-4">
-																						<input type="number" class="form-control" min="0" max={{article.stock}} value="0" name="quantity">
-																					</div>
+																					Le montant total est de :<span id="amount-{{article.id}}" class="fw-bold">0</span>
+																					FCFA
 																				</div>
 																				<div class="modal-footer d-flex justify-content-center">
-																					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-																					<button type="submit" class="btn btn-orange">Continuer</button>
+																					<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#chooseQty-{{article.id}}">Retour</button>
+																					<button type="submit" class="btn btn-success">Confirmer
+																					</button>
 																				</div>
+
 																			</form>
 																		</div>
 																	</div>
@@ -153,4 +177,12 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+		function getAmount(price, qtyID, amountID) {
+var quantity = document.getElementById(qtyID).value;
+document.getElementById(amountID).innerHTML = quantity * price;
+console.log(quantity);
+}
+	</script>
 {% endblock %}
