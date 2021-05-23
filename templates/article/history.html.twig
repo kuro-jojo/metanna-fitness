@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique de produits
+{% endblock %}
+
+{% block stylesheets %}
+	{{parent()}}
+	<style></style>
+{% endblock %}
+{% block body %}
+	<div id="wrapper">
+		{% include "layouts/partials/_sidebar.html.twig" %}
+		<!-- Content Wrapper -->
+		<div
+			id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content" class="content">
+
+				{% include "layouts/partials/_nav.html.twig" %}
+				<h1 class="h2 text-white text-decoration-underline mb-5 text-center">Historique des ventes</h1>
+
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead class="thead-light">
+							<tr>
+								<th class="header" scope="col">Article</th>
+								<th class="header" scope="col">Prix</th>
+								<th class="header" scope="col">Quantitée vendue</th>
+								<th class="header" scope="col">Ancien stock</th>
+								<th class="header" scope="col">Date de vente</th>
+								<th class="header" scope="col">Effectué par
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for sale in sales %}
+								<tr>
+									<th class="text-white p-3" scope="row">{{sale.articleSold.label}}</th>
+									<td class="text-white p-3">{{sale.articleSold.price}}</td>
+									<td class="text-white p-3">{{sale.quantitySold}}</td>
+									<td class="text-white p-3">{{sale.previousStock}}</td>
+									<td class="text-white p-3">{{sale.dateOfSale|localizeddate('long', 'none', 'fr')}}</td>
+									<td class="text-white p-3">{{sale.responsableOfSale.prenom ~ ' ' ~  sale.responsableOfSale.nom}}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

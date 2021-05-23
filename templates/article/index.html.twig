@@ -127,7 +127,7 @@
 																			</div>
 																			<div class="modal-footer d-flex justify-content-center">
 																				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-																				<button type="" class="btn btn-orange" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#amountModal-{{article.id}}" onclick="getAmount({{article.price}},'quantity-{{article.id}}','amount-{{article.id}}')">Continuer</button>
+																				<button type="" class="btn btn-orange" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#amountModal-{{article.id}}" onclick="getAmount({{article.price}},'quantity-{{article.id}}','amount-{{article.id}}','quantityForm-{{article.id}}')">Continuer</button>
 																			</div>
 																		</div>
 																	</div>
@@ -143,6 +143,8 @@
 
 																			</div>
 																			<form action="{{path('app_article_add',{id:article.id}) }}" id="form_add-{{article.id}}">
+
+																				<input type="hidden" name="quantity" id="quantityForm-{{article.id}}">
 																				<div class="modal-body mx-auto mt-2">
 																					Le montant total est de :<span id="amount-{{article.id}}" class="fw-bold">0</span>
 																					FCFA
@@ -179,10 +181,10 @@
 	</div>
 
 	<script>
-		function getAmount(price, qtyID, amountID) {
+		function getAmount(price, qtyID, amountID, inputHiddenId) {
 var quantity = document.getElementById(qtyID).value;
 document.getElementById(amountID).innerHTML = quantity * price;
-console.log(quantity);
+document.getElementById(inputHiddenId).value = quantity;
 }
 	</script>
 {% endblock %}

@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Sale;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\SaleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -106,18 +108,46 @@ class ArticleController extends AbstractController
         // Get the product quantity
         $quantity = $request->query->get('quantity');
         $stock = $article->getStock();
-
+        
         //update the stock
         if ($quantity != null) {
             if ($quantity > $stock || $quantity < 0) {
                 $flashy->warning("Quantité incorrecte!");
             } else {
                 $article->setStock($stock - $quantity);
+                $sale = new Sale;
+                $sale->setQuantitySold($quantity);
+                $sale->setArticleSold($article);
+                $sale->setDateOfSale(new \DateTime);
+                $sale->setPreviousStock($stock);
+                $sale->setResponsableOfSale($this->getUser());
+                
+                $em->persist($sale);
                 $em->flush();
+
                 $flashy->info("Produit vendu!!");
             }
         }
 
         return $this->redirectToRoute('app_article_list');
+    }
+
+    
+    
+    /**
+     * @Route("/history",name="_history")
+     * 
+     * history of all sales by responsable
+     *
+     * @param  mixed $saleRepository
+     * @return Response
+     */
+    public function historyOfsales(SaleRepository $saleRepository) : Response{
+
+        $sales = $saleRepository->findAll();
+
+        return $this->render('article/history.html.twig',[
+            'sales' => $sales
+        ]);
     }
 }

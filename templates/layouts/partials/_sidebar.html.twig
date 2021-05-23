@@ -9,23 +9,21 @@
 		<div class="sidebar-brand-text">Metanna Fitness</div>
 	</a>
 
-	<!-- Divider -->
+
 	<hr
 	class="sidebar-divider bg-dark  mt-4">
 
 	<!-- Nav Item - Dashboard -->
 	<li class="nav-item">
-		<a class="nav-link" href="{{path('app_home')}}" >
+		<a class="nav-link" href="{{path('app_home')}}">
 			<i class="fas fa-fw fa-tachometer-alt"></i>
 			<span>Dashboard</span>
 		</a>
 	</li>
 
-	<!-- Divider -->
-	<hr
-	class="sidebar-divider bg-dark">
 
-	<!-- Heading -->
+	<hr class="sidebar-divider bg-dark">
+
 	<div class="sidebar-heading">
 		Client
 	</div>
@@ -77,7 +75,6 @@
 	</li>
 
 
-	<!-- Divider -->
 	<hr class="sidebar-divider bg-dark">
 	<div class="sidebar-heading">
 		Vente
@@ -91,16 +88,16 @@
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Que faire:</h6>
 				<a class="collapse-item" href="{{path('app_article_list')}}">Vendre un produit</a>
+				<a class="collapse-item" href="{{path('app_article_history')}}">Historique des ventes</a>
 				<a class="collapse-item" href="#">Gerer le stock</a>
 			</div>
 		</div>
 	</li>
 
-	<!-- Divider -->
+
 	<hr class="sidebar-divider bg-dark">
 	{% if "ROLE_ADMIN" in app.user.roles %}
 
-		<!-- Heading -->
 		<div class="sidebar-heading">
 			Administration
 		</div>
@@ -121,7 +118,7 @@
 		</li>
 	{% endif %}
 
-	<!-- Divider -->
+
 	<hr
 	class="sidebar-divider bg-dark d-none d-md-block">
 

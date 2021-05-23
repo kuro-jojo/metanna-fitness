@@ -35,9 +35,9 @@ class Article
     private $stock;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sales::class, mappedBy="articleSold")
+     * @ORM\OneToMany(targetEntity=Sale::class, mappedBy="articleSold")
      */
-    private $sales;
+    private $sale;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
@@ -52,7 +52,7 @@ class Article
 
     public function __construct()
     {
-        $this->sales = new ArrayCollection();
+        $this->sale = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,26 +97,26 @@ class Article
     }
 
     /**
-     * @return Collection|Sales[]
+     * @return Collection|Sale[]
      */
-    public function getSales(): Collection
+    public function getSale(): Collection
     {
-        return $this->sales;
+        return $this->sale;
     }
 
-    public function addSale(Sales $sale): self
+    public function addSale(Sale $sale): self
     {
-        if (!$this->sales->contains($sale)) {
-            $this->sales[] = $sale;
+        if (!$this->sale->contains($sale)) {
+            $this->sale[] = $sale;
             $sale->setArticleSold($this);
         }
 
         return $this;
     }
 
-    public function removeSale(Sales $sale): self
+    public function removeSale(Sale $sale): self
     {
-        if ($this->sales->removeElement($sale)) {
+        if ($this->sale->removeElement($sale)) {
             // set the owning side to null (unless already changed)
             if ($sale->getArticleSold() === $this) {
                 $sale->setArticleSold(null);
