@@ -3999,8 +3999,8 @@ input[type=submit].btn-block {
     background-color: #eaecf4
 }
 
-.custom-file-input:lang(en)~.custom-file-label::after {
-    content: "Browse"
+.custom-file-input:lang(fr)~.custom-file-label::after {
+    content: "Choisir"
 }
 
 .custom-file-input~.custom-file-label[data-browse]::after {
@@ -4034,7 +4034,7 @@ input[type=submit].btn-block {
     padding: .375rem .75rem;
     line-height: 1.5;
     color: #6e707e;
-    content: "Browse";
+    content: "Choisir";
     background-color: #eaecf4;
     border-left: inherit;
     border-radius: 0 .35rem .35rem 0

@@ -17,39 +17,6 @@
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-
-		<style>
-			body {
-				overflow: auto;
-			}
-			body,
-			#wrapper #content-wrapper {
-				background-color: #fff
-			}
-			.flashy__body {
-				text-decoration: none;
-			}
-			.flashy {
-				margin-top: 90px;
-			}
-			.form-control:focus,
-			.form-control.is-invalid {
-				outline: none !important;
-				box-shadow: none !important;
-			}
-			a,
-			button {
-				outline: none !important;
-				box-shadow: none !important;
-			}
-			.btn-perso{
-				background-color: #e0ca00;
-				color:#fff
-			}
-			.btn-perso:hover{
-				color: #000;
-			}
-		</style>
 		{% block javascripts %}
 			<!-- Custom scripts for all pages-->
 			{{ encore_entry_script_tags('app') }}

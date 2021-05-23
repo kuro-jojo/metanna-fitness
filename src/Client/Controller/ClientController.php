@@ -14,11 +14,41 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Constraints\Date;
 
+/**
+ * @IsGranted("ROLE_RESPONSABLE")
+ * @Route("/client", name="app_client")
+ */
+
 class ClientController extends AbstractController
 {
+
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/registration/cancel", name="app_client_registration_cancel_search", methods={"GET"})
+     * @Route("/registration/search",name="_registration_search", methods={"GET"})
+     * searchClient
+     *
+     * @param  mixed $request
+     * @param  mixed $clientRepository
+     * @return Response
+     */
+    public function searchClient(Request $request, ClientRepository $clientRepository): Response
+    {
+        $error = null;
+        $form = null;
+        $clientCode = null;
+        $this->search($request, $clientRepository, $form, $error, $clientCode);
+        $client = $clientCode != null ? $clientRepository->find($clientCode) : null;
+        if ($clientCode == null) {
+            return $this->redirectToRoute("app_client_registration_list");
+        }
+        return $this->render('client/registration/list.html.twig', [
+            'client' => $client,
+            'error' => $error,
+            'clientCode' => $clientCode
+        ]);
+    }
+
+    /**
+     * @Route("/registration/cancel", name="_registration_cancel_search", methods={"GET"})
      * 
      * search a customer
      *
@@ -41,8 +71,7 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/subscription/renew", name="app_client_subscription_renew_search", methods={"GET"})
+     * @Route("/subscription/renew", name="_subscription_renew_search", methods={"GET"})
      * 
      * search a customer
      *
@@ -65,13 +94,13 @@ class ClientController extends AbstractController
             $subscriptionStart = $client->getMySubscription()->getStartOfSubs();
 
             // $nowDay = date("j");
-            if ($subscriptionStart <= new \DateTime() ) {
+            if ($subscriptionStart <= new \DateTime()) {
                 // Check subscription state 
                 // if ($nowDay < $subscriptionEndDay) {
                 //     $subscriptionEndDay += 30;
                 // }
                 // Get the remaining days before subs expiration
-                $timeRemaining =  $subscriptionEnd->diff(new \DateTime(),true)->days;
+                $timeRemaining =  $subscriptionEnd->diff(new \DateTime(), true)->days;
             }
         }
         return $this->render('client/subscription/renew.html.twig', [
@@ -79,7 +108,7 @@ class ClientController extends AbstractController
             'client' => $client,
             'error' => $error,
             'clientCode' => $clientCode,
-            'timeRemaining'=>$timeRemaining,
+            'timeRemaining' => $timeRemaining,
 
         ]);
     }

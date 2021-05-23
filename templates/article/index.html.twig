@@ -6,78 +6,7 @@
 {% block stylesheets %}
 	{{parent()}}
 	<style>
-		a:hover {
-			text-decoration: none;
-		}
-
-		.searchbar {
-			margin-bottom: auto;
-			height: 60px;
-			background-color: #fff;
-			border-radius: 30px;
-			padding: 10px;
-		}
-
-		.search_input {
-			border: 0;
-			outline: 0;
-			background: none;
-			width: 0;
-			line-height: 40px;
-			transition: width 0.4s linear;
-		}
-
-		.searchbar:hover > .search_input {
-			padding: 0 10px;
-			width: 450px;
-			caret-color: red;
-			transition: width 0.4s linear;
-		}
-
-		.searchbar:hover > .search_icon {
-			background: white;
-			color: #e0ca00;
-		}
-
-		.search_icon {
-			height: 40px;
-			width: 40px;
-			float: right;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			border-radius: 50%;
-			color: #e0ca00;
-			text-decoration: none;
-		}
-		.breadcrumb {
-			padding: 0.75em;
-			background: #3a3b45;
-		}
-		.breadcrumb-item a {
-			color: #fff;
-			text-decoration: none
-		}
-		.container-perso {
-			position: relative;
-			left: -90px;
-		}
-		.card-header {
-			background-color: #e0ca00;
-		}
-		.category_block:hover {
-			cursor: pointer
-		}
-		.category_block li:hover {
-			background-color: #e0ca00;
-		}
-		.category_block li:hover a {
-			color: #fff;
-		}
-		.category_block li a {
-			text-decoration: none;
-			color: #343a40;
-		}
+		
 	</style>
 {% endblock %}
 {% block body %}
@@ -98,7 +27,7 @@
 							<div class="d-flex justify-content-center h-100">
 								<form action="{{path('app_article_search',{id:id})}}" id="form" method="GET">
 									<div class="searchbar">
-										<input class="search_input" type="text" name="label" placeholder="Search...">
+										<input class="search_input" type="text" name="label" placeholder="Rechercher un client...">
 										<a href="#" class="search_icon" onclick="document.getElementById('form').submit();">
 											<i class="fas fa-search"></i>
 										</a>
@@ -142,7 +71,7 @@
 										Categories</div>
 									<ul class="list-group category_block">
 										{% for category in categories %}
-											<li class="list-group-item">
+											<li class="list-group-item ">
 												<a href="{{path('app_article_list',{id:category.id})}}" class="d-block">{{category.name}}</a>
 											</li>
 										{% endfor %}
@@ -178,7 +107,7 @@
 																		{{article.stock }}</p>
 																</div>
 																<div class="col">
-																	<a href="#" class="btn btn-perso btn-block" data-bs-toggle="modal" data-bs-target="#chooseQty-{{article.id}}">Ajouter</a>
+																	<a href="#" class="btn btn-orange btn-block" data-bs-toggle="modal" data-bs-target="#chooseQty-{{article.id}}">Ajouter</a>
 																</div>
 
 																<div class="modal fade" id="chooseQty-{{article.id}}" aria-labelledby="label" aria-hidden="true">
@@ -198,7 +127,7 @@
 																				</div>
 																				<div class="modal-footer d-flex justify-content-center">
 																					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-																					<button type="submit" class="btn btn-perso" >Continuer</button>
+																					<button type="submit" class="btn btn-orange">Continuer</button>
 																				</div>
 																			</form>
 																		</div>

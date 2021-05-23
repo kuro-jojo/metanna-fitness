@@ -2,70 +2,6 @@
 
 {% block title %}Résiliation d'une inscription{% endblock %}
 
-{% block stylesheets %}
-	{{parent()}}
-	<style>
-		body {
-			overflow: hidden;
-		}
-		input[type="text"],
-		select {
-			outline: none;
-		}
-		input {
-			padding: 0;
-			border-radius: 0;
-			border: none;
-			font-size: 20px;
-			color: #bbb;
-			background: none;
-			letter-spacing: 1px;
-			word-spacing: 10px;
-			font-family: 'Arvo', sans-serif;
-			width: 80%;
-		}
-		.form {
-			border: 3px solid #b8b204;
-		}
-		.glyphicon {
-			color: #b8b204;
-			font-size: 20px;
-			line-height: 25px;
-			position: relative;
-			right: -15%;
-			cursor: pointer;
-		}
-
-
-		/** For table*/
-		th {
-			color: #000;
-			text-align: center;
-		}
-		td,
-		th {
-			text-align: center !important;
-			vertical-align: unset !important;
-		}
-
-		.table-responsive {
-			height: 75vh;
-			overflow: auto;
-			width: 95%;
-			margin-left: 50px
-		}
-		.header {
-			position: sticky;
-			top: 0;
-		}
-
-		.profil {
-			width: 100px;
-			height: 100px;
-			border-radius: 10px
-		}
-	</style>
-{% endblock %}
 {% block body %}
 	{% form_theme form 'form_div_layout.html.twig' %}
 	<div id="wrapper">
@@ -110,15 +46,15 @@
 				</div>
 				{% if clientCode is not null and client is null and error is null %}
 					<div class="text-center justify-content-center mt-5">
-						<h2 class="text-dark">Désolé
+						<h2 class="text-white">Désolé
 							<br>
 							Aucun client ne correspond à votre recherche</h2>
 					</div>
 				{% endif %}
 				{%  if client is not null %}
 					<div class="table-responsive mt-5">
-						<table class="table table-hover">
-							<thead class="thead-dark">
+						<table class="table">
+							<thead class="thead-light">
 								<tr>
 									<th class="header" scope="col">Code client</th>
 									<th class="header" scope="col">Nom</th>
@@ -134,16 +70,16 @@
 
 							<tbody>
 								<tr class="">
-									<th scope="row">{{client.id}}</th>
-									<td>{{client.nom}}</td>
-									<td>{{client.prenom}}</td>
-									<td>{{client.telephone}}</td>
-									<td></td>
+									<th class="text-white" scope="row">{{client.id}}</th>
+									<td class="text-white">{{client.nom}}</td>
+									<td class="text-white">{{client.prenom}}</td>
+									<td class="text-white">{{client.telephone}}</td>
+									<td class="text-white">{{client.email}}</td>
 
-									<td>{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+									<td class="text-white">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
 									{% if client.myRegistration is not null %}
-										<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-										<td class="td">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
+										<td class="text-white">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+										<td class="text-white">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
 										<td class="text-info">Inscrit</td>
 									{% else %}
 										<td></td>
@@ -166,7 +102,7 @@
 					<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
-								<div class="modal-header text-warning">
+								<div class="modal-header text-orange">
 									<h5 class="modal-title" id="exampleModalLabel">Résiliation de l'inscription</h5>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>

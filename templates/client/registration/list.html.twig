@@ -1,6 +1,7 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Liste des inscrits {% endblock %}
+{% block title %}Liste des inscrits
+{% endblock %}
 
 {% block stylesheets %}
 	{{parent()}}
@@ -45,23 +46,35 @@
 {% block body %}
 	<div id="wrapper">
 		{% include "layouts/partials/_sidebar.html.twig" %}
-		<!-- Content Wrapper -->
-		<div
-			id="content-wrapper" class="d-flex flex-column">
-			<!-- Main Content -->
+		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content" class="content">
 
 				{% include "layouts/partials/_nav.html.twig" %}
-				<h1 class="h2 text-dark text-decoration-underline mb-2 text-center">Liste des clients inscrits à la salle</h1>
+				<h1 class="h2 text-white text-decoration-underline mb-2 text-center">Liste des clients inscrits à la salle</h1>
 
-				<div class="  py-5">
-					<div
-						class="mx-auto bg-white rounded">
-
-						<!-- Fixed header table-->
+				<div class="mb-5">
+					<div class="mx-auto">
+						<div class="d-flex flex-row-reverse mr-5 mb-3 h-100 ">
+							<form action="{{path('app_client_registration_search')}}" id="form" method="GET">
+								<div class="searchbar">
+									<input class="search_input text-dark" type="text" name="clientCode" placeholder="Rechercher un client...">
+									<a href="#" class="search_icon" onclick="document.getElementById('form').submit();">
+										<i class="fas fa-search"></i>
+									</a>
+								</div>
+							</form>
+						</div>
+						<div class="form-check float-right mr-5 mb-2">
+							<input class="form-check-input" type="checkbox" value="" id="showCanceled" {{checked}} onchange="submitForm()">
+							<label class="form-check-label" for="showCanceled">
+								Uniquement les inscrits
+							</label>
+							<form action="{{path('app_client_registration_list',{showOnlyRegistered:true})}}" id="formTrue"></form>
+							<form action="{{path('app_client_registration_list',{showOnlyRegistered:false})}}" id="formFalse"></form>
+						</div>
 						<div class="table-responsive">
 							<table class="table table-hover">
-								<thead class="thead-dark">
+								<thead class="thead-light">
 									<tr>
 										<th class="header" scope="col">Code client</th>
 										<th class="header" scope="col">Nom</th>
@@ -76,38 +89,72 @@
 									</tr>
 								</thead>
 								<tbody>
-									{% for client in clients %}
-										<tr>
-											<th scope="row">{{client.id}}</th>
-											<td>{{client.nom}}</td>
-											<td>{{client.prenom}}</td>
-											<td>{{client.telephone}}</td>
-											<td>{{client.email}}</td>
-											<td>{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
-											{% if client.myRegistration is not null %}
-												<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-												<td class="td">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
-												<td class="td"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
-												<td class="text-info">Inscrit</td>
+									{% if client is defined %}
+										{% if client is not null %}
+											<tr>
+												<th class="text-white" scope="row">{{client.id}}</th>
+												<td class="text-white">{{client.nom}}</td>
+												<td class="text-white">{{client.prenom}}</td>
+												<td class="text-white">{{client.telephone}}</td>
+												<td class="text-white">{{client.email}}</td>
+												<td class="text-white">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+												{% if client.myRegistration is not null %}
+													<td class="text-white">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+													<td class="text-white">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
+													<td class="text-white"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
+													<td class="text-info">Inscrit</td>
 
-											{% else %}
-												<td></td>
-												<td></td>
-												<td class="td"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
-												<td class="text-info">Inscription résiliée</td>
-											{% endif %}
-										</tr>
-									{% endfor %}
+												{% else %}
+													<td></td>
+													<td></td>
+													<td class="text-white"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
+													<td class="text-info">Inscription résiliée</td>
+												{% endif %}
+											</tr>
+										{% endif %}
+									{% else %}
 
+										{% for client in clients %}
+											<tr>
+												<th class="text-white" scope="row">{{client.id}}</th>
+												<td class="text-white">{{client.nom}}</td>
+												<td class="text-white">{{client.prenom}}</td>
+												<td class="text-white">{{client.telephone}}</td>
+												<td class="text-white">{{client.email}}</td>
+												<td class="text-white">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+												{% if client.myRegistration is not null %}
+													<td class="text-white">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+													<td class="text-white">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
+													<td class="text-white"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
+													<td class="text-info">Inscrit</td>
+
+												{% else %}
+													<td></td>
+													<td></td>
+													<td class="text-white"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
+													<td class="text-info">Inscription résiliée</td>
+												{% endif %}
+											</tr>
+										{% endfor %}
+									{% endif %}
 								</tbody>
-							</table>
-						</div>
-						<!-- End -->
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
-
 			{% include "layouts/partials/_footer.html.twig" %}
 		</div>
 	</div>
+
+	<script>
+		function submitForm(){
+			var input = document.getElementById('showCanceled');
+			if (input.checked) {
+				document.getElementById('formTrue').submit();
+			}else{
+				document.getElementById('formFalse').submit();
+			}
+		}
+	</script>
 {% endblock %}
