@@ -1,80 +1,14 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Abonnement d'un client{% endblock %}
-
-{% block stylesheets %}
-	{{parent()}}
-	<style>
-		body {
-			overflow: hidden;
-		}
-		input[type="text"],
-		select {
-			outline: none;
-		}
-		input {
-			padding: 0;
-			border-radius: 0;
-			border: none;
-			font-size: 20px;
-			color: #bbb;
-			background: none;
-			letter-spacing: 1px;
-			word-spacing: 10px;
-			font-family: 'Arvo', sans-serif;
-			width: 80%;
-		}
-		.form {
-			border: 3px solid #b8b204;
-		}
-		.glyphicon {
-			color: #b8b204;
-			font-size: 20px;
-			line-height: 25px;
-			position: relative;
-			right: -15%;
-			cursor: pointer;
-		}
-
-
-		/** For table*/
-		th {
-			color: #000;
-			text-align: center;
-		}
-		td,
-		th {
-			text-align: center !important;
-			vertical-align: unset !important;
-		}
-		.table-responsive {
-			height: 75vh;
-			overflow: auto;
-			width: 95%;
-			margin-left: 50px
-		}
-		.header {
-			position: sticky;
-			top: 0;
-		}
-
-
-		.profil {
-			width: 100px;
-			height: 100px;
-			border-radius: 10px
-		}
-	</style>
+{% block title %}Abonnement d'un client
 {% endblock %}
 
 {% block body %}
 	{% form_theme form 'form_div_layout.html.twig' %}
 	<div id="wrapper" onload="dateMax()">
 		{% include "layouts/partials/_sidebar.html.twig" %}
-		<!-- Content Wrapper -->
-		<div
-			id="content-wrapper" class="d-flex flex-column">
-			<!-- Main Content -->
+
+		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content" class="content">
 
 				{% include "layouts/partials/_nav.html.twig" %}
@@ -82,13 +16,13 @@
 				<div class="row mt-5">
 					<div class="col-sm-5 mx-auto">
 						<div
-							class="bg-white text-dark  rounded shadow mt-5">
+							class="bg-white mt-5">
 
-							<!-- Underlined search bars with buttons -->
 							<div class="form">
 								{{form_start(form,{
 									'attr' : {
-										'id':'form'
+										'id':'form',
+										'class' :'p-2'
 									}
 									}
 								)}}
@@ -111,7 +45,7 @@
 				</div>
 				{% if clientCode is not null and client is null and error is null %}
 					<div class="text-center justify-content-center mt-5">
-						<h2 class="text-dark">Désolé
+						<h2 class="text-white">Désolé
 							<br>
 							Aucun client ne correspond à votre recherche</h2>
 					</div>
@@ -119,48 +53,48 @@
 				{%  if client is not null %}
 					<div class="table-responsive mt-5">
 						<table class="table table-hover">
-							<thead class="thead-dark">
+							<thead class="thead-light">
 								<tr>
-									<th scope="col">Code client</th>
-									<th scope="col">Nom</th>
-									<th scope="col">Prénom(s)</th>
-									<th scope="col">Téléphone</th>
-									<th scope="col">Email</th>
-									<th scope="col">Date de Naissance</th>
-									<th scope="col">Date d'inscription</th>
-									<th scope="col">Fin de l'abonnement</th>
-									<th scope="col">Montant</th>
-									<th scope="col">Statut de l'abonnement</th>
+									<th class="header" scope="col">Code client</th>
+									<th class="header" scope="col">Nom</th>
+									<th class="header" scope="col">Prénom(s)</th>
+									<th class="header" scope="col">Téléphone</th>
+									<th class="header" scope="col">Email</th>
+									<th class="header" scope="col">Date de Naissance</th>
+									<th class="header" scope="col">Date d'inscription</th>
+									<th class="header" scope="col">Fin de l'abonnement</th>
+									<th class="header" scope="col">Montant</th>
+									<th class="header" scope="col">Statut de l'abonnement</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<th scope="row">{{client.id}}</th>
-									<td>{{client.nom}}</td>
-									<td>{{client.prenom}}</td>
-									<td>{{'+221 '~ client.telephone}}</td>
-									<td>{{client.email}}</td>
+									<th class="text-white" scope="row">{{client.id}}</th>
+									<td class="text-white">{{client.nom}}</td>
+									<td class="text-white">{{client.prenom}}</td>
+									<td class="text-white">{{'+221 '~ client.telephone}}</td>
+									<td class="text-white">{{client.email}}</td>
 
 									{% if client.dateNaissance is not null %}
-										<td>{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+										<td class="text-white">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
 									{% else %}
 										<td></td>
 									{% endif %}
 									{% if client.myRegistration is not null %}
-										<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+										<td class="text-white">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
 									{% else %}
 										<td></td>
 									{% endif %}
 									{% if client.mySubscription is not null %}
-										<td>{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
-										<td class="td">{{client.mySubscription.amountOfSubs  ~ ' FCFA'}}</td>
+										<td class="text-white">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
+										<td class="text-white">{{client.mySubscription.amountOfSubs  ~ ' FCFA'}}</td>
 										{% set content = "" %}
 										{% set color = "success" %}
 										{% if timeRemaining is null %}
 											{% if client.mySubscription.startOfSubs > client.myRegistration.dateOfRegistration %}
 												{% set content = "En cours" %}
-												{% else %}	
-											{% set content = "Pas démarré" %}
+											{% else %}
+												{% set content = "Pas démarré" %}
 											{% endif %}
 											{% set color = "info" %}
 										{% else %}
@@ -195,10 +129,10 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title text-warning" id="exampleModalLabel">Renouvelement de l'abonnement</h5>
+									<h5 class="modal-title text-dark" id="exampleModalLabel">Renouvelement de l'abonnement</h5>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
-								<div class="modal-body text-dark text-center	">
+								<div class="modal-body text-dark text-center">
 									<p>Souhaitez-vous renouveler l'abonnement de
 										<br>M ou  Mme
 										{{client.nom}}
@@ -206,7 +140,7 @@
 								</div>
 								<div class="modal-footer justify-content-center">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-									<a href="{{path("app_client_subscription_renew",{id:client.id})}}" class="btn text-dark" style="background-color: #e0ca00">Confirmer</a>
+									<a href="{{path("app_client_subscription_renew",{id:client.id})}}" class="btn btn-success">Confirmer</a>
 								</div>
 							</div>
 						</div>
