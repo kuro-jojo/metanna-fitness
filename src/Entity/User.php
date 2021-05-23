@@ -78,7 +78,7 @@ class User implements UserInterface
     private $subsRealized;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sales::class, mappedBy="responsableOfSale")
+     * @ORM\OneToMany(targetEntity=Sale::class, mappedBy="responsableOfSale")
      */
     private $mySales;
 
@@ -278,14 +278,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Sales[]
+     * @return Collection|Sale[]
      */
     public function getMySales(): Collection
     {
         return $this->mySales;
     }
 
-    public function addMySale(Sales $mySale): self
+    public function addMySale(Sale $mySale): self
     {
         if (!$this->mySales->contains($mySale)) {
             $this->mySales[] = $mySale;
@@ -295,7 +295,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeMySale(Sales $mySale): self
+    public function removeMySale(Sale $mySale): self
     {
         if ($this->mySales->removeElement($mySale)) {
             // set the owning side to null (unless already changed)

@@ -44,7 +44,6 @@ class ArticleRepository extends ServiceEntityRepository
             ->andWhere('a.label LIKE :val')
             ->setParameter('val', '%'.$label.'%')
             ->getQuery()
-            ->getResult()
         ;
     }
 }
