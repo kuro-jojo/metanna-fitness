@@ -70,7 +70,7 @@ class ResponsableController extends AbstractController
                     ->htmlTemplate('responsable/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-            $this->flashy->primaryDark("Le responsable a bien reçu le mail de confirmation", $this->generateUrl("app_home"));
+            $this->flashy->primaryDark("Le mail de confirmation a été envoyé", $this->generateUrl("app_home"));
             return $this->redirectToRoute('app_register_responsable');
         }
 
