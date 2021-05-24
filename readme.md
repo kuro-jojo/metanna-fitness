@@ -32,7 +32,7 @@ Cette application gère une salle de sport
     heroku login 
     heroku create app_name
     heroku config:set APP_ENV=prod -- change the environnement
-    heroku config:set APP_SECRET=$(php -r 'echo bin2hex(random_bytes(16))';)
+    heroku config:set APP_SECRET=$(php -r 'echo bin2hex(random_bytes(16));')
     heroku buildpacks:add --index 1 heroku/nodejs  
     heroku config:set USE_NPM_INSTALL=true    
     
