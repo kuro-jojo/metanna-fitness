@@ -112,6 +112,12 @@
     "fzaninotto/faker": {
         "version": "v1.9.2"
     },
+    "knplabs/knp-components": {
+        "version": "v3.0.2"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.4.2"
+    },
     "kriswallsmith/assetic": {
         "version": "v1.0.5"
     },
@@ -499,9 +505,6 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
-    },
-    "symfony/twig-pack": {
-        "version": "v1.0.1"
     },
     "symfony/validator": {
         "version": "4.3",
