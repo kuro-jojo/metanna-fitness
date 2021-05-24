@@ -56,9 +56,9 @@
 					<div class="mx-auto">
 						<div class="d-flex flex-row-reverse mr-5 mb-3 h-100 ">
 							<form action="{{path('app_client_registration_search')}}" id="form" method="GET">
-								<div class="searchbar">
+								<div class="searchbar searchbar-light">
 									<input class="search_input text-dark" type="text" name="clientCode" placeholder="Rechercher un client...">
-									<a href="#" class="search_icon" onclick="document.getElementById('form').submit();">
+									<a href="#" class="search-icon" onclick="document.getElementById('form').submit();">
 										<i class="fas fa-search"></i>
 									</a>
 								</div>
@@ -95,12 +95,12 @@
 												<th class="text-white" scope="row">{{client.id}}</th>
 												<td class="text-white">{{client.nom}}</td>
 												<td class="text-white">{{client.prenom}}</td>
-												<td class="text-white">{{client.telephone}}</td>
+												<td class="text-white">{{'+221 ' ~ client.telephone}}</td>
 												<td class="text-white">{{client.email}}</td>
 												<td class="text-white">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
 												{% if client.myRegistration is not null %}
 													<td class="text-white">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-													<td class="text-white">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
+													<td class="text-white">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
 													<td class="text-white"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
 													<td class="text-info">Inscrit</td>
 
@@ -119,12 +119,12 @@
 												<th class="text-white" scope="row">{{client.id}}</th>
 												<td class="text-white">{{client.nom}}</td>
 												<td class="text-white">{{client.prenom}}</td>
-												<td class="text-white">{{client.telephone}}</td>
+												<td class="text-white">{{'+221 ' ~ client.telephone}}</td>
 												<td class="text-white">{{client.email}}</td>
 												<td class="text-white">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
 												{% if client.myRegistration is not null %}
 													<td class="text-white">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-													<td class="text-white">{{client.myRegistration.amountOfRegistration ~ ' FCFA'}}</td>
+													<td class="text-white">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
 													<td class="text-white"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></td>
 													<td class="text-info">Inscrit</td>
 
@@ -148,13 +148,13 @@
 	</div>
 
 	<script>
-		function submitForm(){
-			var input = document.getElementById('showCanceled');
-			if (input.checked) {
-				document.getElementById('formTrue').submit();
-			}else{
-				document.getElementById('formFalse').submit();
-			}
-		}
+		function submitForm() {
+var input = document.getElementById('showCanceled');
+if (input.checked) {
+document.getElementById('formTrue').submit();
+} else {
+document.getElementById('formFalse').submit();
+}
+}
 	</script>
 {% endblock %}

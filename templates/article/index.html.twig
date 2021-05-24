@@ -3,10 +3,6 @@
 {% block title %}Vente de produits
 {% endblock %}
 
-{% block stylesheets %}
-	{{parent()}}
-	<style></style>
-{% endblock %}
 {% block body %}
 	<div id="wrapper">
 		{% include "layouts/partials/_sidebar.html.twig" %}
@@ -26,9 +22,9 @@
 							{# Recherche de produits #}
 							<div class="d-flex justify-content-center h-100">
 								<form action="{{path('app_article_search',{id:id})}}" id="form" method="GET">
-									<div class="searchbar">
+									<div class="searchbar searchbar-dark">
 										<input class="search_input text-white" type="text" name="label" placeholder="Rechercher un article...">
-										<a href="#" class="search_icon" onclick="document.getElementById('form').submit();">
+										<a href="#" class="search-icon" onclick="document.getElementById('form').submit();">
 											<i class="fas fa-search"></i>
 										</a>
 									</div>
@@ -87,7 +83,12 @@
 										{% for article in articles %}
 											<div class="col-md-4 mb-3">
 												<div class="card">
-													<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+												{% if article.imageFileName is not null %}
+													<img class="card-img" src="{{asset('uploads/product/' ~ article.imageFileName)}}" alt="Card image cap">
+													{% else %}
+													<img class="card-img" src="{{asset('img/product/product.png')}}" alt="Card image cap">
+														
+												{% endif %}
 													<div class="card-body">
 														<h4 class="card-title text-dark">{{article.label}}
 														</h4>
@@ -95,7 +96,7 @@
 														<div class="row">
 															<div class="col-md-12">
 																<p class="text-dark d-block fw-bold">Prix :
-																	{{article.price ~ ' FCFA'}}</p>
+																	{{article.price ~ ' XOF'}}</p>
 															</div>
 															{% if article.stock == 0 %}
 																<div class="col-md-12 mb-4 mt-3">
@@ -127,7 +128,7 @@
 																			</div>
 																			<div class="modal-footer d-flex justify-content-center">
 																				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-																				<button type="" class="btn btn-orange" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#amountModal-{{article.id}}" onclick="getAmount({{article.price}},'quantity-{{article.id}}','amount-{{article.id}}','quantityForm-{{article.id}}')">Continuer</button>
+																				<button type="" class="btn btn-orange" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#amountModal-{{article.id}}" onclick="getAmount({{article.price}},{{article.id}})">Continuer</button>
 																			</div>
 																		</div>
 																	</div>
@@ -142,12 +143,12 @@
 																				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
 																			</div>
-																			<form action="{{path('app_article_add',{id:article.id}) }}" id="form_add-{{article.id}}">
+																			<form action="{{path('app_article_sell',{id:article.id}) }}" id="form_add-{{article.id}}">
 
 																				<input type="hidden" name="quantity" id="quantityForm-{{article.id}}">
 																				<div class="modal-body mx-auto mt-2">
 																					Le montant total est de :<span id="amount-{{article.id}}" class="fw-bold">0</span>
-																					FCFA
+																					XOF
 																				</div>
 																				<div class="modal-footer d-flex justify-content-center">
 																					<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#chooseQty-{{article.id}}">Retour</button>
@@ -181,10 +182,10 @@
 	</div>
 
 	<script>
-		function getAmount(price, qtyID, amountID, inputHiddenId) {
-var quantity = document.getElementById(qtyID).value;
-document.getElementById(amountID).innerHTML = quantity * price;
-document.getElementById(inputHiddenId).value = quantity;
+		function getAmount(price, articleID) {
+var quantity = document.getElementById('quantity-' + articleID).value;
+document.getElementById('amount-' + articleID).innerHTML = quantity * price;
+document.getElementById('quantityForm-' + articleID).value = quantity;
 }
 	</script>
 {% endblock %}

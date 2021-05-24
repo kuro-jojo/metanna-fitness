@@ -15,8 +15,7 @@
 
 				<div class="row mt-5">
 					<div class="col-sm-5 mx-auto">
-						<div
-							class="bg-white mt-5">
+						<div class="bg-white mt-5">
 
 							<div class="form">
 								{{form_start(form,{
@@ -87,7 +86,7 @@
 									{% endif %}
 									{% if client.mySubscription is not null %}
 										<td class="text-white">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
-										<td class="text-white">{{client.mySubscription.amountOfSubs  ~ ' FCFA'}}</td>
+										<td class="text-white">{{client.mySubscription.amountOfSubs  ~ ' XOF'}}</td>
 										{% set content = "" %}
 										{% set color = "success" %}
 										{% if timeRemaining is null %}

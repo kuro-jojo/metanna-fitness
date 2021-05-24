@@ -53,16 +53,16 @@
 			<div id="content" class="content">
 
 				{% include "layouts/partials/_nav.html.twig" %}
-				<h1 class="h2 text-dark text-decoration-underline mb-2 text-center">Activités des responsables</h1>
+				<h1 class="h2 text-white text-decoration-underline mb-2 text-center">Activités des responsables</h1>
 
 				<div class="  py-5">
 					<div
-						class="mx-auto bg-white rounded">
+						class="mx-auto bg-dark rounded">
 
 						<!-- Fixed header table-->
 						<div class="table-responsive">
 							<table class="table table-hover">
-								<thead class="thead-dark">
+								<thead class="thead-light">
 									<tr>
 										<th class="header" scope="col">Code responsable</th>
 										<th class="header" scope="col">Nom</th>
@@ -76,16 +76,16 @@
 								<tbody>
 									{% for service in services %}
 										<tr>
-											<th scope="row">{{service.responsable.id}}</th>
-											<td>{{service.responsable.nom}}</td>
-											<td>{{service.responsable.prenom}}</td>
-											<td>{{service.responsable.telephone}}</td>
-											<td>{{service.responsable.email}}</td>
-											<td>{{service.startOfService|localizeddate('long', 'medium', 'fr')}}</td>
+											<th class="text-white" scope="row">{{service.responsable.id}}</th>
+											<td class="text-white">{{service.responsable.nom}}</td>
+											<td class="text-white">{{service.responsable.prenom}}</td>
+											<td class="text-white">{{service.responsable.telephone}}</td>
+											<td class="text-white">{{service.responsable.email}}</td>
+											<td class="text-white">{{service.startOfService|localizeddate('long', 'medium', 'fr')}}</td>
 											{% if service.endOfService is not null %}
-											<td>{{service.endOfService|localizeddate('long', 'medium', 'fr')}}</td>
+												<td class="text-white">{{service.endOfService|localizeddate('long', 'medium', 'fr')}}</td>
 											{% else %}
-												<td>ND</td>
+												<td class="text-white">ND</td>
 											{% endif %}
 										</tr>
 									{% endfor %}

@@ -23,14 +23,13 @@ class ArticleFixtures extends Fixture
         $category3 = new Category();
         $category3->setName('Vêtements');
         
-        for ($i=0; $i < 50; $i++) { 
+        for ($i=0; $i < 20; $i++) { 
             $article = new Article;
             $article->setLabel($faker->word);
             $article->setStock(rand(0,20));
             $article->setPrice($faker->numberBetween(50,5000));
             $article->setCategory($faker->randomElement($array = array($category1,$category2,$category3)));
-            $article->setImageFileName($faker->imageUrl(600, 400, 'cats', true, 'Faker'));
-            
+            $article->setCreatedAt(new \DateTime());
             $manager->persist($article);
         }
         $manager->persist($category1);

@@ -90,13 +90,17 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 							})
 						}}
 						<div class="col-md-6">
-							<label for="client_register_form_prenom" class="form-label">Prénom(s) du Client <span class="text-danger">*</span></label>
+							<label for="client_register_form_prenom" class="form-label">Prénom(s) du Client
+								<span class="text-danger">*</span>
+							</label>
 
 							{{form_widget(formClientRegister.registeredClient.prenom)}}
 							{{form_errors(formClientRegister.registeredClient.prenom)}}
 						</div>
 						<div class="col-md-6">
-							<label for="client_register_form_nom" class="form-label">Nom du Client <span class="text-danger">*</span></label>
+							<label for="client_register_form_nom" class="form-label">Nom du Client
+								<span class="text-danger">*</span>
+							</label>
 							{{form_widget(formClientRegister.registeredClient.nom)}}
 							{{form_errors(formClientRegister.registeredClient.nom)}}
 						</div>
@@ -104,7 +108,9 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 							<div class="row">
 								<div class="g-3">
 									<div class="col-md-12">
-										<label for="client_register_form_telephone" class="form-label">Téléphone <span class="text-danger">*</span></label>
+										<label for="client_register_form_telephone" class="form-label">Téléphone
+											<span class="text-danger">*</span>
+										</label>
 										{{form_widget(formClientRegister.registeredClient.telephone)}}
 										{{form_errors(formClientRegister.registeredClient.telephone)}}
 									</div>
@@ -125,8 +131,10 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 								</div>
 								<div class="g-2 mb-3">
 									<div class="col-md-12">
-									
-										<label for="client_register_form_photoProfil" class="form-label">Photo de profil <span class="text-danger">*</span></label>
+
+										<label for="client_register_form_photoProfil" class="form-label">Photo de profil
+											<span class="text-danger">*</span>
+										</label>
 										{{form_widget(formClientRegister.registeredClient.photoProfil)}}
 										{{form_errors(formClientRegister.registeredClient.photoProfil)}}
 									</div>
@@ -151,7 +159,7 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 							</div>
 							<div class="col-md-4 text-center">
 								<label for="client_registration_form_amountOfRegistration" class="form-label">Montant de l'inscription</label>
-								<input type="text" id="client_registration_form_amountOfRegistration" name="client_registration_form[amountOfRegistration]" required="required" disabled="disabled" class="text-center form-control" value="{{registration.amountOfRegistration ~ " FCFA"}}">
+								<input type="text" id="client_registration_form_amountOfRegistration" name="client_registration_form[amountOfRegistration]" required="required" disabled="disabled" class="text-center form-control" value="{{registration.amountOfRegistration ~ " XOF"}}">
 
 							</div>
 						</div>

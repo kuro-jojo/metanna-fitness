@@ -84,10 +84,14 @@ class RegistrationController extends AbstractController
             $client = $form->get('registeredClient')->getData();
 
             if ($data) {
-                $photoProfilName = $fileUploader->upload($data);
+                $photoProfilName = $fileUploader->upload($data,'profil');
                 $client->setProfilFileName($photoProfilName);
             }
 
+            // Remove the 00221 of the phone number
+           if (preg_match('/^(00221)/',$client->getTelephone() )) {
+               $client->setTelephone(substr($client->getTelephone(),5));
+           }
 
             $dateReg = clone $registration->getDateOfRegistration();
             date_add($dateReg, new DateInterval("P1Y"));
@@ -111,6 +115,10 @@ class RegistrationController extends AbstractController
             $client->setMyRegistration($registration);
             $client->setMySubscription($subscription);
 
+            // update user entity 
+            // $user = $this->getUser();
+            // $user->addRegistrationsRealized($registration);
+            // $user->addSubsRealized($subscription);
 
             $em->persist($client);
             $em->persist($registration);
@@ -128,9 +136,6 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-
-
-
     /**
      * @IsGranted("ROLE_RESPONSABLE")
      * @Route("/client/registration/cancel/{id<\d+>}", name="app_client_registration_cancel")
@@ -142,6 +147,7 @@ class RegistrationController extends AbstractController
     public function cancel(Client $client, Request $request, ClientRepository $clientRepository, EntityManagerInterface $em): Response
     {
         $em->remove($client->getMyRegistration());
+        $em->remove($client->getMySubscription());
         $em->flush();
         $this->flashy->info("Résiliation accomplie !!");
 

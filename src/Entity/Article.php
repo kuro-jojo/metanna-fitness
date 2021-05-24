@@ -37,7 +37,7 @@ class Article
     /**
      * @ORM\OneToMany(targetEntity=Sale::class, mappedBy="articleSold")
      */
-    private $sale;
+    private $sales;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
@@ -49,6 +49,11 @@ class Article
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imageFileName;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     public function __construct()
     {
@@ -99,32 +104,32 @@ class Article
     /**
      * @return Collection|Sale[]
      */
-    public function getSale(): Collection
+    public function getSales(): Collection
     {
-        return $this->sale;
+        return $this->sales;
     }
 
-    public function addSale(Sale $sale): self
-    {
-        if (!$this->sale->contains($sale)) {
-            $this->sale[] = $sale;
-            $sale->setArticleSold($this);
-        }
+    // public function addSales(Sales $sales): self
+    // {
+    //     if (!$this->sales->contains($sales)) {
+    //         $this->sales[] = $sales;
+    //         $sales->setArticleSold($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeSale(Sale $sale): self
-    {
-        if ($this->sale->removeElement($sale)) {
-            // set the owning side to null (unless already changed)
-            if ($sale->getArticleSold() === $this) {
-                $sale->setArticleSold(null);
-            }
-        }
+    // public function removeSales(Sales $sales): self
+    // {
+    //     if ($this->sales->removeElement($sales)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($sales->getArticleSold() === $this) {
+    //             $sales->setArticleSold(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getCategory(): ?Category
     {
@@ -146,6 +151,18 @@ class Article
     public function setImageFileName(?string $imageFileName): self
     {
         $this->imageFileName = $imageFileName;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -52,6 +52,17 @@ button {
     color: #000 !important;
 }
 
+.btn-outline-orange {
+    background-color: #FFF !important;
+    color: #000 !important;
+    border: 1px solid #FF4500 !important;
+}
+
+.btn-outline-orange:hover {
+    background-color: #FF4500 !important;
+    color: #FFF !important
+}
+
 .text-orange {
     color: #FF4500;
 }
@@ -150,6 +161,12 @@ th {
     margin-left: 50px
 }
 
+.table-responsive-v2 {
+    height: 75vh;
+    overflow: auto;
+    width: 58% !important;
+}
+
 .header {
     position: sticky;
     top: 0;
@@ -172,9 +189,16 @@ a:hover {
 .searchbar {
     margin-bottom: auto;
     height: 60px;
-    background-color: #3a3b45;
     border-radius: 30px;
     padding: 10px;
+}
+
+.searchbar-light {
+    background-color: #fff;
+}
+
+.searchbar-dark {
+    background-color: #3a3b45;
 }
 
 .search_input {
@@ -193,12 +217,12 @@ a:hover {
     transition: width 0.4s linear;
 }
 
-.searchbar:hover>.search_icon {
+.searchbar:hover>.search-icon {
     background: #FF4500;
     color: #fff;
 }
 
-.search_icon {
+.search-icon {
     height: 40px;
     width: 40px;
     float: right;
@@ -228,6 +252,10 @@ a:hover {
 
 .card-header {
     background-color: #FF4500 !important;
+}
+
+.card-img {
+    height: 200px;
 }
 
 .category_block:hover {

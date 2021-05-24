@@ -35,15 +35,29 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
         ;
     }
-    
 
-    
-    public function findByLabel($label)
+        
+    /**
+     * findByLabel
+     *
+     * @param  mixed $label
+     * @return void
+     */
+    public function findByLabelQuery($label)
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.label LIKE :val')
             ->setParameter('val', '%'.$label.'%')
             ->getQuery()
+        ;
+    }
+
+    public function findOrderedByCreatedAt()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt','DESC')
+            ->getQuery()
+            ->getResult()
         ;
     }
 }
