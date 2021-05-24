@@ -27,10 +27,14 @@ class RegistrationController extends AbstractController
     private const SETTING_CODE = "ADMIN";
 
     private $flashy;
+    private $clientRepository;
+    private $em;
 
-    public function __construct(FlashyNotifier $flashy)
+    public function __construct(FlashyNotifier $flashy,ClientRepository $clientRepository,EntityManagerInterface $em)
     {
         $this->flashy = $flashy;
+        $this->clientRepository = $clientRepository;
+        $this->em = $em;
     }
     /**
      * @IsGranted("ROLE_RESPONSABLE")
@@ -43,7 +47,7 @@ class RegistrationController extends AbstractController
      * @param  mixed $settingsRepository
      * @return Response
      */
-    public function register(Request $request, EntityManagerInterface $em, FileUploader $fileUploader, SettingsRepository $settingsRepository): Response
+    public function register(Request $request, FileUploader $fileUploader, SettingsRepository $settingsRepository): Response
     {
         $registration = new Registration;
         // $registration->setDateOfRegistration(new DateTime('now', new DateTimeZone("UTC")));
@@ -120,11 +124,11 @@ class RegistrationController extends AbstractController
             // $user->addRegistrationsRealized($registration);
             // $user->addSubsRealized($subscription);
 
-            $em->persist($client);
-            $em->persist($registration);
-            $em->persist($subscription);
+            $this->em->persist($client);
+            $this->em->persist($registration);
+            $this->em->persist($subscription);
 
-            $em->flush();
+            $this->em->flush();
 
             $this->flashy->success("Inscription réussie");
             return $this->redirectToRoute("app_client_registration_list");
@@ -142,13 +146,14 @@ class RegistrationController extends AbstractController
      * 
      * cancel the registration of a customer
      *
+     * @param  mixed $client
      * @return Response
      */
-    public function cancel(Client $client, Request $request, ClientRepository $clientRepository, EntityManagerInterface $em): Response
+    public function cancel(Client $client): Response
     {
-        $em->remove($client->getMyRegistration());
-        $em->remove($client->getMySubscription());
-        $em->flush();
+        $this->em->remove($client->getMyRegistration());
+        $this->em->remove($client->getMySubscription());
+        $this->em->flush();
         $this->flashy->info("Résiliation accomplie !!");
 
         return $this->redirectToRoute("app_client_registration_list");
@@ -156,19 +161,19 @@ class RegistrationController extends AbstractController
     /**
      * @IsGranted("ROLE_RESPONSABLE")
      * @Route("/client/registration/list/{showOnlyRegistered}",name="app_client_registration_list")
-     * list of all registred customers
-     *
-     * @param  mixed $clientRepository
+     * list of all registered customers
+     * 
+     * @param  mixed $showOnlyRegistered
      * @return Response
      */
-    public function listOfRegistration(bool $showOnlyRegistered = false, ClientRepository $clientRepository): Response
+    public function listOfRegistration(bool $showOnlyRegistered = false): Response
     {
         $checked = "";
         if ($showOnlyRegistered) {
-            $clients = $clientRepository->findOnlyRegistered();
+            $clients = $this->clientRepository->findOnlyRegistered();
             $checked = "checked";
         } else {
-            $clients = $clientRepository->findAll();
+            $clients = $this->clientRepository->findAll();
         }
         return $this->render("client/registration/list.html.twig", [
             'clients' => $clients,
