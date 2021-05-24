@@ -35,7 +35,7 @@ class Subscription
     private $amountOfSubs;
 
     /**
-     * @ORM\OneToOne(targetEntity=Client::class, inversedBy="mySubscription", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Client::class, inversedBy="mySubscription", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $subscribedClient;

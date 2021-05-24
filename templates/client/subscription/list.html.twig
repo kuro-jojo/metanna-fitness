@@ -52,7 +52,7 @@
 											{% endif %}
 											{% if client.mySubscription is not null %}
 												<td class="text-white p-3">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
-												<td class="text-white p-3">{{client.mySubscription.amountOfSubs ~ ' FCFA'}}</td>
+												<td class="text-white p-3">{{client.mySubscription.amountOfSubs ~ ' XOF'}}</td>
 
 												{% set content = "" %}
 												{% set color = "success" %}

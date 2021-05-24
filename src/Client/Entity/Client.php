@@ -64,12 +64,12 @@ class Client
      */
     private $dateNaissance;
     /**
-     * @ORM\OneToOne(targetEntity=Registration::class, mappedBy="registeredClient", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Registration::class, mappedBy="registeredClient", cascade={"persist"})
      */
     private $myRegistration;
 
     /**
-     * @ORM\OneToOne(targetEntity=Subscription::class, mappedBy="subscribedClient", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Subscription::class, mappedBy="subscribedClient", cascade={"persist"})
      */
     private $mySubscription;
 
@@ -79,7 +79,7 @@ class Client
     private $myActivities;
 
     /**
-     * @ORM\OneToOne(targetEntity=ClientCard::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=ClientCard::class, cascade={"persist"})
      */
     private $myCard;
 

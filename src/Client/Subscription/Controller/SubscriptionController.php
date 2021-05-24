@@ -45,6 +45,9 @@ class SubscriptionController extends AbstractController
         date_add($dateSubsEnd, new \DateInterval("P1M"));
         $subscription->setEndOfSubs($dateSubsEnd);
         
+        // $user = $this->getUser();
+        // $user->addSubsRealized($subscription);
+
         $em->flush();
         $this->flashy->info("Abonnement renouvelé !!");
 

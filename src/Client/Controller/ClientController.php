@@ -43,7 +43,8 @@ class ClientController extends AbstractController
         return $this->render('client/registration/list.html.twig', [
             'client' => $client,
             'error' => $error,
-            'clientCode' => $clientCode
+            'clientCode' => $clientCode,
+            'checked'=> ' '
         ]);
     }
 

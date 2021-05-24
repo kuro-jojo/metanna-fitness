@@ -3,10 +3,7 @@
 {% block title %}Historique de produits
 {% endblock %}
 
-{% block stylesheets %}
-	{{parent()}}
-	<style></style>
-{% endblock %}
+
 {% block body %}
 	<div id="wrapper">
 		{% include "layouts/partials/_sidebar.html.twig" %}
@@ -36,7 +33,7 @@
 							{% for sale in sales %}
 								<tr>
 									<th class="text-white p-3" scope="row">{{sale.articleSold.label}}</th>
-									<td class="text-white p-3">{{sale.articleSold.price}}</td>
+									<td class="text-white p-3">{{sale.articleSold.price ~ ' XOF'}}</td>
 									<td class="text-white p-3">{{sale.quantitySold}}</td>
 									<td class="text-white p-3">{{sale.previousStock}}</td>
 									<td class="text-white p-3">{{sale.dateOfSale|localizeddate('long', 'none', 'fr')}}</td>

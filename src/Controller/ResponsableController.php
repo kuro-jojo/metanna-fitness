@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ResponsableType;
 use App\Security\EmailVerifier;
-use App\Form\RegistrationFormType;
+use App\Form\ResponsableEditType;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,28 +27,30 @@ class ResponsableController extends AbstractController
     private $emailVerifier;
     private $flashy;
     private $em;
-    
+    private $passwordEncoder;
 
-    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $em, FlashyNotifier $flashy)
+
+    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $em, FlashyNotifier $flashy, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->emailVerifier = $emailVerifier;
         $this->em = $em;
         $this->flashy = $flashy;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
      * @IsGranted("ROLE_ADMIN")
      * @Route("/responsable/register", name="app_register_responsable")
      */
-    public function addResponsable(Request $request, UserPasswordEncoderInterface $passwordEncoder, FlashyNotifier $flashy): Response
+    public function addResponsable(Request $request): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(ResponsableType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
-                $passwordEncoder->encodePassword(
+                $this->passwordEncoder->encodePassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
@@ -67,12 +70,46 @@ class ResponsableController extends AbstractController
                     ->htmlTemplate('responsable/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-            $flashy->primaryDark("Le responsable a bien reçu le mail de confirmation", $this->generateUrl("app_home"));
+            $this->flashy->primaryDark("Le responsable a bien reçu le mail de confirmation", $this->generateUrl("app_home"));
             return $this->redirectToRoute('app_register_responsable');
         }
 
         return $this->render('responsable/register.html.twig', [
             'registrationForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @IsGranted("ROLE_RESPONSABLE")
+     * @Route("/responsable/editProfile", name="app_responsable_edit_profile")
+     * 
+     * editProfile
+     *
+     * @return Response
+     */
+    public function editProfile(Request $request): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(ResponsableEditType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('plainPassword')->getData() != null) {    
+                
+                $user->setPassword(
+                    $this->passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                        )
+                    );
+                }
+
+            $this->em->flush();
+            $this->flashy->success('Compte modiifié avec succès');
+            return $this->redirectToRoute('app_home');
+        }
+        return $this->render('responsable/edit_profile.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

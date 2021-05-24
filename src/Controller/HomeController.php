@@ -17,7 +17,6 @@ class HomeController extends AbstractController
      */
     public function index(Request $request,SessionInterface $session): Response
     {
-
         return $this->render('home/index.html.twig');
     }
 }
