@@ -3,3 +3,10 @@ services:
     mailer:
         image: schickling/mailcatcher
         ports: [1025,1080] 
+    database:
+        image: postgres:13-alpine
+        environment:
+            POSTGRES_USER: main
+            POSTGRES_PASSWORD: main
+            POSTGRES_DB: salle_pgsql
+        ports: [5432]

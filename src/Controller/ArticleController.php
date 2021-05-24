@@ -33,7 +33,7 @@ class ArticleController extends AbstractController
     private $em;
     private $flashy;
 
-    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator, EntityManagerInterface $em,FlashyNotifier $flashy)
+    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator, EntityManagerInterface $em, FlashyNotifier $flashy)
     {
         $this->articleRepository = $articleRepository;
         $this->categoryRepository = $categoryRepository;
@@ -50,7 +50,7 @@ class ArticleController extends AbstractController
      * @param  mixed $request
      * @return Response
      */
-    public function listOfArticles(int $id = -1, string $article = "", Request $request): Response
+    public function listOfArticles(Request $request, int $id = -1, string $article = ""): Response
     {
         $categories = $this->categoryRepository->findAll();
         $error_category = null;
@@ -91,7 +91,7 @@ class ArticleController extends AbstractController
      * @param  mixed $categoryRepository
      * @return Response
      */
-    public function articleSearch(int $id = -1, Request $request): Response
+    public function articleSearch(Request $request, int $id = -1): Response
     {
         $label = $request->query->get('label');
 
@@ -107,8 +107,14 @@ class ArticleController extends AbstractController
     /**
      * @IsGranted("ROLE_RESPONSABLE")
      * @Route("/sell/{id<\d+>}" , name="_sell")
+     * 
+     * sell an article
+     *
+     * @param  mixed $article
+     * @param  mixed $request
+     * @return Response
      */
-    public function sellArticle(Article $article, Request $request, SessionInterface $session): Response
+    public function sellArticle(Article $article, Request $request): Response
     {
         // First way to treat the sale : sell each article separately (wihtout session)
 
@@ -177,6 +183,8 @@ class ArticleController extends AbstractController
      * @Route("/add",name="_add")
      * add a new Article
      *
+     * @param  mixed $request
+     * @param  mixed $fileUploader
      * @return Response
      */
     public function addArticle(Request $request, FileUploader $fileUploader): Response
@@ -207,7 +215,9 @@ class ArticleController extends AbstractController
      * @Route("/edit/{id<\d+>}" , name="_edit",methods={"GET","PUT"})
      * edit an article
      *
+     * @param  mixed $article
      * @param  mixed $request
+     * @param  mixed $fileUploader
      * @return Response
      */
     public function editArticle(Article $article, Request $request, FileUploader $fileUploader): Response

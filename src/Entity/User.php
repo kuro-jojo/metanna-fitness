@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use App\Client\Registration\Entity\Registration;
@@ -17,6 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="responsable")
  * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
  */
 class User implements UserInterface

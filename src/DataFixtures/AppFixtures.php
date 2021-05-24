@@ -28,7 +28,7 @@ class AppFixtures extends Fixture
         $user->setTelephone("77 830 96 15");
         $user->setRoles(["ROLE_ADMIN", "ROLE_RESPONSABLE"]);
         $user->setPassword($this->encoder->encodePassword($user,"admin"));
-
+        $user->setIsVerified(true);
         $manager->persist($user);
 
         $settings = new Settings;
