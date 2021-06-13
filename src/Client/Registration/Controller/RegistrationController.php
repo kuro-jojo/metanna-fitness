@@ -36,10 +36,10 @@ class RegistrationController extends AbstractController
         $this->clientRepository = $clientRepository;
         $this->em = $em;
     }
+
+    #[Route('/client/register', name: 'app_register_client')]
     /**
      * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/register", name="app_register_client")
-     * 
      * register Allow to register a new customer
      *
      * @param  mixed $request
@@ -140,10 +140,10 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    
+    #[Route('/client/registration/cancel/{id<\d+>}', name: 'app_client_registration_cancel')]
     /**
      * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/registration/cancel/{id<\d+>}", name="app_client_registration_cancel")
-     * 
      * cancel the registration of a customer
      *
      * @param  mixed $client
@@ -158,9 +158,10 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute("app_client_registration_list");
     }
+
+    #[Route('/client/registration/list/{showOnlyRegistered}', name: 'app_client_registration_list')]
     /**
      * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/registration/list/{showOnlyRegistered}",name="app_client_registration_list")
      * list of all registered customers
      * 
      * @param  mixed $showOnlyRegistered

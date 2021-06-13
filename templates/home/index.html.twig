@@ -1,50 +1,37 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Accueil
-{% endblock %}
+{% extends "base.html.twig" %}
 
 {% block body %}
-	<!-- Page Wrapper -->
-	<div
-		id="wrapper">
-
-		<!-- Sidebar -->
-		{% include "layouts/partials/_sidebar.html.twig" %}
-
-		<!-- Content Wrapper -->
-		<div id="content-wrapper" class="d-flex flex-column">
-			<!-- Main Content -->
-			<div id="content">
-				{% include "layouts/partials/_nav.html.twig" %}
-
-				<!-- Topbar -->
-				<!-- Begin Page Content -->
-				<div
-					class="container-fluid">
-
-					<!-- Page Heading -->
-					<h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+	<div class="content-wrapper">
+		<div class="content-header">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1 class="m-0">Dashboard</h1>
+					</div>
 
 				</div>
-				<!-- /.container-fluid -->
-
+				<!-- /.row -->
 			</div>
-			<!-- End of Main Content -->
-
-			<!-- Footer -->
-			{% include "layouts/partials/_footer.html.twig" %}
-			<!-- End of Footer -->
-
+			<!-- /.container-fluid -->
 		</div>
-		<!-- End of Content Wrapper -->
+		<!-- /.content-header -->
 
+		<!-- /.content -->
 	</div>
-	<!-- End of Page Wrapper -->
+	<!-- /.content-wrapper -->
 
-	<!-- Scroll to Top Button-->
-	<a class="scroll-to-top rounded" href="#page-top">
-		<i class="fas fa-angle-up"></i>
-	</a>
+	
+	<!-- /.control-sidebar -->
 
+	<!-- Main Footer -->
+	<footer class="main-footer">
+		<strong>Copyright &copy; 2014-2021
+			<a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+		All rights reserved.
+		<div class="float-right d-none d-sm-inline-block">
+			<b>Version</b>
+			3.1.0
+		</div>
+	</footer>
 
 {% endblock %}

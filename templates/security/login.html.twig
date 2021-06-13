@@ -21,22 +21,16 @@
 {% endblock %}
 {% block body %}
 	<form method="post" class="user" novalidate>
-		{# {% if error %}
-			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-		{% endif %} #}
 
-		<div
-			class="container" style="margin-top: 10%">
 
-			<!-- Outer Row -->
+		<div class="container" style="margin-top: 10%">
+
 			<div class="row justify-content-center">
 
 				<div class="col-xl-7">
 
 					<div class="card o-hidden border-0 shadow-lg my-5">
-						<div
-							class=" p-0">
-							<!-- Nested Row within Card Body -->
+						<div class=" p-0">
 							<div class="row">
 
 								<div class="col-lg-6 d-none d-lg-block bg-login-image" style="background-image: url({{asset('img/logo.jpg')}});"></div>

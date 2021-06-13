@@ -4,183 +4,172 @@
 {% endblock %}
 
 {% block body %}
-	<div id="wrapper">
-		{% include "layouts/partials/_sidebar.html.twig" %}
-		<!-- Content Wrapper -->
-		<div
-			id="content-wrapper" class="d-flex flex-column">
-			<!-- Main Content -->
-			<div id="content" class="content">
+	<div class="content-wrapper">
+		<div class="d-grid gap-2 col-6 mx-auto mb-5">
+			<div class="col">
+				<div class="h-100 p-5 text-dark bg-light rounded-3">
+					<h2 class="text-center mb-4">Nos produits</h2>
+					<p class="text-center">Retrouver dans cette rubrique tous les produits disponibles à la vente. Faite une recherche pour trouver rapidement un produit.</p>
 
-				{% include "layouts/partials/_nav.html.twig" %}
-				<div class="d-grid gap-2 col-6 mx-auto mb-5">
-					<div class="col">
-						<div class="h-100 p-5 text-dark bg-light rounded-3">
-							<h2 class="text-center mb-4">Nos produits</h2>
-							<p class="text-center">Retrouver dans cette rubrique tous les produits disponibles à la vente. Faite une recherche pour trouver rapidement un produit.</p>
-
-							{# Recherche de produits #}
-							<div class="d-flex justify-content-center h-100">
-								<form action="{{path('app_article_search',{id:id})}}" id="form" method="GET">
-									<div class="searchbar searchbar-dark">
-										<input class="search_input text-white" type="text" name="label" placeholder="Rechercher un article...">
-										<a href="#" class="search-icon" onclick="document.getElementById('form').submit();">
-											<i class="fas fa-search"></i>
-										</a>
-									</div>
-								</form>
+					{# Recherche de produits #}
+					<div class="d-flex justify-content-center h-100">
+						<form action="{{path('app_article_search',{id:id})}}" id="form" method="GET">
+							<div class="searchbar searchbar-dark">
+								<input class="search_input text-white" type="text" name="label" placeholder="Rechercher un article...">
+								<a href="#" class="search-icon" onclick="document.getElementById('form').submit();">
+									<i class="fas fa-search"></i>
+								</a>
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
-				{% if categories is empty %}
-					<div class="text-center text-white">
-						<h2>Désolé!!
-							<br>Aucun produit disponible</h2>
-					</div>
-				{% else %}
-					<div class="container  container-perso">
-						<div class="row">
-							<div class="col">
-								<nav aria-label="breadcrumb">
-									<ol class="breadcrumb">
-										<li class="breadcrumb-item">
-											<a href="#">Produits</a>
-										</li>
-										<li class="breadcrumb-item">
-											<a href="#">Categorie</a>
-										</li>
-										{% if category is defined %}
-											<li class="breadcrumb-item active" aria-current="page">{{category}}</li>
-										{% endif %}
-									</ol>
-								</nav>
-							</div>
-						</div>
-					</div>
-					<div class="container container-perso">
-						<div class="row">
-							<div class="col-12 col-sm-3">
-								<div class="card bg-light mb-3">
-									<div class="card-header text-white text-uppercase">
-										<i class="fa fa-list"></i>
-										Categories</div>
-									<ul class="list-group category_block">
-										{% for category in categories %}
-											<li class="list-group-item ">
-												<a href="{{path('app_article_list',{id:category.id})}}" class="d-block">{{category.name}}</a>
-											</li>
-										{% endfor %}
-									</ul>
-								</div>
-							</div>
-							<div class="col">
-								<div class="row">
-									{% if articles is empty %}
-										<h1 class="text-center text-dark mt-5">Aucun produit</h1>
-
-									{% else %}
-										{% for article in articles %}
-											<div class="col-md-4 mb-3">
-												<div class="card">
-												{% if article.imageFileName is not null %}
-													<img class="card-img" src="{{asset('uploads/product/' ~ article.imageFileName)}}" alt="Card image cap">
-													{% else %}
-													<img class="card-img" src="{{asset('img/product/product.png')}}" alt="Card image cap">
-														
-												{% endif %}
-													<div class="card-body">
-														<h4 class="card-title text-dark">{{article.label}}
-														</h4>
-														<p class="mb-5"></p>
-														<div class="row">
-															<div class="col-md-12">
-																<p class="text-dark d-block fw-bold">Prix :
-																	{{article.price ~ ' XOF'}}</p>
-															</div>
-															{% if article.stock == 0 %}
-																<div class="col-md-12 mb-4 mt-3">
-																	<p class="text-danger d-block text-center fw-bold">En rupture de stock</p>
-																</div>
-															{% else %}
-																<div class="col-md-12">
-																	<p class="text-dark d-block">Quantité disponible :
-																		{{article.stock }}</p>
-																</div>
-																<div class="col">
-																	<a href="#" class="btn btn-orange btn-block" data-bs-toggle="modal" data-bs-target="#chooseQty-{{article.id}}">Ajouter</a>
-																</div>
-
-																<div class="modal fade" id="chooseQty-{{article.id}}" aria-labelledby="label" aria-hidden="true">
-																	<div class="modal-dialog">
-																		<div class="modal-content text-dark">
-																			<div class="modal-header">
-																				<h5 class="modal-title" id="label">Quantité</h5>
-																				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-																			</div>
-
-																			<div class="modal-body mx-auto mt-2">
-																				Choisissez la quantité de produit "{{article.label}}":
-																				<div class="col-4 mx-auto mt-4">
-																					<input id="quantity-{{article.id}}" type="number" class="form-control" min="0" max={{article.stock}} value="0" name="quantity">
-																				</div>
-																			</div>
-																			<div class="modal-footer d-flex justify-content-center">
-																				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-																				<button type="" class="btn btn-orange" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#amountModal-{{article.id}}" onclick="getAmount({{article.price}},{{article.id}})">Continuer</button>
-																			</div>
-																		</div>
-																	</div>
-
-																</div>
-
-																<div class="modal fade" id="amountModal-{{article.id}}" aria-labelledby="label" aria-hidden="true">
-																	<div class="modal-dialog">
-																		<div class="modal-content text-dark">
-																			<div class="modal-header">
-																				<h5 class="modal-title" id="label">Montant à payer</h5>
-																				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-																			</div>
-																			<form action="{{path('app_article_sell',{id:article.id}) }}" id="form_add-{{article.id}}">
-
-																				<input type="hidden" name="quantity" id="quantityForm-{{article.id}}">
-																				<div class="modal-body mx-auto mt-2">
-																					Le montant total est de :<span id="amount-{{article.id}}" class="fw-bold">0</span>
-																					XOF
-																				</div>
-																				<div class="modal-footer d-flex justify-content-center">
-																					<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#chooseQty-{{article.id}}">Retour</button>
-																					<button type="submit" class="btn btn-success">Confirmer
-																					</button>
-																				</div>
-
-																			</form>
-																		</div>
-																	</div>
-
-																</div>
-															{% endif %}
-														</div>
-													</div>
-												</div>
-											</div>
-										{% endfor %}
-
-									</div>
-									<div class="d-flex mt-4 container-perso navigation justify-content-center">
-										{{ knp_pagination_render(articles) }}
-									</div>
-								{% endif %}
-							</div>
-						</div>
-					</div>
-				{% endif %}
 			</div>
 		</div>
-	</div>
+		{% if categories is empty %}
+			<div class="text-center text-white">
+				<h2>Désolé!!
+					<br>Aucun produit disponible</h2>
+			</div>
+		{% else %}
+			<div class="container  container-perso">
+				<div class="row">
+					<div class="col">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item">
+									<a href="#">Produits</a>
+								</li>
+								<li class="breadcrumb-item">
+									<a href="#">Categorie</a>
+								</li>
+								{% if category is defined %}
+									<li class="breadcrumb-item active" aria-current="page">{{category}}</li>
+								{% endif %}
+							</ol>
+						</nav>
+					</div>
+				</div>
+			</div>
+			<div class="container container-perso">
+				<div class="row">
+					<div class="col-12 col-sm-3">
+						<div class="card bg-light mb-3">
+							<div class="card-header text-white text-uppercase">
+								<i class="fa fa-list"></i>
+								Categories</div>
+							<ul class="list-group category_block">
+								{% for category in categories %}
+									<li class="list-group-item ">
+										<a href="{{path('app_article_list',{id:category.id})}}" class="d-block">{{category.name}}</a>
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="col">
+						<div class="row">
+							{% if articles is empty %}
+								<h1 class="text-center text-dark mt-5">Aucun produit</h1>
 
+							{% else %}
+								{% for article in articles %}
+									<div class="col-md-4 mb-3">
+										<div class="card">
+											{% if article.imageFileName is not null %}
+												<img class="card-img" src="{{asset('uploads/product/' ~ article.imageFileName)}}" alt="Card image cap">
+											{% else %}
+												<img class="card-img" src="{{asset('img/product/product.png')}}" alt="Card image cap">
+
+											{% endif %}
+											<div class="card-body">
+												<h4 class="card-title text-dark">{{article.label}}
+												</h4>
+												<p class="mb-5"></p>
+												<div class="row">
+													<div class="col-md-12">
+														<p class="text-dark d-block fw-bold">Prix :
+															{{article.price ~ ' XOF'}}</p>
+													</div>
+													{% if article.stock == 0 %}
+														<div class="col-md-12 mb-4 mt-3">
+															<p class="text-danger d-block text-center fw-bold">En rupture de stock</p>
+														</div>
+													{% else %}
+														<div class="col-md-12">
+															<p class="text-dark d-block">Quantité disponible :
+																{{article.stock }}</p>
+														</div>
+														<div class="col">
+															<a href="#" class="btn btn-orange btn-block" data-bs-toggle="modal" data-bs-target="#chooseQty-{{article.id}}">Ajouter</a>
+														</div>
+
+														<div class="modal fade" id="chooseQty-{{article.id}}" aria-labelledby="label" aria-hidden="true">
+															<div class="modal-dialog">
+																<div class="modal-content text-dark">
+																	<div class="modal-header">
+																		<h5 class="modal-title" id="label">Quantité</h5>
+																		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+																	</div>
+
+																	<div class="modal-body mx-auto mt-2">
+																		Choisissez la quantité de produit "{{article.label}}":
+																		<div class="col-4 mx-auto mt-4">
+																			<input id="quantity-{{article.id}}" type="number" class="form-control" min="0" max={{article.stock}} value="0" name="quantity">
+																		</div>
+																	</div>
+																	<div class="modal-footer d-flex justify-content-center">
+																		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+																		<button type="" class="btn btn-orange" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#amountModal-{{article.id}}" onclick="getAmount({{article.price}},{{article.id}})">Continuer</button>
+																	</div>
+																</div>
+															</div>
+
+														</div>
+
+														<div class="modal fade" id="amountModal-{{article.id}}" aria-labelledby="label" aria-hidden="true">
+															<div class="modal-dialog">
+																<div class="modal-content text-dark">
+																	<div class="modal-header">
+																		<h5 class="modal-title" id="label">Montant à payer</h5>
+																		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+																	</div>
+																	<form action="{{path('app_article_sell',{id:article.id}) }}" id="form_add-{{article.id}}">
+
+																		<input type="hidden" name="quantity" id="quantityForm-{{article.id}}">
+																		<div class="modal-body mx-auto mt-2">
+																			Le montant total est de : <span id="amount-{{article.id}}" class="fw-bold">0</span>
+																			XOF
+																		</div>
+																		<div class="modal-footer d-flex justify-content-center">
+																			<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#chooseQty-{{article.id}}">Retour</button>
+																			<button type="submit" class="btn btn-success">Confirmer
+																			</button>
+																		</div>
+
+																	</form>
+																</div>
+															</div>
+
+														</div>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+
+							</div>
+							<div class="d-flex mt-4 container-perso navigation justify-content-center">
+								{{ knp_pagination_render(articles) }}
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
 	<script>
 		function getAmount(price, articleID) {
 var quantity = document.getElementById('quantity-' + articleID).value;

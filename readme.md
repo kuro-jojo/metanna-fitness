@@ -14,9 +14,14 @@ Cette application gère une salle de sport
     # Installation
         npm require bootstrap@next
         composer require encore -- Install webpack encore to manage js and css files
-        
+
+    # Version 1  
     Utilisation du template de startBootstrap : sd-admin-2 
     Disponible ici https://github.com/StartBootstrap/startbootstrap-sb-admin-2.git
+
+    # Version 2
+    Utilisation du template adminLte : 
+    Disponible ici https://github.com/ColorlibHQ/AdminLTE/releases
 
 
 # Démarrer le projet

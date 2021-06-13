@@ -1,0 +1,199 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+	<a href="{{path('app_home')}}" class="brand-link">
+		<img src="{{asset('img/favicon/android-chrome-192x192.png')}}" alt="Metanna Fitnesss logo" class="brand-image img-circle " style="opacity: .8">
+		<span class="brand-text font-weight-light">Metanna Fitnesss</span>
+	</a>
+
+	<div class="sidebar">
+
+		<nav class="mt-5">
+			<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+				<li class="nav-item">
+					<a href="{{path('app_home')}}" class="nav-link fw-bold">
+						<i class="nav-icon fas fa-home"></i>
+						<p>
+							Accueil
+						</p>
+					</a>
+
+				</li>
+				<li class="nav-item">
+					<a href="#" class="nav-link fw-bold">
+						<i class="nav-icon far fa-registered"></i>
+						<p>
+							Inscriptions
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="{{path('app_register_client')}}" class="nav-link">
+								<i class="fas fa-check-circle nav-icon"></i>
+								<p>Faire une inscription
+								</p>
+
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="{{path('app_client_registration_cancel_search')}}" class="nav-link">
+								<i class="fas fa-user-times nav-icon"></i>
+								<p>Résilier une inscription
+								</p>
+
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="{{path('app_client_registration_list')}}" class="nav-link">
+								<i class="fas fa-list nav-icon"></i>
+								<p>Liste des inscrits
+								</p>
+
+							</a>
+						</li>
+					</ul>
+				</li>
+
+				<li class="nav-item">
+					<a href="#" class="nav-link fw-bold">
+						<i class="nav-icon fas fa-registered"></i>
+						<p>
+							Abonnements
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="{{path('app_client_subscription_renew_search')}}" class="nav-link">
+								<i class="fas fa-check-circle nav-icon"></i>
+								<p>Faire un abonnement
+								</p>
+
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a href="{{path('app_client_subscription_list')}}" class="nav-link">
+								<i class="fas fa-list nav-icon"></i>
+								<p>Liste des abonnés
+								</p>
+
+							</a>
+						</li>
+					</ul>
+				</li>
+
+				<li class="nav-item">
+					<a href="#" class="nav-link fw-bold">
+						<i class="nav-icon fas fa-font"></i>
+						<p>
+							Activités des clients
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<img src="{{asset('img/tracking.png')}}" class="nav-icon far" alt="">
+								<p>Activité d'un client
+								</p>
+
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<img src="{{asset('img/tracking.png')}}" class="nav-icon far" alt="">
+								<p>Toutes les activités
+								</p>
+
+							</a>
+						</li>
+
+					</ul>
+				</li>
+
+				<li class="nav-item">
+					<a href="#" class="nav-link fw-bold">
+						<i class="nav-icon fas fa-cubes"></i>
+						<p>
+							Produits
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="{{path('app_article_list')}}" class="nav-link">
+								<i class="fas fa-cart-plus nav-icon"></i>
+								<p>Vendre un produit
+								</p>
+
+							</a>
+						</li>
+						{% if "ROLE_ADMIN" in app.user.roles %}
+							<li class="nav-item">
+								<a href="{{path('app_article_history')}}" class="nav-link">
+									<i class="fas fa-history nav-icon"></i>
+									<p>Historique des ventes
+									</p>
+
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="{{path('app_article_catalogue')}} " class="nav-link">
+									<i class="fas fa-tasks nav-icon"></i>
+									<p>Gerer le stock
+									</p>
+
+								</a>
+							</li>
+						{% endif %}
+					</ul>
+				</li>
+				{% if "ROLE_ADMIN" in app.user.roles %}
+
+					<li class="nav-item">
+						<a href="#" class="nav-link fw-bold">
+							<i class="nav-icon fas fa-tools"></i>
+							<p>
+								Administration
+								<i class="fas fa-angle-left right"></i>
+							</p>
+						</a>
+
+						<ul class="nav nav-treeview">
+
+							<li class="nav-item">
+								<a href="{{path('app_responsable_register')}}" class="nav-link">
+									<i class="fas fa-user-plus nav-icon"></i>
+									<p>Ajouter un responsable</p>
+
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="{{path('app_responsable_list')}}" class="nav-link">
+									<i class="fas fa-list nav-icon"></i>
+									<p>Mes responsables</p>
+
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="{{path('app_responsable_service')}}" class="nav-link">
+									<img src="{{asset('img/tracking.png')}}" class="nav-icon far" alt="">
+									<p>Toutes les activités</p>
+
+								</a>
+							</li>
+
+						</ul>
+					</li>
+				{% endif %}
+
+			</ul>
+		</nav>
+		<!-- /.sidebar-menu -->
+	</div>
+	<!-- /.sidebar -->
+</aside>

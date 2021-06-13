@@ -8,92 +8,96 @@
 		body {
 			overflow: hidden;
 		}
+		.header {
+			cursor: pointer;
+		}
 	</style>
 {% endblock %}
 {% block javascripts %}
 	{{parent()}}
-	<script>
-		function display(id, visibility) {
-if (visibility == 1) {
-document.getElementById('action-' + id).style.visibility = "visible";
-} else {
-document.getElementById('action-' + id).style.visibility = "hidden";
-}
-}
-	</script>
+
 {% endblock %}
 
 {% block body %}
-	<div id="wrapper">
-		{% include "layouts/partials/_sidebar.html.twig" %}
-		<!-- Content Wrapper -->
-		<div
-			id="content-wrapper" class="d-flex flex-column">
-			<!-- Main Content -->
-			<div id="content" class="content">
+	<div class="content-wrapper">
+		<h1 class="text-center mt-5 fw-bold">Catalogue</h1>
+		<div class="mb-5" style="position:relative;left:68%;">
+			<a href="{{path('app_article_add')}}" class="btn btn-success">Ajouter un article</a>
+		</div>
+		<div class="col-8 container table-responsive-v2">
+			<table class="table table-hover">
+				<thead class="thead-light">
+					<tr>
+						<th class="header" scope="col">N°</th>
+						<th class="header" scope="col">Article</th>
+						<th class="header" scope="col">Prix</th>
+						<th class="header" scope="col">Stock disponible</th>
+						<th class="header" scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for article in articles %}
+					<form action="{{path('app_article_edit',{id:article.id})}}" id="editForm-{{article.id}}"></form>
+						<form id="js-app-delete-article-btn-{{article.id}}" action="{{path('app_article_delete',{id:article.id})}}" method="post">
+							<input type="hidden" name="csrf_token_article" value="{{csrf_token('deletion_article_'~ article.id)}}">
+							<input type="hidden" name="_method" value="DELETE">
+						</form>
+						<div class="modal fade" id="delete-{{article.id}}" aria-labelledby="label" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content text-dark">
+									<div class="modal-header">
+										<h5 class="modal-title" id="label">Suppression du produit</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-				{% include "layouts/partials/_nav.html.twig" %}
-				<h1 class="h2 text-white text-decoration-underline mb-5 text-center mr-5">Catalogue</h1>
-				<div class="mb-5" style="position:relative;left:68%;">
-					<a href="{{path('app_article_add')}}" class="btn btn-success">Ajouter un article</a>
-				</div>
-				<div class="col-8 container table-responsive-v2">
-					<table class="table table-hover">
-						<thead class="thead-light">
-							<tr>
-								<th class="header" scope="col"></th>
-								<th class="header" scope="col">Article</th>
-								<th class="header" scope="col">Prix</th>
-								<th class="header" scope="col">Stock disponible</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for article in articles %}
-								<tr onmouseover="display({{article.id}},1)" onmouseout="display({{article.id}},0)">
-									<td class="text-white p-3">{{loop.index}}</td>
-									<th class="text-white p-3" scope="row">{{article.label}}</th>
-									<td class="text-white p-3">{{article.price ~ ' XOF'}}</td>
-									{% if article.stock == 0 %}
-									<td class="text-danger p-3">Epuisé</td>
-										
-									{% else %}
-									<td class="text-white p-3">{{article.stock}}</td>
-									{% endif %}
-									<td id="action-{{article.id}}" class="action border-0" style="visibility:hidden">
-										<a href="#" class="mr-4" onclick="document.getElementById('editForm-{{article.id}}').submit()"><img src="https://img.icons8.com/wired/30/0AA8C8/edit.png"/></a>
-										<a href="#" data-bs-toggle="modal" data-bs-target="#delete-{{article.id}}"><img src="https://img.icons8.com/plasticine/30/000000/filled-trash.png"/></a>
-									</td>
-								</tr>
-								<form action="{{path('app_article_edit',{id:article.id})}}" id="editForm-{{article.id}}"></form>
-								<form id="js-app-delete-article-btn-{{article.id}}" action="{{path('app_article_delete',{id:article.id})}}" method="post">
-									<input type="hidden" name="csrf_token_article" value="{{csrf_token('deletion_article_'~ article.id)}}">
-									<input type="hidden" name="_method" value="DELETE">
-								</form>
-								<div class="modal fade" id="delete-{{article.id}}" aria-labelledby="label" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content text-dark">
-											<div class="modal-header">
-												<h5 class="modal-title" id="label">Suppression du produit</h5>
-												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-											</div>
-
-											<div class="modal-body mx-auto mt-2">
-												Vous ête sur le point de supprimer le produit "{{article.label}}":
-											</div>
-											<div class="modal-footer d-flex justify-content-center">
-												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-												<button type="" class="btn btn-danger" onclick="document.getElementById('js-app-delete-article-btn-{{article.id}}').submit()">Supprimer</button>
-											</div>
-										</div>
 									</div>
 
+									<div class="modal-body mx-auto mt-2">
+										Vous ête sur le point de supprimer le produit "{{article.label}}":
+									</div>
+									<div class="modal-footer d-flex justify-content-center">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+										<button type="" class="btn btn-danger" onclick="document.getElementById('js-app-delete-article-btn-{{article.id}}').submit()">Supprimer</button>
+									</div>
 								</div>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
+							</div>
+
+						</div>
+						<tr>
+							<td>{{loop.index}}</td>
+							<th scope="row">{{article.label}}</th>
+							<td>{{article.price ~ ' XOF'}}</td>
+							{% if article.stock == 0 %}
+								<td class="text-danger p-3">Epuisé</td>
+
+							{% else %}
+								<td>{{article.stock}}</td>
+							{% endif %}
+							<td id="action-{{article.id}}" class="action border-0">
+								<a href="#" class="mr-4" onclick="document.getElementById('editForm-{{article.id}}').submit()">
+									<i class="far fa-edit"></i>
+								</a>
+								<a href="#" data-bs-toggle="modal" data-bs-target="#delete-{{article.id}}">
+									<I class="far fa-minus-square text-danger"></I>
+								</a>
+							</td>
+						</tr>
+						
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
 	</div>
+
+
+	<script>
+		const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+const comparer = (idx, asc) => (a, b) => ((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2))(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+// do the work...
+document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+const table = th.closest('table');
+Array.from(table.querySelectorAll('tr:nth-child(n+2)')).sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc)).forEach(tr => table.appendChild(tr));
+})));
+	</script>
 {% endblock %}

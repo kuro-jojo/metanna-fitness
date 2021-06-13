@@ -4,15 +4,11 @@
 {% endblock %}
 
 {% block body %}
-	<div id="wrapper">
-		{% include "layouts/partials/_sidebar.html.twig" %}
-		<div id="content-wrapper" class="d-flex flex-column">
-			<div id="content" class="content">
+		<div class="content-wrapper" class="d-flex flex-column">
 
-				{% include "layouts/partials/_nav.html.twig" %}
-				<h1 class="h2 text-white text-decoration-underline mb-2 text-center">Liste des abonnés à la salle</h1>
+				<h1 class="text-center mt-5 fw-bold">Liste des abonnés à la salle</h1>
 
-				<div class="  py-5">
+				<div class="py-5">
 					<div class="mx-auto">
 
 						<div class="table-responsive">
@@ -34,25 +30,25 @@
 								<tbody>
 									{% for client in clients %}
 										<tr>
-											<th class="text-white p-3" scope="row">{{client.id}}</th>
-											<td class="text-white p-3">{{client.nom}}</td>
-											<td class="text-white p-3">{{client.prenom}}</td>
-											<td class="text-white p-3">{{'+221 '~ client.telephone}}</td>
-											<td class="text-white p-3">{{client.email}}</td>
+											<th class="p-3" scope="row">{{client.id}}</th>
+											<td class="p-3">{{client.nom}}</td>
+											<td class="p-3">{{client.prenom}}</td>
+											<td class="p-3">{{'+221 '~ client.telephone}}</td>
+											<td class="p-3">{{client.email}}</td>
 
 											{% if client.dateNaissance is not null %}
-												<td class="text-white p-3">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+												<td class="p-3">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
 											{% else %}
 												<td></td>
 											{% endif %}
 											{% if client.myRegistration is not null %}
-												<td class="text-white p-3">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+												<td class="p-3">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
 											{% else %}
 												<td></td>
 											{% endif %}
 											{% if client.mySubscription is not null %}
-												<td class="text-white p-3">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
-												<td class="text-white p-3">{{client.mySubscription.amountOfSubs ~ ' XOF'}}</td>
+												<td class="p-3">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
+												<td class="p-3">{{client.mySubscription.amountOfSubs ~ ' XOF'}}</td>
 
 												{% set content = "" %}
 												{% set color = "success" %}

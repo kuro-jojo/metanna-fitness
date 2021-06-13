@@ -20,9 +20,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
+#[Route('/article', name: 'app_article')]
 /**
  * @IsGranted("ROLE_RESPONSABLE")
- * @Route("/article",name="app_article")
  */
 class ArticleController extends AbstractController
 {
@@ -41,8 +41,9 @@ class ArticleController extends AbstractController
         $this->em = $em;
         $this->flashy = $flashy;
     }
+
+    #[Route('/list/{id<\d+>}/{article}', name: '_list')]
     /**
-     * @Route("/list/{id<\d+>}/{article}", name="_list")
      * return list Of Articles depends on the category
      *
      * @param  mixed $id
@@ -81,8 +82,8 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/search/{id<\d+>}', name: '_search')]
     /**
-     * @Route("/search/{id<\d+>}", name="_search")
      * articleSearch
      *
      * @param  mixed $id
@@ -104,10 +105,9 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/sell/{id<\d+>}', name: '_sell')]
     /**
      * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/sell/{id<\d+>}" , name="_sell")
-     * 
      * sell an article
      *
      * @param  mixed $article
@@ -145,8 +145,8 @@ class ArticleController extends AbstractController
         return $this->redirectToRoute('app_article_list');
     }
 
+    #[Route('/history', name: '_history')]
     /**
-     * @Route("/history",name="_history")
      * 
      * history of all sales by responsable
      *
@@ -163,9 +163,9 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/catalogue', name: '_catalogue')]
     /**
      * @IsGranted("ROLE_ADMIN")
-     * @Route("/catalogue",name="_catalogue")
      * manage the stock of articles
      *
      * @return Response
@@ -178,9 +178,9 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/add', name: '_add')]
     /**
      * IsGranted("ROLE_ADMIN")
-     * @Route("/add",name="_add")
      * add a new Article
      *
      * @param  mixed $request
@@ -211,8 +211,8 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/edit/{id<\d+>}', name: '_edit',methods : ['GET', 'PUT'])]
     /**
-     * @Route("/edit/{id<\d+>}" , name="_edit",methods={"GET","PUT"})
      * edit an article
      *
      * @param  mixed $article
@@ -244,8 +244,8 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/delete/{id<\d+>}', name: '_delete',methods : ['DELETE'])]
     /**
-     * @Route("/delete/{id<\d+>}" , name="_delete", methods={"DELETE"})
      * delete an article
      *
      * @param  mixed $article

@@ -22,9 +22,9 @@ class SubscriptionController extends AbstractController
         $this->flashy = $flashy;
     }
 
+
+    #[Route('/client/subscription/renew/{id<\d+>}', name: 'app_client_subscription_renew')]
     /**
-     * @Route("/client/subscription/renew/{id<\d+>}", name="app_client_subscription_renew")
-     *
      * renew a customer subscription
      *
      * @param  mixed $client
@@ -54,9 +54,9 @@ class SubscriptionController extends AbstractController
         return $this->redirectToRoute("app_client_subscription_list");
     }
 
+    #[Route('/client/subscription/list', name: 'app_client_subscription_list')]
     /**
      * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/client/subscription/list",name="app_client_subscription_list")
      * list of all subscripted customers
      *
      * @param  mixed $clientRepository

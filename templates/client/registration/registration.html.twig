@@ -16,15 +16,8 @@
 		.card {
 			border: none;
 		}
-		button[type="submit"]:hover {
-			background-color: #FF4500;
-			color: #000;
-
-
-		}
-		button[type="submit"] {
-			border: 1px solid #FF4500;
-			color: #000
+		.profil-div {
+			padding-top: 40px;
 		}
 	</style>
 {% endblock %}
@@ -70,15 +63,11 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 {% endblock %}
 
 {% block body %}
-	<div id="wrapper" onload="dateMax()">
-		{% include "layouts/partials/_sidebar.html.twig" %}
-		<!-- Content Wrapper -->
-		<div
-			id="content-wrapper" class="d-flex flex-column">
-			<!-- Main Content -->
-			<div id="content" class="content">
-				{% include "layouts/partials/_nav.html.twig" %}
-				<h1 class="h2 text-white fst-italic m-5 text-center">Inscrire un nouveau client</h1>
+	<div class="content-wrapper">
+
+		<div onload="dateMax()">
+			<div id=" " class="">
+				<h1 class="h2  fst-italic text-center" style="padding: 2px;">Inscrire un nouveau client</h1>
 				<div class="container d-flex justify-content-center">
 					<div class="col-10">
 						{{form_start(formClientRegister,
@@ -143,7 +132,7 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 						</div>
 						<div class="col-md-1"></div>
 
-						<div class="col-md-4 d-flex justify-content-center bg-dark">
+						<div class="col-md-4 d-flex justify-content-center profil-div">
 							<img class="profil_image" id="profilPreview" src="{{asset('img/'~path)}}" alt="Photo de profil du client">
 						</div>
 						<div class="row mt-4 p-0">
@@ -164,13 +153,12 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 							</div>
 						</div>
 						<div class="d-grid gap-2 col-6 mx-auto mt-5 mb-5">
-							<button class="btn text-white" type="submit">Finaliser l'inscription</button>
+							<button class="btn btn-outline-orange fs-5" type="submit">Finaliser l'inscription</button>
 						</div>
 						{{form_end(formClientRegister)}}
 					</div>
 				</div>
 			</div>
-			{% include "layouts/partials/_footer.html.twig" %}
 		</div>
 
 	</div>

@@ -30,6 +30,6 @@
         "jquery.easing": "^1.4.1"
     },
     "engines": {
-        "npm": "6.x"
+        "npm": "7.x"
     }
 }

@@ -12,10 +12,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ResponsableServiceController extends AbstractController
 {
 
+   #[Route('/responsable/service', name : 'app_responsable_service')]
    /**
     * 
     * @IsGranted("ROLE_ADMIN")
-    * @Route("/responsable/service" ,name="app_responsable_service")
     */
 
    public function allServices(ServiceRepository $serviceRepository, SessionInterface $session): Response

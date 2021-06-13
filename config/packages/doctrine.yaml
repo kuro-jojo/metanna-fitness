@@ -35,3 +35,4 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Client/Subscription/Entity'
                 prefix: 'App\Client\Subscription\Entity'
                 alias: AppSubscription
+        
