@@ -7,22 +7,13 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
-import './styles/app.scss';
+// import './adminLte/scss/adminlte.scss';
 
-import { Tooltip, Toast, Popover } from 'bootstrap';
 // start the Stimulus application
-import './js/bootstrap';
+import './bootstrap';
+// You can specify which plugins you need
+import { Tooltip, Toast, Popover } from 'bootstrap';
 
-
-// import './js/sb-admin-2';
-import './js/sb-admin-2-min';
-// import jquery from './vendor/jquery';
-// import './js/chart.js/Chart-min';
-// import './js/demo/chart-area-demo';
-// import './js/demo/chart-bar-demo';
-// import './js/demo/chart-pie-demo';
-// import './js/demo/datatables-demo';
-
-import './js/jquery/jquery-min';
-import './js/jquery-easing/jquery.easing-min';
-import './vendor/bootstrap/js/bootstrap.bundle.min';
+import jquery from 'jquery';
+import './adminLte/js/plugins/jquery/jquery-min';
+import './adminLte/js/adminlte';

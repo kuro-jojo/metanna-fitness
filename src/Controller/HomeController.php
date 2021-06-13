@@ -11,11 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+    #[Route('/home', name: 'app_home')]
     /**
      * @IsGranted("ROLE_RESPONSABLE")
-     * @Route("/home", name="app_home")
      */
-    public function index(Request $request,SessionInterface $session): Response
+    public function index(Request $request, SessionInterface $session): Response
     {
         return $this->render('home/index.html.twig');
     }

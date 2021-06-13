@@ -5,17 +5,25 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="author" content="Jonathan">
+		<meta name="author" content="Jonathan Assamagan">
+		<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon/favicon-32x32.png')}}">
+		<link rel="mask-icon" href="{{ asset('img/favicon/safari-pinned-tab.svg')}}" color="#5bbad5">
+		<meta name="msapplication-TileColor" content="#da532c">
 		<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
 		<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
 		<title>
-			{% block title %}Welcome!
+			{% block title %}Metanna-Fitness
 			{% endblock %}
 		</title>
 
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
+			<style>
+				body {
+					overflow: auto;
+				}
+			</style>
 		{% endblock %}
 		{% block javascripts %}
 			<!-- Custom scripts for all pages-->
@@ -25,20 +33,31 @@
 		{% endblock %}
 	</head>
 
-	<body>
-		<!-- Flashy depends on jQuery -->
-		<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
-		<script>
-			$(document).ready(function () {
+	<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+		<div class="wrapper">
+
+			{% if app.user is not null %}
+				{% include "layouts/_nav.html.twig" %}
+
+				{% include "layouts/_sidebar.html.twig" %}
+			{% endif %}
+			<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+			<script>
+				$(document).ready(function () {
 bsCustomFileInput.init()
 })
-		</script>
-		<!-- Load Flashy default JavaScript -->
-		<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
-		<!-- Include Flashy default partial -->
-		{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
-		{% block body %}{% endblock %}
+			</script>
+			<script src="https://kit.fontawesome.com/bca57ce0fe.js" crossorigin="anonymous"></script>
 
+			<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+
+			{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+
+			{% if app.user is not null and is_granted("ROLE_ADMIN") %}
+				{% include "layouts/_control_sidebar.html.twig" %}
+			{% endif %}
+			{% block body %}{% endblock %}
+
+		</div>
 	</body>
-
 </html>

@@ -16,14 +16,15 @@ use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @IsGranted("ROLE_RESPONSABLE")
- * @Route("/client", name="app_client")
  */
+#[Route('/client', name: 'app_client')]
 
 class ClientController extends AbstractController
 {
 
+    #[Route('/registration/search', name: '_registration_search', methods: ['GET'])]
+
     /**
-     * @Route("/registration/search",name="_registration_search", methods={"GET"})
      * searchClient
      *
      * @param  mixed $request
@@ -44,17 +45,17 @@ class ClientController extends AbstractController
             'client' => $client,
             'error' => $error,
             'clientCode' => $clientCode,
-            'checked'=> ' '
+            'checked' => ' '
         ]);
     }
 
-    /**
-     * @Route("/registration/cancel", name="_registration_cancel_search", methods={"GET"})
-     * 
+    #[Route('/registration/cancel', name: '_registration_cancel_search', methods: ['GET'])]
+    /** 
      * search a customer
      *
      * @return Response
      */
+
     public function searchForCancel(Request $request, ClientRepository $clientRepository): Response
     {
         $error = null;
@@ -71,9 +72,9 @@ class ClientController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/subscription/renew", name="_subscription_renew_search", methods={"GET"})
-     * 
+
+    #[Route('/subscription/renew', name: '_subscription_renew_search', methods: ['GET'])]
+    /** 
      * search a customer
      *
      * @return Response

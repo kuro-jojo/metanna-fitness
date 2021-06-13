@@ -1,7 +1,32 @@
-@import "./sb-admin-2.css";
+/* @import "./sb-admin-2.css";
 @import "./sb-admin-2.min.css";
-@import '../vendor/fontawesome-free/css/all.min.css';
+@import '../vendor/fontawesome-free/css/all.min.css'; */
+
 
 /* Custom style */
 
 @import "./custom_styles.css";
+
+/* @import "./sb-admin.css"; */
+
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "../adminLte/css/adminlte.css";
+@import "../adminLte/css/plugins/datatables-bs4/dataTables.bootstrap4.css";
+@import "../adminLte/css/plugins/datatables-responsive/responsive.bootstrap4.min.css";
+:root {
+    --main-color: #2993cd !important;
+}
+
+.table-main {
+    background-color: var(--main-color);
+}
+
+.btn-main {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+.btn-outline-main {
+    color: var(--main-color);
+    border-color: var(--main-color);
+}
