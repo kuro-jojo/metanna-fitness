@@ -16,14 +16,12 @@ use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 #[Route('/article', name: 'app_article')]
-/**
- * @IsGranted("ROLE_RESPONSABLE")
- */
+
 class ArticleController extends AbstractController
 {
 
@@ -44,6 +42,9 @@ class ArticleController extends AbstractController
 
     #[Route('/list/{id<\d+>}/{article}', name: '_list')]
     /**
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')")
+     * 
      * return list Of Articles depends on the category
      *
      * @param  mixed $id
@@ -84,6 +85,9 @@ class ArticleController extends AbstractController
 
     #[Route('/search/{id<\d+>}', name: '_search')]
     /**
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')")
+     * 
      * articleSearch
      *
      * @param  mixed $id
@@ -107,7 +111,9 @@ class ArticleController extends AbstractController
 
     #[Route('/sell/{id<\d+>}', name: '_sell')]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')")
+     * 
      * sell an article
      *
      * @param  mixed $article
@@ -148,6 +154,8 @@ class ArticleController extends AbstractController
     #[Route('/history', name: '_history')]
     /**
      * 
+     * @Security("is_granted('ROLE_RIGHT_SALES_HISTORY') or is_granted('ROLE_ADMIN')")
+     * 
      * history of all sales by responsable
      *
      * @param  mixed $saleRepository
@@ -165,12 +173,14 @@ class ArticleController extends AbstractController
 
     #[Route('/catalogue', name: '_catalogue')]
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
+     * 
      * manage the stock of articles
      *
      * @return Response
      */
-    public function catalogue(): Response
+    public function catalog(): Response
     {
         $articles = $this->articleRepository->findOrderedByCreatedAt();
         return $this->render('article/catalogue.html.twig', [
@@ -180,7 +190,9 @@ class ArticleController extends AbstractController
 
     #[Route('/add', name: '_add')]
     /**
-     * IsGranted("ROLE_ADMIN")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
+     * 
      * add a new Article
      *
      * @param  mixed $request
@@ -211,8 +223,10 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id<\d+>}', name: '_edit',methods : ['GET', 'PUT'])]
+    #[Route('/edit/{id<\d+>}', name: '_edit', methods: ['GET', 'PUT'])]
     /**
+     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
+     *  
      * edit an article
      *
      * @param  mixed $article
@@ -244,8 +258,11 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id<\d+>}', name: '_delete',methods : ['DELETE'])]
+    #[Route('/delete/{id<\d+>}', name: '_delete', methods: ['DELETE'])]
     /**
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
+     * 
      * delete an article
      *
      * @param  mixed $article

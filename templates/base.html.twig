@@ -19,6 +19,7 @@
 
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
 			<style>
 				body {
 					overflow: auto;
@@ -27,9 +28,16 @@
 		{% endblock %}
 		{% block javascripts %}
 			<!-- Custom scripts for all pages-->
+
 			{{ encore_entry_script_tags('app') }}
 			<script src="//code.jquery.com/jquery.js"></script>
 
+			<script src="https://kit.fontawesome.com/bca57ce0fe.js" crossorigin="anonymous"></script>
+
+			<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-fr_FR.min.js"></script>
 		{% endblock %}
 	</head>
 
@@ -41,15 +49,6 @@
 
 				{% include "layouts/_sidebar.html.twig" %}
 			{% endif %}
-			<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
-			<script>
-				$(document).ready(function () {
-bsCustomFileInput.init()
-})
-			</script>
-			<script src="https://kit.fontawesome.com/bca57ce0fe.js" crossorigin="anonymous"></script>
-
-			<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
 
 			{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 

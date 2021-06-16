@@ -14,8 +14,12 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     /**
      * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * index
+     *
+     * @return Response
      */
-    public function index(Request $request, SessionInterface $session): Response
+    public function index(): Response
     {
         return $this->render('home/index.html.twig');
     }

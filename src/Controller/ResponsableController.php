@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -23,6 +24,18 @@ class ResponsableController extends AbstractController
 {
 
     private  const   ROLE_RESPONSABLE = "ROLE_RESPONSABLE";
+
+    private  const   ROLE_RIGHT_REGISTER_CLIENT = "ROLE_RIGHT_REGISTER_CLIENT";
+    private  const   ROLE_RIGHT_CANCEL_REGISTRATION = "ROLE_RIGHT_CANCEL_REGISTRATION";
+    private  const   ROLE_RIGHT_LIST_REGISTRATION = "ROLE_RIGHT_LIST_REGISTRATION";
+    private  const   ROLE_RIGHT_SUBSCRIBE_CLIENT = "ROLE_RIGHT_SUBSCRIBE_CLIENT";
+    private  const   ROLE_RIGHT_LIST_SUBSCRIPTION = "ROLE_RIGHT_LIST_SUBSCRIPTION";
+    private  const   ROLE_RIGHT_SELL_ARTICLE = "ROLE_RIGHT_SELL_ARTICLE";
+    private  const   ROLE_RIGHT_SALES_HISTORY = "ROLE_RIGHT_SALES_HISTORY";
+    private  const   ROLE_RIGHT_SALES_MANAGEMENT = "ROLE_RIGHT_SALES_MANAGEMENT";
+    private  const   ROLE_RIGHT_ADD_RESPONSABLE = "ROLE_RIGHT_ADD_RESPONSABLE";
+    private  const   ROLE_RIGHT_LIST_RESPONSABLE = "ROLE_RIGHT_LIST_RESPONSABLE";
+    private  const   ROLE_RIGHT_RESPONSABLE_ACTIVITIES = "ROLE_RIGHT_RESPONSABLE_ACTIVITIES";
 
     private $emailVerifier;
     private $flashy;
@@ -40,13 +53,41 @@ class ResponsableController extends AbstractController
         $this->userRepository = $userRepository;
     }
 
-    #[Route('/responsable/register', name : 'app_responsable_register')]
+    #[Route('/responsable/register', name: 'app_responsable_register')]
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * @Security("is_granted('ROLE_RIGHT_ADD_RESPONSABLE') or is_granted('ROLE_ADMIN')")
+     * 
      */
     public function addResponsable(Request $request): Response
     {
         $user = new User();
+
+        // List of rights
+        $rights = [
+            "Registration" => [
+                $this::ROLE_RIGHT_REGISTER_CLIENT => "Inscrire un client",
+                $this::ROLE_RIGHT_CANCEL_REGISTRATION => "Résilier une inscription",
+                $this::ROLE_RIGHT_LIST_REGISTRATION => "Visualiser les inscriptions",
+
+            ],
+            "Subscription" => [
+                $this::ROLE_RIGHT_SUBSCRIBE_CLIENT => "Abonner un client",
+                $this::ROLE_RIGHT_LIST_SUBSCRIPTION => "Visualiser les abonnements",
+            ],
+            "Produits" => [
+                $this::ROLE_RIGHT_SELL_ARTICLE => "Vendre un produit",
+                $this::ROLE_RIGHT_SALES_HISTORY => "Historique des ventes",
+                $this::ROLE_RIGHT_SALES_MANAGEMENT => "Gestion des articles",
+            ],
+            "Administration" => [
+                $this::ROLE_RIGHT_ADD_RESPONSABLE => "Ajouter un responsable",
+                $this::ROLE_RIGHT_LIST_RESPONSABLE => "Visualiser les responsables",
+                $this::ROLE_RIGHT_RESPONSABLE_ACTIVITIES => "Tracking des responsables",
+            ]
+
+        ];
+
+
         $form = $this->createForm(ResponsableType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,6 +98,7 @@ class ResponsableController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $user->setRoles($request->request->get("rightDefinition"));
 
             $this->em->persist($user);
             $this->em->flush();
@@ -78,12 +120,14 @@ class ResponsableController extends AbstractController
 
         return $this->render('responsable/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'rights' => $rights
         ]);
     }
 
-    #[Route('/responsable/list', name : 'app_responsable_list')]
+    #[Route('/responsable/list', name: 'app_responsable_list')]
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_LIST_RESPONSABLE') or is_granted('ROLE_ADMIN')")
      * 
      * list all responsables
      *
@@ -102,7 +146,7 @@ class ResponsableController extends AbstractController
         ]);
     }
 
-    #[Route('/responsable/editProfile', name : 'app_responsable_edit_profile')]
+    #[Route('/responsable/editProfile', name: 'app_responsable_edit_profile')]
     /**
      * @IsGranted("ROLE_RESPONSABLE")
      *  
@@ -136,7 +180,7 @@ class ResponsableController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', name : 'app_verify_email')]
+    #[Route('/verify/email', name: 'app_verify_email')]
     /**
      * verifyUserEmail
      *
@@ -166,7 +210,12 @@ class ResponsableController extends AbstractController
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->flashy->success('Votre adresse email a bien été vérifiée.', $this->generateUrl("app_login"));
-        $user->setRoles([$this::ROLE_RESPONSABLE]);
+
+        $roles = $user->getRoles();
+        dump($user->getRoles());
+        array_push($roles, $this::ROLE_RESPONSABLE);
+        $user->setRoles($roles);
+
         $this->em->flush();
         return $this->redirectToRoute('app_login');
     }

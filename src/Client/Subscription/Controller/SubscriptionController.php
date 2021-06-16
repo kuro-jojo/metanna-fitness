@@ -9,7 +9,7 @@ use App\Client\Repository\ClientRepository;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SubscriptionController extends AbstractController
@@ -25,6 +25,9 @@ class SubscriptionController extends AbstractController
 
     #[Route('/client/subscription/renew/{id<\d+>}', name: 'app_client_subscription_renew')]
     /**
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SUBSCRIBE_CLIENT') or is_granted('ROLE_ADMIN')")
+     * 
      * renew a customer subscription
      *
      * @param  mixed $client
@@ -44,7 +47,7 @@ class SubscriptionController extends AbstractController
         }
         date_add($dateSubsEnd, new \DateInterval("P1M"));
         $subscription->setEndOfSubs($dateSubsEnd);
-        
+
         // $user = $this->getUser();
         // $user->addSubsRealized($subscription);
 
@@ -56,7 +59,9 @@ class SubscriptionController extends AbstractController
 
     #[Route('/client/subscription/list', name: 'app_client_subscription_list')]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_LIST_SUBSCRIPTION') or is_granted('ROLE_ADMIN')")
+     * 
      * list of all subscripted customers
      *
      * @param  mixed $clientRepository
@@ -65,26 +70,26 @@ class SubscriptionController extends AbstractController
     public function listOfSubscription(ClientRepository $clientRepository): Response
     {
         $clients = $clientRepository->findOnlyRegistered();
-        $timeRemaining =null;
+        $timeRemaining = null;
 
         foreach ($clients as $key => $client) {
             if ($client->getMySubscription() == null) {
                 unset($clients[$key]);
             } else {
                 $timeRemaining[$client->getId()] = null;
-                
+
                 $subscriptionEnd = $client->getMySubscription()->getEndOfSubs();
                 $subscriptionStart = $client->getMySubscription()->getStartOfSubs();
                 if ($subscriptionStart <= new \DateTime()) {
-                    
-                    $time=  $subscriptionEnd->diff(new \DateTime(), true)->days;
+
+                    $time =  $subscriptionEnd->diff(new \DateTime(), true)->days;
                     $timeRemaining[$client->getId()] = $time;
                 }
             }
         }
         return $this->render("client/subscription/list.html.twig", [
             'clients' => $clients,
-            'timeRemaining'=>$timeRemaining
+            'timeRemaining' => $timeRemaining
         ]);
     }
 }

@@ -17,8 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Client\Registration\Entity\Registration;
 use App\Client\Subscription\Entity\Subscription;
 use App\Client\Registration\Form\ClientRegistrationFormType;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RegistrationController extends AbstractController
@@ -30,7 +29,7 @@ class RegistrationController extends AbstractController
     private $clientRepository;
     private $em;
 
-    public function __construct(FlashyNotifier $flashy,ClientRepository $clientRepository,EntityManagerInterface $em)
+    public function __construct(FlashyNotifier $flashy, ClientRepository $clientRepository, EntityManagerInterface $em)
     {
         $this->flashy = $flashy;
         $this->clientRepository = $clientRepository;
@@ -39,7 +38,9 @@ class RegistrationController extends AbstractController
 
     #[Route('/client/register', name: 'app_register_client')]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_REGISTER_CLIENT') or is_granted('ROLE_ADMIN')")
+     * 
      * register Allow to register a new customer
      *
      * @param  mixed $request
@@ -88,14 +89,14 @@ class RegistrationController extends AbstractController
             $client = $form->get('registeredClient')->getData();
 
             if ($data) {
-                $photoProfilName = $fileUploader->upload($data,'profil');
+                $photoProfilName = $fileUploader->upload($data, 'profil');
                 $client->setProfilFileName($photoProfilName);
             }
 
             // Remove the 00221 of the phone number
-           if (preg_match('/^(00221)/',$client->getTelephone() )) {
-               $client->setTelephone(substr($client->getTelephone(),5));
-           }
+            if (preg_match('/^(00221)/', $client->getTelephone())) {
+                $client->setTelephone(substr($client->getTelephone(), 5));
+            }
 
             $dateReg = clone $registration->getDateOfRegistration();
             date_add($dateReg, new DateInterval("P1Y"));
@@ -140,10 +141,12 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    
+
     #[Route('/client/registration/cancel/{id<\d+>}', name: 'app_client_registration_cancel')]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_CANCEL_REGISTRATION') or is_granted('ROLE_ADMIN')")
+     * 
      * cancel the registration of a customer
      *
      * @param  mixed $client
@@ -161,7 +164,9 @@ class RegistrationController extends AbstractController
 
     #[Route('/client/registration/list/{showOnlyRegistered}', name: 'app_client_registration_list')]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_LIST_REGISTRATION') or is_granted('ROLE_ADMIN')")
+     * 
      * list of all registered customers
      * 
      * @param  mixed $showOnlyRegistered
