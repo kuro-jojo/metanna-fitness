@@ -4,82 +4,85 @@
 {% endblock %}
 
 {% block body %}
-		<div class="content-wrapper" class="d-flex flex-column">
+	<div class="content-wrapper" class="d-flex flex-column">
 
-				<h1 class="text-center mt-5 fw-bold">Liste des abonnés à la salle</h1>
+		<h1 class="text-center mt-5 fw-bold">Liste des abonnés à la salle</h1>
 
-				<div class="py-5">
-					<div class="mx-auto">
+		<div class="table-responsive mx-auto">
+			<table class="table table-hover">
+				<thead class="thead-light">
+					<tr>
+						<th class="header" scope="col">Code client</th>
+						<th class="header" scope="col">Nom</th>
+						<th class="header" scope="col">Prénom(s)</th>
+						<th class="header" scope="col">Téléphone</th>
+						<th class="header" scope="col">Email</th>
+						<th class="header" scope="col">Date de Naissance</th>
+						<th class="header" scope="col">Date d'inscription</th>
+						<th class="header" scope="col">Fin de l'abonnement</th>
+						<th class="header" scope="col">Montant</th>
+						<th class="header" scope="col">Statut de l'abonnement</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for client in clients %}
+						<tr>
+							<th class="p-3" scope="row">{{client.id}}</th>
+							<td class="p-3">{{client.nom}}</td>
+							<td class="p-3">{{client.prenom}}</td>
+							<td class="p-3">{{'+221 '~ client.telephone}}</td>
+							<td class="p-3">{{client.email}}</td>
 
-						<div class="table-responsive">
-							<table class="table table-hover">
-								<thead class="thead-light">
-									<tr>
-										<th class="header" scope="col">Code client</th>
-										<th class="header" scope="col">Nom</th>
-										<th class="header" scope="col">Prénom(s)</th>
-										<th class="header" scope="col">Téléphone</th>
-										<th class="header" scope="col">Email</th>
-										<th class="header" scope="col">Date de Naissance</th>
-										<th class="header" scope="col">Date d'inscription</th>
-										<th class="header" scope="col">Fin de l'abonnement</th>
-										<th class="header" scope="col">Montant</th>
-										<th class="header" scope="col">Statut de l'abonnement</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for client in clients %}
-										<tr>
-											<th class="p-3" scope="row">{{client.id}}</th>
-											<td class="p-3">{{client.nom}}</td>
-											<td class="p-3">{{client.prenom}}</td>
-											<td class="p-3">{{'+221 '~ client.telephone}}</td>
-											<td class="p-3">{{client.email}}</td>
+							{% if client.dateNaissance is not null %}
+								<td class="p-3">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+							{% else %}
+								<td></td>
+							{% endif %}
+							{% if client.myRegistration is not null %}
+								<td class="p-3">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+							{% else %}
+								<td></td>
+							{% endif %}
+							{% if client.mySubscription is not null %}
+								<td class="p-3">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
+								<td class="p-3">{{client.mySubscription.amountOfSubs ~ ' XOF'}}</td>
 
-											{% if client.dateNaissance is not null %}
-												<td class="p-3">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
-											{% else %}
-												<td></td>
-											{% endif %}
-											{% if client.myRegistration is not null %}
-												<td class="p-3">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-											{% else %}
-												<td></td>
-											{% endif %}
-											{% if client.mySubscription is not null %}
-												<td class="p-3">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
-												<td class="p-3">{{client.mySubscription.amountOfSubs ~ ' XOF'}}</td>
+								{% set content = "" %}
+								{% set color = "success" %}
+								{% if timeRemaining[client.id] is null %}
+									{% if client.mySubscription.startOfSubs > client.myRegistration.dateOfRegistration %}
+										{% set content = "En cours" %}
+									{% else %}
+										{% set content = "Pas démarré" %}
+									{% endif %}
+									{% set color = "info" %}
+								{% else %}
+									{% if timeRemaining[client.id] <= 0 %}
+										{% set content = "Expiré" %}
+										{% set color = "danger" %}
 
-												{% set content = "" %}
-												{% set color = "success" %}
-												{% if timeRemaining[client.id] is null %}
-													{% set content = "Pas démarré" %}
-													{% set color = "info" %}
-												{% else %}
-													{% set content = "Expire dans " ~ timeRemaining[client.id] ~ 
-												" jours" %}
-													{% if timeRemaining[client.id] <= 7 %}
-														{% set color = "danger" %}
-													{% endif %}
-												{% endif %}
-												<th>
-													<span class="text-{{color}}">{{content}}</span>
-												</th>
-											{% else %}
-												<td></td>
-												<td></td>
-												<td></td>
-											{% endif %}
-										</tr>
-									{% endfor %}
+									{% else %}
 
-								</tbody>
-							</table>
-						</div>
-						<!-- End -->
-					</div>
-				</div>
-			</div>
-		</div>
+										{% set content = "Expire dans " ~ timeRemaining[client.id] ~ " jours" %}
+										{% if timeRemaining[client.id] <= 7 %}
+											{% set color = "danger" %}
+										{% endif %}
+									{% endif %}
+								{% endif %}
+
+								<th>
+									<span class="text-{{color}}">{{content}}</span>
+								</th>
+							{% else %}
+								<td></td>
+								<td></td>
+								<td></td>
+							{% endif %}
+						</tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+		<!-- End -->
 	</div>
 {% endblock %}

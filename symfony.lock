@@ -124,12 +124,6 @@
     "laminas/laminas-code": {
         "version": "4.1.0"
     },
-    "laminas/laminas-eventmanager": {
-        "version": "3.3.1"
-    },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.2.0"
-    },
     "mercuryseries/flashy-bundle": {
         "version": "v3.0.2"
     },
@@ -138,6 +132,12 @@
     },
     "nikic/php-parser": {
         "version": "v4.10.4"
+    },
+    "php-flasher/flasher": {
+        "version": "v0.4.8"
+    },
+    "php-flasher/flasher-symfony": {
+        "version": "v0.4.8"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -529,6 +529,9 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
+    },
+    "symfony/twig-pack": {
+        "version": "v1.0.1"
     },
     "symfony/validator": {
         "version": "4.3",

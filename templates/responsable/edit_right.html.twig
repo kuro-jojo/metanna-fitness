@@ -1,0 +1,65 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Modifier les droits
+{% endblock %}
+
+{% block body %}
+
+	<div class="content-wrapper">
+		<div class="container mx-auto pt-3">
+			<div class="mx-auto card o-hidden border-0 shadow-lg col-sm-8">
+				<div class="card-body p-0">
+					<div class=" justify-content-center">
+						<form action="{{path('app_responsable_edit_right',{id:responsable.id})}}" method="post">
+							<div class="p-5">
+								<div class="text-center ">
+									<h1 class="fw-bold text-dark mb-5 register-title">Modifier les droits du responsable</h1>
+								</div>
+								<div class="row">
+									<div class="col-sm-6">
+										<label for="name">Nom</label>
+										<input type="text" class="form-control ml-2" name="" id="name" value="{{responsable.nom}}" disabled>
+									</div>
+									<div class="col-sm-6">
+										<label for="firstname">Prénom(s)</label>
+										<input type="text" class="form-control ml-2" name="" id="firstname" value="{{responsable.prenom}}" disabled>
+									</div>
+								</div>
+								<div class="col-sm-6 mt-4">
+									<label for="email">Email</label>
+									<input type="email" class="form-control ml-2" name="" id="email" value="{{responsable.email}}" disabled>
+								</div>
+								<div class="col-sm-8 mt-4">
+									<label for="rightDefinition">Définissez les nouveaux droits  du responsable</label>
+									<select id="rightDefinition" class="selectpicker form-control" multiple data-live-search="true" data-actions-box="true" style="width:100%" name="rightDefinition[]" multiple  	>
+
+										{% for type,rightTypes in rights %}
+											<optgroup label="{{ type }}">
+												{% for key,right in rightTypes %}
+													<option value="{{key}}">{{ right }}</option>
+												{% endfor %}
+											</optgroup>
+										{% endfor %}
+									</select>
+									
+								</div>
+								<div class="col-sm-12 mt-3">
+									<small class="text-danger">Attention!! Les droits seront réinitialisés</small>
+								</div>
+								<div class="col-sm-12 mt-3">
+									<small class="text-info">Info : Les droits prendront effet après une reconnexion du responsable</small>
+								</div>
+								<div class="container mt-5 mx-auto col-md-5">
+									<button type="submit" class="btn btn-outline-info btn-block">
+										Modifier
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

@@ -80,6 +80,9 @@
 												</optgroup>
 											{% endfor %}
 										</select>
+										{% if error is defined %}
+											<small class="text-danger">{{error}}</small>
+										{% endif %}
 									</div>
 								</div>
 								<div class="container mt-5">
@@ -95,7 +98,4 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		$('select').selectpicker();
-	</script>
 {% endblock %}

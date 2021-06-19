@@ -4,7 +4,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=7.2.9",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-intl": "*",
@@ -15,6 +15,7 @@
         "doctrine/orm": "^2.8",
         "knplabs/knp-paginator-bundle": "^5.4",
         "mercuryseries/flashy-bundle": "^3.0",
+        "php-flasher/flasher-symfony": "^0.4.8",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",

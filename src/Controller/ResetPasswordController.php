@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Flasher\Prime\FlasherInterface;
 use Symfony\Component\Mime\Address;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -77,7 +77,7 @@ class ResetPasswordController extends AbstractController
      * Validates and process the reset URL that the user clicked in their email.
      *
      */
-    public function reset(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token = null, FlashyNotifier $flashy): Response
+    public function reset(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token = null, FlasherInterface $flasher): Response
     {
         if ($token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
@@ -122,7 +122,7 @@ class ResetPasswordController extends AbstractController
 
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
-            $flashy->info('Mot de passe réinitialisé');
+            $flasher->addInfo('Mot de passe réinitialisé');
             return $this->redirectToRoute('app_login');
         }
 

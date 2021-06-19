@@ -9,7 +9,7 @@
 		<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon/favicon-32x32.png')}}">
 		<link rel="mask-icon" href="{{ asset('img/favicon/safari-pinned-tab.svg')}}" color="#5bbad5">
 		<meta name="msapplication-TileColor" content="#da532c">
-		<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+		{# <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}"> #}
 		<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
 		<title>
@@ -22,8 +22,11 @@
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
 			<style>
 				body {
-					overflow: auto;
+					overflow-x: hidden;
 				}
+				#flasher-container-top-right {
+				top: 8% !important;
+			}
 			</style>
 		{% endblock %}
 		{% block javascripts %}
@@ -34,7 +37,7 @@
 
 			<script src="https://kit.fontawesome.com/bca57ce0fe.js" crossorigin="anonymous"></script>
 
-			<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+			
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-fr_FR.min.js"></script>
@@ -42,6 +45,7 @@
 	</head>
 
 	<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+			{{flasher_render()}}
 		<div class="wrapper">
 
 			{% if app.user is not null %}
@@ -49,8 +53,7 @@
 
 				{% include "layouts/_sidebar.html.twig" %}
 			{% endif %}
-
-			{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+			{# {{ include('@MercurySeriesFlashy/flashy.html.twig') }} #}
 
 			{% if app.user is not null and is_granted("ROLE_ADMIN") %}
 				{% include "layouts/_control_sidebar.html.twig" %}

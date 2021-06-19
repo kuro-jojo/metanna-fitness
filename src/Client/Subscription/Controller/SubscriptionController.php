@@ -2,11 +2,11 @@
 
 namespace App\Client\Subscription\Controller;
 
-use DateInterval;
 use App\Client\Entity\Client;
+use Flasher\Prime\FlasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Client\Repository\ClientRepository;
-use MercurySeries\FlashyBundle\FlashyNotifier;
+use App\Service\ResponsableActivityTracker;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -15,11 +15,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SubscriptionController extends AbstractController
 {
 
-    private $flashy;
+    private const SUBSCRIPTION_ACTIVITY = "Abonnement du client n°";
+    private const SUBSCRIPTION_LIST_ACTIVITY = "Visualisation des abonnés";
 
-    public function __construct(FlashyNotifier $flashy)
+    private $flasher;
+    private $responsableTracker;
+
+    public function __construct(FlasherInterface $flasher,ResponsableActivityTracker $responsableTracker)
     {
-        $this->flashy = $flashy;
+        $this->flasher = $flasher;
+        $this->responsableTracker = $responsableTracker;
     }
 
 
@@ -41,7 +46,7 @@ class SubscriptionController extends AbstractController
         $dateSubsEnd = clone $subscription->getEndOfSubs();
 
         // Si l'abonnement a expirée on redéfinit la date de début de l'abonnement
-        if ($dateSubsEnd >= new \DateTime) {
+        if ($dateSubsEnd <= new \DateTime) {
             $dateSubsStart = new \DateTime;
             $subscription->setStartOfSubs($dateSubsStart);
         }
@@ -52,7 +57,8 @@ class SubscriptionController extends AbstractController
         // $user->addSubsRealized($subscription);
 
         $em->flush();
-        $this->flashy->info("Abonnement renouvelé !!");
+        $this->flasher->addInfo("Abonnement renouvelé !!");
+        $this->responsableTracker->saveTracking($this::SUBSCRIPTION_ACTIVITY . $client->getId(),$this->getUser());
 
         return $this->redirectToRoute("app_client_subscription_list");
     }
@@ -81,12 +87,16 @@ class SubscriptionController extends AbstractController
                 $subscriptionEnd = $client->getMySubscription()->getEndOfSubs();
                 $subscriptionStart = $client->getMySubscription()->getStartOfSubs();
                 if ($subscriptionStart <= new \DateTime()) {
+                    $today = new \DateTime;
 
-                    $time =  $subscriptionEnd->diff(new \DateTime(), true)->days;
+                    $time =  date_diff($today,$subscriptionEnd)->format("%r%a");
                     $timeRemaining[$client->getId()] = $time;
                 }
             }
         }
+
+        $this->responsableTracker->saveTracking($this::SUBSCRIPTION_LIST_ACTIVITY,$this->getUser());
+
         return $this->render("client/subscription/list.html.twig", [
             'clients' => $clients,
             'timeRemaining' => $timeRemaining

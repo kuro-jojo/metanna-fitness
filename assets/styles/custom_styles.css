@@ -375,10 +375,8 @@ th {
 }
 
 .table-responsive {
-    height: 75vh;
-    overflow: auto;
-    width: 95%;
-    margin-left: 50px
+    max-width: 85vw;
+    margin-top: 2em;
 }
 
 .table-responsive-v2 {

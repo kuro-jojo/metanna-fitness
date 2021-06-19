@@ -4,16 +4,17 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Entity\Service;
+use Flasher\Prime\FlasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\ResponsableActivityTracker;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -30,22 +31,25 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
+    private const SERVICE_NAME = 'Connexion';
 
     private $entityManager;
     private $urlGenerator;
     private $csrfTokenManager;
     private $passwordEncoder;
-    private $flashy;
+    private $flasher;
     private $session;
+    private $responsableTracker;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, FlashyNotifier $flashy,SessionInterface $session)
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, FlasherInterface $flasher,SessionInterface $session,ResponsableActivityTracker $responsableTracker)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
-        $this->flashy = $flashy;
+        $this->flasher = $flasher;
         $this->session = $session;
+        $this->responsableTracker = $responsableTracker;
     }
 
     public function supports(Request $request)
@@ -102,17 +106,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     {
 
         // Save responsable service information
-        $service = new Service;
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $request->request->get('email')]);
 
-        $service->setStartOfService(new \DateTime);
-        $service->setResponsable($user);
-        $this->entityManager->persist($service);
-        $this->entityManager->flush();
-        $this->session->start();
-        $this->session->set('service',$service);
+        $this->responsableTracker->saveTracking($this::SERVICE_NAME,$user);
 
-        $this->flashy->success("Connexion réussie");
+        $this->session->start();
+        $this->session->set('userId',$user->getId());
+
+        $this->flasher->addSuccess("Connexion réussie");
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
@@ -123,7 +124,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        $this->flashy->error("Informations invalides");
+        $this->flasher->addError("Informations invalides");
 
         return new RedirectResponse($this->urlGenerator->generate('app_login'));
     }
