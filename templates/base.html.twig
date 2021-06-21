@@ -25,8 +25,16 @@
 					overflow-x: hidden;
 				}
 				#flasher-container-top-right {
-				top: 8% !important;
-			}
+					top: 8% !important;
+				}
+				.content-wrapper {
+					background-color: #fff;
+				}
+				h1 {
+					font-family: 'Brygada 1918', serif;
+					font-size: calc(20px +(60 - 20) *((100vw - 400px) /(1980 - 400)));
+					padding: 20px 0;
+				}
 			</style>
 		{% endblock %}
 		{% block javascripts %}
@@ -37,7 +45,7 @@
 
 			<script src="https://kit.fontawesome.com/bca57ce0fe.js" crossorigin="anonymous"></script>
 
-			
+
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-fr_FR.min.js"></script>
@@ -45,7 +53,7 @@
 	</head>
 
 	<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-			{{flasher_render()}}
+		{{flasher_render()}}
 		<div class="wrapper">
 
 			{% if app.user is not null %}
