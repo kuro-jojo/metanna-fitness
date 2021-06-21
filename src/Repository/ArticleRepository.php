@@ -46,7 +46,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findByLabelQuery($label)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.label LIKE :val')
+            ->andWhere('LOWER(a.label) LIKE :val')
             ->setParameter('val', '%'.$label.'%')
             ->getQuery()
         ;

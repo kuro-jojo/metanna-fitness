@@ -108,7 +108,7 @@ class ArticleController extends AbstractController
     {
         $label = $request->query->get('label');
 
-        $articles = $this->paginator->paginate($this->articleRepository->findByLabelQuery($label), $request->query->getInt('page', 1), 9);
+        $articles = $this->paginator->paginate($this->articleRepository->findByLabelQuery(strtolower($label)), $request->query->getInt('page', 1), 9);
         $categories = $this->categoryRepository->findAll();
         return $this->render('article/index.html.twig', [
             'articles' => $articles,

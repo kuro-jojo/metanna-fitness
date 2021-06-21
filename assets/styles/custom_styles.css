@@ -430,7 +430,7 @@ a:hover {
 
 .searchbar:hover>.search_input {
     padding: 0 10px;
-    width: 450px;
+    width: calc(180px + (350 - 180) * ((100vw - 400px) / (1980 - 400)));
     caret-color: red;
     transition: width 0.4s linear;
 }

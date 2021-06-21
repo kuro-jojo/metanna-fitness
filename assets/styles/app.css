@@ -13,6 +13,8 @@
 @import "../adminLte/css/adminlte.css";
 @import "../adminLte/css/plugins/datatables-bs4/dataTables.bootstrap4.css";
 @import "../adminLte/css/plugins/datatables-responsive/responsive.bootstrap4.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@1,500&display=swap');
 :root {
     --main-color: #FF4500 !important;
 }
