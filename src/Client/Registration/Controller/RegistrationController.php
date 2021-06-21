@@ -5,41 +5,46 @@ namespace App\Client\Registration\Controller;
 use DateInterval;
 use App\Client\Entity\Client;
 use App\Service\FileUploader;
-use App\Client\Entity\ClientSearch;
-use App\Client\Form\ClientSearchType;
+use Flasher\Prime\FlasherInterface;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Client\Repository\ClientRepository;
+use App\Service\ResponsableActivityTracker;
 use Symfony\Component\HttpFoundation\Request;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Client\Registration\Entity\Registration;
 use App\Client\Subscription\Entity\Subscription;
 use App\Client\Registration\Form\ClientRegistrationFormType;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RegistrationController extends AbstractController
 {
 
     private const SETTING_CODE = "ADMIN";
+    private const REGISTRATION_ACTIVITY = "Inscription d'un client";
+    private const REGISTRATION_CANCEL_ACTIVITY = "Résiliation d'une inscription";
+    private const REGISTRATION_LIST_ACTIVITY = "Visualisation des clients inscrits";
 
-    private $flashy;
+    private $flasher;
     private $clientRepository;
     private $em;
+    private $responsableTracker;
 
-    public function __construct(FlashyNotifier $flashy,ClientRepository $clientRepository,EntityManagerInterface $em)
+    public function __construct(FlasherInterface $flasher, ClientRepository $clientRepository, EntityManagerInterface $em,ResponsableActivityTracker $responsableTracker)
     {
-        $this->flashy = $flashy;
+        $this->flasher = $flasher;
         $this->clientRepository = $clientRepository;
         $this->em = $em;
+        $this->responsableTracker = $responsableTracker;
     }
 
     #[Route('/client/register', name: 'app_register_client')]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_REGISTER_CLIENT') or is_granted('ROLE_ADMIN')")
+     * 
      * register Allow to register a new customer
      *
      * @param  mixed $request
@@ -88,14 +93,14 @@ class RegistrationController extends AbstractController
             $client = $form->get('registeredClient')->getData();
 
             if ($data) {
-                $photoProfilName = $fileUploader->upload($data,'profil');
+                $photoProfilName = $fileUploader->upload($data, 'profil');
                 $client->setProfilFileName($photoProfilName);
             }
 
             // Remove the 00221 of the phone number
-           if (preg_match('/^(00221)/',$client->getTelephone() )) {
-               $client->setTelephone(substr($client->getTelephone(),5));
-           }
+            if (preg_match('/^(00221)/', $client->getTelephone())) {
+                $client->setTelephone(substr($client->getTelephone(), 5));
+            }
 
             $dateReg = clone $registration->getDateOfRegistration();
             date_add($dateReg, new DateInterval("P1Y"));
@@ -130,7 +135,11 @@ class RegistrationController extends AbstractController
 
             $this->em->flush();
 
-            $this->flashy->success("Inscription réussie");
+
+            // Save actitity 
+            $this->responsableTracker->saveTracking($this::REGISTRATION_ACTIVITY,$this->getUser());
+
+            $this->flasher->addSuccess("Inscription réussie");
             return $this->redirectToRoute("app_client_registration_list");
         }
         return $this->render('client/registration/registration.html.twig', [
@@ -140,10 +149,12 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    
+
     #[Route('/client/registration/cancel/{id<\d+>}', name: 'app_client_registration_cancel')]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_CANCEL_REGISTRATION') or is_granted('ROLE_ADMIN')")
+     * 
      * cancel the registration of a customer
      *
      * @param  mixed $client
@@ -151,17 +162,22 @@ class RegistrationController extends AbstractController
      */
     public function cancel(Client $client): Response
     {
+        $this->responsableTracker->saveTracking($this::REGISTRATION_CANCEL_ACTIVITY,$this->getUser());
+
         $this->em->remove($client->getMyRegistration());
         $this->em->remove($client->getMySubscription());
         $this->em->flush();
-        $this->flashy->info("Résiliation accomplie !!");
+        $this->flasher->addInfo("Résiliation accomplie !!");
+
 
         return $this->redirectToRoute("app_client_registration_list");
     }
 
     #[Route('/client/registration/list/{showOnlyRegistered}', name: 'app_client_registration_list')]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_LIST_REGISTRATION') or is_granted('ROLE_ADMIN')")
+     * 
      * list of all registered customers
      * 
      * @param  mixed $showOnlyRegistered
@@ -176,6 +192,8 @@ class RegistrationController extends AbstractController
         } else {
             $clients = $this->clientRepository->findAll();
         }
+        $this->responsableTracker->saveTracking($this::REGISTRATION_LIST_ACTIVITY,$this->getUser());
+
         return $this->render("client/registration/list.html.twig", [
             'clients' => $clients,
             'checked' => $checked

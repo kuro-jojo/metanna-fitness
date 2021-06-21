@@ -73,7 +73,7 @@
 			</div>
 		{% endif %}
 		{%  if client is not null %}
-			<div class="table-responsive mt-5">
+			<div class="table-responsive mt-5  container">
 				<table class="table table-hover">
 					<thead class="thead-light">
 						<tr>
@@ -111,13 +111,13 @@
 						</tr>
 					</tbody>
 				</table>
+			</div>
 				{% if client.myRegistration is not null %}
 
 					<div class="d-grid gap-2 col-3 mx-auto mt-5">
 						<button class="btn btn-outline-danger btn-block " data-bs-toggle="modal" data-bs-target="#cancelModal">Résilier l'inscription</button>
 					</div>
 				{% endif %}
-			</div>
 
 			<!-- Modal -->
 			<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

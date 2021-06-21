@@ -35,7 +35,7 @@ class Article
     private $stock;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sale::class, mappedBy="articleSold")
+     * @ORM\OneToMany(targetEntity=Sale::class, mappedBy="articleSold", cascade={"remove"})
      */
     private $sales;
 

@@ -7,43 +7,52 @@ use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Service\FileUploader;
 use App\Repository\SaleRepository;
+use Flasher\Prime\FlasherInterface;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\ResponsableActivityTracker;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 #[Route('/article', name: 'app_article')]
-/**
- * @IsGranted("ROLE_RESPONSABLE")
- */
+
 class ArticleController extends AbstractController
 {
+
+    private  const  ARTICLE_SELL_ACTIVITY = "Vente du produit \"";
+    private  const  ARTICLE_ADD_ACTIVITY = "Ajout du produit \"";
+    private  const  ARTICLE_EDIT_ACTIVITY = "Edition du produit \"";
+    private  const  ARTICLE_DELETE_ACTIVITY = "Suppression du produit \"";
+
 
     private $articleRepository;
     private $categoryRepository;
     private $paginator;
     private $em;
-    private $flashy;
+    private $flasher;
+    private $responsableTracker;
 
-    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator, EntityManagerInterface $em, FlashyNotifier $flashy)
+    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator, EntityManagerInterface $em, FlasherInterface $flasher, ResponsableActivityTracker $responsableTracker)
     {
         $this->articleRepository = $articleRepository;
         $this->categoryRepository = $categoryRepository;
         $this->paginator = $paginator;
         $this->em = $em;
-        $this->flashy = $flashy;
+        $this->flasher = $flasher;
+        $this->responsableTracker = $responsableTracker;
     }
 
     #[Route('/list/{id<\d+>}/{article}', name: '_list')]
     /**
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')")
+     * 
      * return list Of Articles depends on the category
      *
      * @param  mixed $id
@@ -84,6 +93,9 @@ class ArticleController extends AbstractController
 
     #[Route('/search/{id<\d+>}', name: '_search')]
     /**
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')")
+     * 
      * articleSearch
      *
      * @param  mixed $id
@@ -107,7 +119,9 @@ class ArticleController extends AbstractController
 
     #[Route('/sell/{id<\d+>}', name: '_sell')]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')")
+     * 
      * sell an article
      *
      * @param  mixed $article
@@ -124,8 +138,8 @@ class ArticleController extends AbstractController
 
         //update the stock
         if ($quantity != null) {
-            if ($quantity > $stock || $quantity < 0) {
-                $this->flashy->warning("Quantité incorrecte!");
+            if ($quantity > $stock || $quantity <= 0) {
+                $this->flasher->addWarning("Quantité incorrecte!");
             } else {
                 $article->setStock($stock - $quantity);
                 $sale = new Sale;
@@ -138,7 +152,8 @@ class ArticleController extends AbstractController
                 $this->em->persist($sale);
                 $this->em->flush();
 
-                $this->flashy->info("Produit vendu!!");
+                $this->flasher->addInfo("Produit vendu!!");
+                $this->responsableTracker->saveTracking($this::ARTICLE_SELL_ACTIVITY . $article->getLabel() . "\" | Quantité : " . $quantity, $this->getUser());
             }
         }
 
@@ -147,6 +162,8 @@ class ArticleController extends AbstractController
 
     #[Route('/history', name: '_history')]
     /**
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SALES_HISTORY') or is_granted('ROLE_ADMIN')")
      * 
      * history of all sales by responsable
      *
@@ -165,12 +182,14 @@ class ArticleController extends AbstractController
 
     #[Route('/catalogue', name: '_catalogue')]
     /**
-     * @IsGranted("ROLE_ADMIN")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
+     * 
      * manage the stock of articles
      *
      * @return Response
      */
-    public function catalogue(): Response
+    public function catalog(): Response
     {
         $articles = $this->articleRepository->findOrderedByCreatedAt();
         return $this->render('article/catalogue.html.twig', [
@@ -180,7 +199,9 @@ class ArticleController extends AbstractController
 
     #[Route('/add', name: '_add')]
     /**
-     * IsGranted("ROLE_ADMIN")
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
+     * 
      * add a new Article
      *
      * @param  mixed $request
@@ -195,14 +216,18 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('imageFileName')->getData();
-            $imageFileName = $fileUploader->upload($image, 'product');
+            if ($image != null) {
 
-            $article->setImageFileName($imageFileName);
+                $imageFileName = $fileUploader->upload($image, 'product');
+                $article->setImageFileName($imageFileName);
+            }
             $article->setCreatedAt(new \DateTime);
             $this->em->persist($article);
             $this->em->flush();
 
-            $this->flashy->success('Produit ajouté');
+            $this->flasher->addSuccess('Produit ajouté');
+
+            $this->responsableTracker->saveTracking($this::ARTICLE_ADD_ACTIVITY . $article->getLabel() . "\" | Stock : " . $article->getStock(), $this->getUser());
 
             return $this->redirectToRoute('app_article_catalogue');
         }
@@ -211,8 +236,10 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id<\d+>}', name: '_edit',methods : ['GET', 'PUT'])]
+    #[Route('/edit/{id<\d+>}', name: '_edit', methods: ['GET', 'PUT'])]
     /**
+     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
+     *  
      * edit an article
      *
      * @param  mixed $article
@@ -235,7 +262,8 @@ class ArticleController extends AbstractController
             }
 
             $this->em->flush();
-            $this->flashy->info('Produit édité');
+            $this->flasher->addInfo('Produit édité');
+            $this->responsableTracker->saveTracking($this::ARTICLE_EDIT_ACTIVITY . $article->getLabel() . "\"", $this->getUser());
 
             return $this->redirectToRoute('app_article_catalogue');
         }
@@ -244,8 +272,11 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id<\d+>}', name: '_delete',methods : ['DELETE'])]
+    #[Route('/delete/{id<\d+>}', name: '_delete', methods: ['DELETE'])]
     /**
+     * 
+     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
+     * 
      * delete an article
      *
      * @param  mixed $article
@@ -253,9 +284,12 @@ class ArticleController extends AbstractController
      */
     public function deleteArticle(Article $article): Response
     {
+        $this->responsableTracker->saveTracking($this::ARTICLE_DELETE_ACTIVITY . $article->getLabel() . "\"", $this->getUser());
+
         $this->em->remove($article);
         $this->em->flush();
-        $this->flashy->info('Produit supprimé');
+        $this->flasher->addInfo('Produit supprimé');
+
         return $this->redirectToRoute('app_article_catalogue');
     }
 }

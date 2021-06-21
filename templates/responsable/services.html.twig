@@ -7,7 +7,7 @@
 	{{parent()}}
 	<style>
 		body {
-			overflow: hidden;
+			overflow: auto;
 		}
 		th {
 			color: #000;
@@ -48,45 +48,34 @@
 		<h1 class="text-center mt-5 fw-bold">Activités des responsables</h1>
 
 		<div class=" py-5">
-			<div
-				class="mx-auto rounded">
+			<div class="mx-auto rounded">
 
-				<div class="table-responsive">
+				<div class="container mx-auto">
 					<table class="table table-hover">
 						<thead class="thead-light">
 							<tr>
-								<th class="header" scope="col">Code responsable</th>
 								<th class="header" scope="col">Nom</th>
 								<th class="header" scope="col">Prénom(s)</th>
-								<th class="header" scope="col">Téléphone</th>
-								<th class="header" scope="col">Email</th>
-								<th class="header" scope="col">Début du service</th>
-								<th class="header" scope="col">Fin du service</th>
+								<th class="header" scope="col">Date de l'activité</th>
+								<th class="header" scope="col">Activité</th>
 							</tr>
 						</thead>
 						<tbody>
 							{% for service in services %}
 								<tr>
-									<th scope="row">{{service.responsable.id}}</th>
 									<td>{{service.responsable.nom}}</td>
 									<td>{{service.responsable.prenom}}</td>
-									<td>{{service.responsable.telephone}}</td>
-									<td>{{service.responsable.email}}</td>
-									<td>{{service.startOfService|localizeddate('long', 'medium', 'fr')}}</td>
-									{% if service.endOfService is not null %}
-										<td>{{service.endOfService|localizeddate('long', 'medium', 'fr')}}</td>
-									{% else %}
-										<td>ND</td>
-									{% endif %}
+									<td>{{service.dateOfService|localizeddate('long', 'medium', 'fr')}}</td>
+									<td>{{service.serviceName}}</td>
+
 								</tr>
 							{% endfor %}
 						</tbody>
 					</table>
 				</div>
-				<!-- End -->
 			</div>
 		</div>
 	</div>
 
 	{% include "layouts/_footer.html.twig" %}
-</div></div>{% endblock %}
+{% endblock %}

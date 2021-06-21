@@ -48,7 +48,7 @@ class ArticleType extends AbstractType
                             'image/*',
                         ],
                         'mimeTypesMessage' => 'Envoyer un fichier image',
-                    ])
+                    ]),
                 ]
             ]);
     }

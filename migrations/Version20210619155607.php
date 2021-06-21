@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210604124956 extends AbstractMigration
+final class Version20210619155607 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -34,6 +34,7 @@ final class Version20210604124956 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE settings_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE subscription_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE article (id INT NOT NULL, category_id INT NOT NULL, label VARCHAR(255) NOT NULL, price INT NOT NULL, stock INT NOT NULL, image_file_name VARCHAR(255) DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_23A0E66EA750E8 ON article (label)');
         $this->addSql('CREATE INDEX IDX_23A0E6612469DE2 ON article (category_id)');
         $this->addSql('CREATE TABLE category (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE client (id INT NOT NULL, my_card_id INT DEFAULT NULL, nom VARCHAR(255) NOT NULL, prenom VARCHAR(255) NOT NULL, telephone VARCHAR(255) NOT NULL, email VARCHAR(255) DEFAULT NULL, date_naissance DATE DEFAULT NULL, profil_file_name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
@@ -54,7 +55,7 @@ final class Version20210604124956 extends AbstractMigration
         $this->addSql('CREATE TABLE sale (id INT NOT NULL, responsable_of_sale_id INT NOT NULL, article_sold_id INT NOT NULL, date_of_sale DATE NOT NULL, previous_stock INT NOT NULL, quantity_sold INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_E54BC00543224AD9 ON sale (responsable_of_sale_id)');
         $this->addSql('CREATE INDEX IDX_E54BC005251A0ACA ON sale (article_sold_id)');
-        $this->addSql('CREATE TABLE service (id INT NOT NULL, responsable_id INT NOT NULL, start_of_service TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, end_of_service TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE service (id INT NOT NULL, responsable_id INT NOT NULL, date_of_service TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, service_name VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_E19D9AD253C59D72 ON service (responsable_id)');
         $this->addSql('CREATE TABLE settings (id INT NOT NULL, default_registration_amount INT NOT NULL, default_subs_amount INT NOT NULL, code VARCHAR(10) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_E545A0C577153098 ON settings (code)');

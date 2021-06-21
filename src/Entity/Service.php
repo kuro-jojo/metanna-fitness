@@ -18,14 +18,14 @@ class Service
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $startOfService;
-
-    /**
      * @ORM\Column(type="datetime",nullable=true)
      */
-    private $endOfService;
+    private $dateOfService;
+
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     */
+    private $serviceName;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="services")
@@ -38,36 +38,57 @@ class Service
         return $this->id;
     }
 
-    public function getStartOfService(): ?\DateTimeInterface
+    /**
+     * Get the value of dateOfService
+     */
+    public function getDateOfService()
     {
-        return $this->startOfService;
+        return $this->dateOfService;
     }
 
-    public function setStartOfService(\DateTimeInterface $startOfService): self
+    /**
+     * Set the value of dateOfService
+     */
+    public function setDateOfService($dateOfService): self
     {
-        $this->startOfService = $startOfService;
+        $this->dateOfService = $dateOfService;
 
         return $this;
     }
 
-    public function getEndOfService(): ?\DateTimeInterface
+
+
+    /**
+     * Get the value of serviceName
+     */
+    public function getServiceName()
     {
-        return $this->endOfService;
+        return $this->serviceName;
     }
 
-    public function setEndOfService(\DateTimeInterface $endOfService): self
+    /**
+     * Set the value of serviceName
+     */
+    public function setServiceName($serviceName): self
     {
-        $this->endOfService = $endOfService;
+        $this->serviceName = $serviceName;
 
         return $this;
     }
 
-    public function getResponsable(): ?User
+
+    /**
+     * Get the value of responsable
+     */
+    public function getResponsable()
     {
         return $this->responsable;
     }
 
-    public function setResponsable(?User $responsable): self
+    /**
+     * Set the value of responsable
+     */
+    public function setResponsable($responsable): self
     {
         $this->responsable = $responsable;
 
