@@ -7,40 +7,9 @@
 	{{parent()}}
 	<style>
 		body {
-			overflow: auto;
+			overflow-x: hidden;
 		}
-		th {
-			color: #000;
-			text-align: center;
-		}
-		td,
-		th {
-			text-align: center !important;
-			vertical-align: unset !important;
-		}
-		.table-responsive {
-			height: 75vh;
-			overflow: auto;
-			width: 95%;
-			margin-left: 50px
-		}
-		.header {
-			position: sticky;
-			top: 0;
-		}
-
-		.profil {
-			width: 100px;
-			height: 100px;
-			border-radius: 10px
-		}
-		/* .thumbnail:hover {
-			position: absolute;
-			top: 30%;
-			left: 50%;
-			width: 300px;
-			height: auto;
-		} */
+		
 	</style>
 {% endblock %}
 {% block body %}
@@ -63,10 +32,10 @@
 					<table class="table table-hover">
 						<thead class="thead-light">
 							<tr>
-								<th class="header" scope="col">Nom</th>
-								<th class="header" scope="col">Prénom(s)</th>
-								<th class="header" scope="col">Date de l'activité</th>
-								<th class="header" scope="col">Activité</th>
+								<th class="header sort-by" scope="col">Nom</th>
+								<th class="header sort-by" scope="col">Prénom(s)</th>
+								<th class="header sort-by" scope="col">Date de l'activité</th>
+								<th class="header sort-by" scope="col">Activité</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -76,7 +45,6 @@
 									<td>{{service.responsable.prenom}}</td>
 									<td>{{service.dateOfService|localizeddate('long', 'medium', 'fr')}}</td>
 									<td>{{service.serviceName}}</td>
-
 								</tr>
 							{% endfor %}
 						</tbody>

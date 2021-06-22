@@ -260,14 +260,14 @@ class ResponsableController extends AbstractController
     public function getRoles()
     {
         return [
-            "Registration" => [
+            "Inscription" => [
                 $this::ROLE_RIGHT_REGISTER_CLIENT => "Inscrire un client",
                 $this::ROLE_RIGHT_CANCEL_REGISTRATION => "Résilier une inscription",
                 $this::ROLE_RIGHT_LIST_REGISTRATION => "Consulter les inscriptions",
                 $this::ROLE_RIGHT_EDIT_REGISTRATION => "Edition d'une inscription/client",
 
             ],
-            "Subscription" => [
+            "Abonnement" => [
                 $this::ROLE_RIGHT_SUBSCRIBE_CLIENT => "Abonner un client",
                 $this::ROLE_RIGHT_LIST_SUBSCRIPTION => "Consulter les abonnements",
             ],
