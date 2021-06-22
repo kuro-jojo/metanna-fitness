@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class ClientFormType extends AbstractType
+class ClientEditFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -62,20 +62,7 @@ class ClientFormType extends AbstractType
                     'placeholder' => 'Sélectionner une photo',
                     'onchange' => 'showPreview(event)',
                     'value' => 'photo profile'
-                ],
-                'constraints' => [
-                    new File([
-                        'maxSize' => '3096k',
-                        'mimeTypes' => [
-                            'image/*',
-                        ],
-                        'mimeTypesMessage' => 'Envoyer un fichier image',
-                    ]),
-                    new NotBlank(
-                        null,
-                        "Veuillez choisir une photo de profil"
-                    )
-                ],
+                ]
             ]);
     }
 

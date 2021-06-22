@@ -1,0 +1,161 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Edition d'un client
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<style>
+
+		.form {
+			margin-left: 20%;
+		}
+		.profil_image {
+			width: 250px;
+			height: 250px;
+		}
+		.card {
+			border: none;
+		}
+		.profil-div {
+			padding-top: 40px;
+		}
+	</style>
+{% endblock %}
+
+{% block javascripts %}
+	{{parent()}}
+	{# Code for image preview #}
+
+	<script>
+		function showPreview(event) {
+if (event.target.files.length > 0) {
+var src = URL.createObjectURL(event.target.files[0]);
+var preview = document.getElementById('profilPreview');
+preview.src = src;
+
+}
+}
+function deadlineDate() {
+var d = document.getElementById('client_registration_form_dateOfRegistration');
+var input = d.value;
+var dateEntered = new Date(input);
+var dd = dateEntered.getDate();
+var mm = dateEntered.getMonth() + 1;
+var yyyy = dateEntered.getFullYear() + 1;
+if (dd < 10) {
+dd = '0' + dd;
+}
+if (mm == 13) {
+mm = 1;
+}
+if (mm < 10) {
+mm = '0' + mm;
+}
+const formatter = new Intl.DateTimeFormat('fr', {month: 'long'});
+
+const month = formatter.format(new Date(yyyy, mm - 1, dd));
+var deadline = dd + ' ' + month + ' ' + yyyy;
+
+document.getElementById('client_registration_form_deadline').value = deadline;
+}
+	</script>
+
+{% endblock %}
+
+{% block body %}
+	<div class="content-wrapper">
+
+		<div onload="dateMax()">
+			<div id=" " class="">
+				<h1 class="text-center">Edition d'un client</h1>
+				<div class="container d-flex justify-content-center">
+					<div class="col-10">
+						{{form_start(formClientRegister,
+							{
+								'attr':
+									{
+										'class':'row g-3'
+									}
+							})
+						}}
+						<div class="col-md-6">
+							<label for="client_register_form_prenom" class="form-label">Prénom(s) du Client
+								<span class="text-danger">*</span>
+							</label>
+
+							{{form_widget(formClientRegister.registeredClient.prenom)}}
+							{{form_errors(formClientRegister.registeredClient.prenom)}}
+						</div>
+						<div class="col-md-6">
+							<label for="client_register_form_nom" class="form-label">Nom du Client
+								<span class="text-danger">*</span>
+							</label>
+							{{form_widget(formClientRegister.registeredClient.nom)}}
+							{{form_errors(formClientRegister.registeredClient.nom)}}
+						</div>
+						<div class="col-md-6" style="margin-left:inherit">
+							<div class="row">
+								<div class="g-3">
+									<div class="col-md-12">
+										<label for="client_register_form_telephone" class="form-label">Téléphone
+											<span class="text-danger">*</span>
+										</label>
+										{{form_widget(formClientRegister.registeredClient.telephone)}}
+										{{form_errors(formClientRegister.registeredClient.telephone)}}
+									</div>
+								</div>
+								<div class="g-3">
+									<div class="col-md-12">
+										<label for="client_register_form_email" class="form-label">Email</label>
+										{{form_widget(formClientRegister.registeredClient.email)}}
+										{{form_errors(formClientRegister.registeredClient.email)}}
+									</div>
+								</div>
+								<div class="g-2">
+									<div class="col-md-12">
+										<label for="client_register_form_dateNaissance" class="form-label">Date de naissance</label>
+										{{form_widget(formClientRegister.registeredClient.dateNaissance)}}
+										{{form_errors(formClientRegister.registeredClient.dateNaissance)}}
+									</div>
+								</div>
+								<div class="g-2 mb-3">
+									<div class="col-md-12">
+
+										<label for="client_register_form_photoProfil" class="form-label">Photo de profil
+											<span class="text-danger">*</span>
+										</label>
+										{{form_widget(formClientRegister.registeredClient.photoProfil)}}
+										{{form_errors(formClientRegister.registeredClient.photoProfil)}}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-1"></div>
+
+						<div class="col-md-4 d-flex justify-content-center profil-div">
+							<img class="profil_image" id="profilPreview" src="{{asset('uploads/profil/'~path)}}" alt="Photo de profil du client">
+						</div>
+						<div class="row mt-4 p-0">
+							<div class="col-md-4 text-center">
+								<label for="client_registration_form_dateOfRegistration" class="form-label">Date d'inscription</label>
+								{{form_widget(formClientRegister.dateOfRegistration)}}
+								{{form_errors(formClientRegister.dateOfRegistration)}}
+							</div>
+							<div class="col-md-4 text-center">
+								<label for="client_registration_form_deadline" class="form-label">Date de fin de l'inscription</label>
+								<input type="text" id="client_registration_form_deadline" name="client_registration_form[deadline]" required="required" disabled="disabled" class="text-center form-control" value="{{registration.deadline|localizeddate('long', 'none', 'fr')}}">
+
+							</div>
+							 
+						</div>
+						<div class="d-grid gap-2 col-6 mx-auto mt-5 mb-5">
+							<button class="btn btn-outline-info fs-5" type="submit">Modifier</button>
+						</div>
+						{{form_end(formClientRegister)}}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

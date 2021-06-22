@@ -16,7 +16,7 @@ class SubscriptionController extends AbstractController
 {
 
     private const SUBSCRIPTION_ACTIVITY = "Abonnement du client n°";
-    private const SUBSCRIPTION_LIST_ACTIVITY = "Visualisation des abonnés";
+    private const SUBSCRIPTION_LIST_ACTIVITY = "Consultation des abonnés";
 
     private $flasher;
     private $responsableTracker;

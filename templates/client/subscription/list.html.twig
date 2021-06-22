@@ -3,6 +3,16 @@
 {% block title %}Liste des abonnés
 {% endblock %}
 
+{% block stylesheets %}
+	{{parent()}}
+
+	<style>
+		tbody tr{
+			cursor: pointer;
+		}
+	</style>
+{% endblock %}
+
 {% block body %}
 	<div class="content-wrapper" class="d-flex flex-column">
 
@@ -26,63 +36,69 @@
 				</thead>
 				<tbody>
 					{% for client in clients %}
-						<tr>
-							<th class="p-3" scope="row">{{client.id}}</th>
-							<td class="p-3">{{client.nom}}</td>
-							<td class="p-3">{{client.prenom}}</td>
-							<td class="p-3">{{'+221 '~ client.telephone}}</td>
-							<td class="p-3">{{client.email}}</td>
+						<form action="{{path('app_register_edit_client',{id:client.id})}}" method="post" id="edit-form-{{client.id}}"></form>
+						{% if client.myRegistration is not null and  (is_granted("ROLE_ADMIN") or is_granted("ROLE_RIGHT_REGISTER_EDIT_CLIENT")) %}
 
-							{% if client.dateNaissance is not null %}
-								<td class="p-3">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+							<tr class="pointer-tr" onclick="document.getElementById('edit-form-{{client.id}}').submit();">
 							{% else %}
-								<td></td>
-							{% endif %}
-							{% if client.myRegistration is not null %}
-								<td class="p-3">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-							{% else %}
-								<td></td>
-							{% endif %}
-							{% if client.mySubscription is not null %}
-								<td class="p-3">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
-								<td class="p-3">{{client.mySubscription.amountOfSubs ~ ' XOF'}}</td>
+								<tr>
+								{% endif %}
+								<th class="p-3" scope="row">{{client.id}}</th>
+								<td class="p-3">{{client.nom}}</td>
+								<td class="p-3">{{client.prenom}}</td>
+								<td class="p-3">{{'+221 '~ client.telephone}}</td>
+								<td class="p-3">{{client.email}}</td>
 
-								{% set content = "" %}
-								{% set color = "success" %}
-								{% if timeRemaining[client.id] is null %}
-									{% if client.mySubscription.startOfSubs > client.myRegistration.dateOfRegistration %}
-										{% set content = "En cours" %}
-									{% else %}
-										{% set content = "Pas démarré" %}
-									{% endif %}
-									{% set color = "info" %}
+								{% if client.dateNaissance is not null %}
+									<td class="p-3">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
 								{% else %}
-									{% if timeRemaining[client.id] <= 0 %}
-										{% set content = "Expiré" %}
-										{% set color = "danger" %}
+									<td></td>
+								{% endif %}
+								{% if client.myRegistration is not null %}
+									<td class="p-3">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+								{% else %}
+									<td></td>
+								{% endif %}
+								{% if client.mySubscription is not null %}
+									<td class="p-3">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
+									<td class="p-3">{{client.mySubscription.amountOfSubs ~ ' XOF'}}</td>
 
+									{% set content = "" %}
+									{% set color = "success" %}
+									{% if timeRemaining[client.id] is null %}
+										{% if client.mySubscription.startOfSubs > client.myRegistration.dateOfRegistration %}
+											{% set content = "En cours" %}
+										{% else %}
+											{% set content = "Pas démarré" %}
+										{% endif %}
+										{% set color = "info" %}
 									{% else %}
-
-										{% set content = "Expire dans " ~ timeRemaining[client.id] ~ " jours" %}
-										{% if timeRemaining[client.id] <= 7 %}
+										{% if timeRemaining[client.id] <= 0 %}
+											{% set content = "Expiré" %}
 											{% set color = "danger" %}
+
+										{% else %}
+
+											{% set content = "Expire dans " ~ timeRemaining[client.id] ~ " jours" %}
+											{% if timeRemaining[client.id] <= 7 %}
+												{% set color = "danger" %}
+											{% endif %}
 										{% endif %}
 									{% endif %}
-								{% endif %}
 
-								<th>
-									<span class="text-{{color}}">{{content}}</span>
-								</th>
-							{% else %}
-								<td></td>
-								<td></td>
-								<td></td>
-							{% endif %}
-						</tr>
-					{% endfor %}
+									<th>
+										<span class="text-{{color}}">{{content}}</span>
+									</th>
+								{% else %}
+									<td></td>
+									<td></td>
+									<td></td>
+								{% endif %}
+							</tr>
+						{% endfor %}
+					</tbody>
 				</tbody>
-			</tbody>
-		</table>
-		<!-- End -->
-	</div>
-{% endblock %}
+			</table>
+			<!-- End -->
+		</div>
+	{% endblock %}

@@ -17,6 +17,7 @@ use App\Client\Registration\Entity\Registration;
 use App\Client\Subscription\Entity\Subscription;
 use App\Client\Registration\Form\ClientRegistrationFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Client\Registration\Form\ClientEditRegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RegistrationController extends AbstractController
@@ -24,15 +25,16 @@ class RegistrationController extends AbstractController
 
     private const SETTING_CODE = "ADMIN";
     private const REGISTRATION_ACTIVITY = "Inscription d'un client";
+    private const REGISTRATION_EDIT_ACTIVITY = "Edition d'un client";
     private const REGISTRATION_CANCEL_ACTIVITY = "Résiliation d'une inscription";
-    private const REGISTRATION_LIST_ACTIVITY = "Visualisation des clients inscrits";
+    private const REGISTRATION_LIST_ACTIVITY = "Consultation des clients inscrits";
 
     private $flasher;
     private $clientRepository;
     private $em;
     private $responsableTracker;
 
-    public function __construct(FlasherInterface $flasher, ClientRepository $clientRepository, EntityManagerInterface $em,ResponsableActivityTracker $responsableTracker)
+    public function __construct(FlasherInterface $flasher, ClientRepository $clientRepository, EntityManagerInterface $em, ResponsableActivityTracker $responsableTracker)
     {
         $this->flasher = $flasher;
         $this->clientRepository = $clientRepository;
@@ -137,7 +139,7 @@ class RegistrationController extends AbstractController
 
 
             // Save actitity 
-            $this->responsableTracker->saveTracking($this::REGISTRATION_ACTIVITY,$this->getUser());
+            $this->responsableTracker->saveTracking($this::REGISTRATION_ACTIVITY, $this->getUser());
 
             $this->flasher->addSuccess("Inscription réussie");
             return $this->redirectToRoute("app_client_registration_list");
@@ -149,6 +151,96 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[Route('/client/register/edit/{id<\d+>}', name: 'app_register_edit_client')]
+    /**
+     * 
+     * @Security("is_granted('ROLE_RIGHT_REGISTER_EDIT_CLIENT') or is_granted('ROLE_ADMIN')")
+     * 
+     * register Allow to register a new customer
+     *
+     * @param  mixed $request
+     * @param  mixed $fileUploader
+     * @param  mixed $settingsRepository
+     * @return Response
+     */
+    public function editRegistration(Request $request, Client $client, FileUploader $fileUploader, SettingsRepository $settingsRepository): Response
+    {
+        $registration = $client->getMyRegistration();
+        // $registration->setDateOfRegistration(new DateTime('now', new DateTimeZone("UTC")));
+
+        // $date = new DateTime('now', new DateTimeZone("UTC"));
+
+        $form = $this->createForm(ClientEditRegistrationFormType::class, $registration);
+        $form->handleRequest($request);
+
+
+        // Ensure to have a default preview and save the path only for image file
+        $path = $client->getProfilFileName();
+        $data = $form->get('registeredClient')->get('photoProfil')->getData();
+        if ($data != null && str_starts_with($data->getClientMimeType(), "image/")) {
+            $path = $data->getClientOriginalName();
+        }
+
+        // $path = $this->session->get('photoProfil', '');
+        // dump($path);
+        // if (!empty($path)) {
+        //     if ($data != null && str_starts_with($data->getClientMimeType(), "image/")) {
+        //         $path = $data->getClientOriginalName();
+        //     }else 
+        //     $data = $form->get('registeredClient')->get('photoProfil')->getData();
+
+        // } else {
+        //     $path = "profil_icon.png";
+        // }
+        // dump($data);
+
+        // $this->session->set('photoProfil', $path);
+        // $this->session->set('data', $data);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($data) {
+                $photoProfilName = $fileUploader->upload($data, 'profil');
+                $client->setProfilFileName($photoProfilName);
+            }
+
+            // Remove the 00221 of the phone number
+            if (preg_match('/^(00221)/', $client->getTelephone())) {
+                $client->setTelephone(substr($client->getTelephone(), 5));
+            }
+
+            $dateReg = clone $registration->getDateOfRegistration();
+            date_add($dateReg, new DateInterval("P1Y"));
+            $registration->setDeadline($dateReg);
+
+            //Subscribe for the first month
+            $subscription = $client->getMySubscription();
+            $subscription->setStartOfSubs($registration->getDateOfRegistration());
+
+            $dateSubs = clone $subscription->getStartOfSubs();
+            date_add($dateSubs, new DateInterval("P1M"));
+            $subscription->setEndOfSubs($dateSubs);
+
+            $subscription->setSubscribedClient($client);
+
+            $client->setMyRegistration($registration);
+            $client->setMySubscription($subscription);
+
+
+            $this->em->flush();
+
+
+            // Save actitity 
+            $this->responsableTracker->saveTracking($this::REGISTRATION_EDIT_ACTIVITY, $this->getUser());
+
+            $this->flasher->addInfo("Modification effectuée !!");
+            return $this->redirectToRoute("app_client_registration_list");
+        }
+        return $this->render('client/registration/edit.html.twig', [
+            'formClientRegister' => $form->createView(),
+            'registration' => $registration,
+            'path' => $path
+        ]);
+    }
 
     #[Route('/client/registration/cancel/{id<\d+>}', name: 'app_client_registration_cancel')]
     /**
@@ -162,7 +254,7 @@ class RegistrationController extends AbstractController
      */
     public function cancel(Client $client): Response
     {
-        $this->responsableTracker->saveTracking($this::REGISTRATION_CANCEL_ACTIVITY,$this->getUser());
+        $this->responsableTracker->saveTracking($this::REGISTRATION_CANCEL_ACTIVITY, $this->getUser());
 
         $this->em->remove($client->getMyRegistration());
         $this->em->remove($client->getMySubscription());
@@ -192,7 +284,7 @@ class RegistrationController extends AbstractController
         } else {
             $clients = $this->clientRepository->findAll();
         }
-        $this->responsableTracker->saveTracking($this::REGISTRATION_LIST_ACTIVITY,$this->getUser());
+        $this->responsableTracker->saveTracking($this::REGISTRATION_LIST_ACTIVITY, $this->getUser());
 
         return $this->render("client/registration/list.html.twig", [
             'clients' => $clients,

@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Repository\ArticleRepository;
 use App\Repository\ServiceRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ResponsableServiceController extends AbstractController
@@ -18,9 +21,11 @@ class ResponsableServiceController extends AbstractController
      @Security("is_granted('ROLE_RIGHT_RESPONSABLE_ACTIVITIES') or is_granted('ROLE_ADMIN')")
     */
 
-   public function allServices(ServiceRepository $serviceRepository): Response
+   public function allServices(Request $request, ServiceRepository $serviceRepository, PaginatorInterface $paginator): Response
    {
-      $services = $serviceRepository->findAll();
+
+      $services = $paginator->paginate($serviceRepository->findAllQuery(), $request->query->getInt('page', 1), 20);
+
       return $this->render('responsable/services.html.twig', [
          'services' => $services
       ]);

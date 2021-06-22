@@ -25,14 +25,16 @@ class ResponsableController extends AbstractController
 {
 
     private  const  ROLE_RESPONSABLE = "ROLE_RESPONSABLE";
+
     private  const  RESPONSABLE_ADD_ACTIVITY = "Ajout d'un responsable";
     private  const  RESPONSABLE_RIGHT_MODIFY_ACTIVITY = "Modification des droits d'un responsable";
-    private  const  RESPONSABLE_LIST_ACTIVITY = "Visualisation des responsables";
+    private  const  RESPONSABLE_LIST_ACTIVITY = "Consulation des responsables";
     private  const  RESPONSABLE_PROFILE_EDIT_ACTIVITY = "Edition du profil";
 
     private  const   ROLE_RIGHT_REGISTER_CLIENT = "ROLE_RIGHT_REGISTER_CLIENT";
     private  const   ROLE_RIGHT_CANCEL_REGISTRATION = "ROLE_RIGHT_CANCEL_REGISTRATION";
     private  const   ROLE_RIGHT_LIST_REGISTRATION = "ROLE_RIGHT_LIST_REGISTRATION";
+    private  const   ROLE_RIGHT_EDIT_REGISTRATION = "ROLE_RIGHT_EDIT_REGISTRATION";
     private  const   ROLE_RIGHT_SUBSCRIBE_CLIENT = "ROLE_RIGHT_SUBSCRIBE_CLIENT";
     private  const   ROLE_RIGHT_LIST_SUBSCRIPTION = "ROLE_RIGHT_LIST_SUBSCRIPTION";
     private  const   ROLE_RIGHT_SELL_ARTICLE = "ROLE_RIGHT_SELL_ARTICLE";
@@ -261,12 +263,13 @@ class ResponsableController extends AbstractController
             "Registration" => [
                 $this::ROLE_RIGHT_REGISTER_CLIENT => "Inscrire un client",
                 $this::ROLE_RIGHT_CANCEL_REGISTRATION => "Résilier une inscription",
-                $this::ROLE_RIGHT_LIST_REGISTRATION => "Visualiser les inscriptions",
+                $this::ROLE_RIGHT_LIST_REGISTRATION => "Consulter les inscriptions",
+                $this::ROLE_RIGHT_EDIT_REGISTRATION => "Edition d'une inscription/client",
 
             ],
             "Subscription" => [
                 $this::ROLE_RIGHT_SUBSCRIBE_CLIENT => "Abonner un client",
-                $this::ROLE_RIGHT_LIST_SUBSCRIPTION => "Visualiser les abonnements",
+                $this::ROLE_RIGHT_LIST_SUBSCRIPTION => "Consulter les abonnements",
             ],
             "Produits" => [
                 $this::ROLE_RIGHT_SELL_ARTICLE => "Vendre un produit",
@@ -275,7 +278,7 @@ class ResponsableController extends AbstractController
             ],
             "Administration" => [
                 $this::ROLE_RIGHT_ADD_RESPONSABLE => "Ajouter un responsable",
-                $this::ROLE_RIGHT_LIST_RESPONSABLE => "Visualiser les responsables",
+                $this::ROLE_RIGHT_LIST_RESPONSABLE => "Consulter les responsables",
                 $this::ROLE_RIGHT_RESPONSABLE_ACTIVITIES => "Tracking des responsables",
             ]
 
