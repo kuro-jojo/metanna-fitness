@@ -10,6 +10,7 @@ use Flasher\Prime\FlasherInterface;
 use App\Repository\ServiceRepository;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\ResponsableActivityTracker;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,13 +19,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SettingsController extends AbstractController
 {
 
+    private  const  SETTING_AMOUNT_ACTIVITY = "Modification des montants";
+    private  const  SETTING_SALES_ACTIVITY = "Suppression de l'historique des ventes";
+    private  const  SETTING_USER_TRACKING_ACTIVITY = "Suppression du tracking des responsables";
+    private  const  SETTING_CLIENT_TRACKING_ACTIVITY = "Suppression du tracking des clients";
+
+
     private $em;
     private $flasher;
+    private $responsableTracker;
 
-    public function __construct(EntityManagerInterface $em, FlasherInterface $flasher)
+    public function __construct(EntityManagerInterface $em, FlasherInterface $flasher,ResponsableActivityTracker $responsableTracker)
     {
         $this->em = $em;
         $this->flasher = $flasher;
+        $this->responsableTracker = $responsableTracker;
     }
 
     #[Route('/settings', name: 'app_settings')]
@@ -65,7 +74,10 @@ class SettingsController extends AbstractController
 
 
             $this->em->flush();
-            $this->flasher->addSuccess('Les montants ont été effectués !');
+            $this->flasher->addSuccess('Les montants ont été edités !');
+
+            $this->responsableTracker->saveTracking($this::SETTING_AMOUNT_ACTIVITY, $this->getUser());
+            
         }
 
 
@@ -93,6 +105,8 @@ class SettingsController extends AbstractController
         }
 
         $this->flasher->addInfo('L historique des ventes a été supprimé !!');
+        
+        $this->responsableTracker->saveTracking($this::SETTING_SALES_ACTIVITY, $this->getUser());
 
         return $this->redirectToRoute('app_settings');
     }
@@ -134,6 +148,7 @@ class SettingsController extends AbstractController
 
         $this->flasher->addInfo('L historique des activités des responsables a été supprimé !!');
 
+        $this->responsableTracker->saveTracking($this::SETTING_USER_TRACKING_ACTIVITY, $this->getUser());
 
         return $this->redirectToRoute('app_settings');
     }

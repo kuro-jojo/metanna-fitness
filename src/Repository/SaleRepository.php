@@ -36,15 +36,12 @@ class SaleRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Sales
+   
+    public function findAllQuery()
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
         ;
     }
-    */
+    
 }

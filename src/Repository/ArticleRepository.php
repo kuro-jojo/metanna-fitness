@@ -53,12 +53,11 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findOrderedByCreatedAt()
+    public function findOrderedByCreatedAtQuery()
     {
         return $this->createQueryBuilder('a')
             ->orderBy('a.createdAt','DESC')
             ->getQuery()
-            ->getResult()
         ;
     }
 }

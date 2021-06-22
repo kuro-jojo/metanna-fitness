@@ -67,7 +67,7 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 
 		<div onload="dateMax()">
 			<div id=" " class="">
-				<h1 class="text-center" >Inscrire un nouveau client</h1>
+				<h1 class="text-center">Inscrire un nouveau client</h1>
 				<div class="container d-flex justify-content-center">
 					<div class="col-10">
 						{{form_start(formClientRegister,
@@ -143,13 +143,15 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 							</div>
 							<div class="col-md-4 text-center">
 								<label for="client_registration_form_deadline" class="form-label">Date de fin de l'inscription</label>
-								<input type="text" id="client_registration_form_deadline" name="client_registration_form[deadline]" required="required" disabled="disabled" class="text-center form-control" value="{{registration.deadline|localizeddate('long', 'none', 'fr')}}">
+								<input type="text" id="client_registration_form_deadline" name="client_registration_form[deadline]" required="required" disabled class="text-center form-control" value="{{registration.deadline|localizeddate('long', 'none', 'fr')}}">
 
 							</div>
 							<div class="col-md-4 text-center">
 								<label for="client_registration_form_amountOfRegistration" class="form-label">Montant de l'inscription</label>
-								<input type="text" id="client_registration_form_amountOfRegistration" name="client_registration_form[amountOfRegistration]" required="required" disabled="disabled" class="text-center form-control" value="{{registration.amountOfRegistration ~ " XOF"}}">
-
+								<div class="input-group mb-3 col-md-8">
+									<input type="text" id="client_registration_form_amountOfRegistration" name="client_registration_form[amountOfRegistration]" required="required" disabled class="text-center form-control" value="{{registration.amountOfRegistration}}">
+									<span class="input-group-text">XOF</span>
+								</div>
 							</div>
 						</div>
 						<div class="d-grid gap-2 col-6 mx-auto mt-5 mb-5">

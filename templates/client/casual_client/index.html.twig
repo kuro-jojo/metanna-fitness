@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrement
+{% endblock %}
+
+{% block body %}
+
+	<div class="content-wrapper">
+		<div class="mx-auto mt-5 col-md-6">
+			<div class="h-10 p-5 text-white bg-light rounded-3">
+				<h1 class="fs-2 text-center mb-5">Enregistrement du client</h1>
+
+				{{form_start(form)}}
+				<div class="row">
+					<div class="col-md-6">
+						{{form_row(form.nom)}}
+					</div>
+					<div class="col-md-6">
+						{{form_row(form.prenom)}}
+					</div>
+					<div class="col-md-6">
+
+						{{form_label(form.amount)}}
+						<div class="input-group mb-3">
+							{{form_widget(form.amount)}}
+							<span class="input-group-text">XOF</span>
+						</div>
+					</div>
+
+				</div>
+                <div class="d-grid col-md-4 mx-auto mt-3">
+				<button class="btn btn-outline-dark" type="submit">Enregistrer</button>
+                </div>
+				{{form_end(form)}}
+			</div>
+		</div>
+	</div>
+{% endblock %}

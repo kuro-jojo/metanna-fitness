@@ -56,7 +56,10 @@
 									<input type="radio" class="form-check-input" name="register" id="checkAmountRegister">
 									<label class="form-check-label mb-2" for="checkAmountRegister" onclick="showAmountRegister()">Choisir un montant</label>
 									<div id="amountRegister">
-										{{form_widget(amountForm.amountRegister)}}
+										<div class="input-group mb-3">
+											{{form_widget(amountForm.amountRegister)}}
+											<span class="input-group-text">XOF</span>
+										</div>
 									</div>
 								</div>
 
@@ -65,7 +68,11 @@
 										<input type="radio" class="form-check-input" name="register" id="checkReductionRegister">
 										<label class="form-check-label mb-2" for="checkReductionRegister" onclick="showReductionRegister()">Faire une réduction</label>
 										<div id="reductionRegister">
-											{{form_widget(amountForm.reductionRegister)}}
+											<div class="input-group mb-3">
+												{{form_widget(amountForm.reductionRegister)}}
+												<span class="input-group-text">%</span>
+											</div>
+
 											<span>Ancien montant :
 												{{setting.defaultRegistrationAmount}}
 												XOF</span><br>
@@ -83,16 +90,23 @@
 									<input type="radio" class="form-check-input" name="subs" id="checkAmountSubs">
 									<label class="form-check-label mb-2" for="checkAmountSubs" onclick="showAmountSubs()">Choisir un montant</label>
 									<div id="amountSubs">
-										{{form_widget(amountForm.amountSubs)}}
+										<div class="input-group mb-3">
+											{{form_widget(amountForm.amountSubs)}}
+											<span class="input-group-text">XOF</span>
+										</div>
 									</div>
-
 								</div>
+
 								{% if setting is not null %}
 									<div class="form-check my-3">
 										<input type="radio" class="form-check-input" name="subs" id="checkReductionSubs">
 										<label class="form-check-label mb-2" for="checkReductionSubs" onclick="showReductionSubs()">Faire une réduction</label>
 										<div id="reductionSubs">
-											{{form_widget(amountForm.reductionSubs)}}
+											<div class="input-group mb-3">
+												{{form_widget(amountForm.reductionSubs)}}
+												<span class="input-group-text">%</span>
+											</div>
+
 											<span>Ancien montant :
 												{{setting.defaultSubsAmount}}
 												XOF</span><br>
@@ -113,27 +127,19 @@
 					<div class=" ml-3" id="sells">
 						<label for="sellsAction" class="form-label">Souhaitez-vous supprimer l'historique de vos ventes ?</label>
 						<div class="d-grid gap-2 col-6 mx-auto mt-3">
-							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); confirm('Confirmer la suppression ?') && document.getElementById('sellForm').submit()">Effacer</a>
+							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); confirm('La suppression est définitive.Continuer ?') && document.getElementById('sellForm').submit()">Effacer</a>
 						</div>
 						<form action="{{path('app_settings_sells_delete')}}" id="sellForm" method="post" style="display:none">
 							<input type="hidden" name="_method" value="DELETE"/>
 						</form>
 					</div>
 
-					<div class=" ml-3" id="clients-tracking">
-						{# <label for="sellsAction" class="form-label">Souhaitez-vous supprimer l'historique des activités des responsables ?</label>
-						<div class="d-grid gap-2 col-6 mx-auto mt-3">
-							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); confirm('Confirmer la suppression ?') && document.getElementById('clientsTrackingForm').submit();">Effacer</a>
-						</div>
-						<form action="#" id="clientsTrackingForm" method="post" style="display:none">
-							<input type="hidden" name="_method" value="DELETE"/>
-						</form> #}
-					</div>
+					<div class=" ml-3" id="clients-tracking"></div>
 
 					<div class=" ml-3" id="user-tracking">
 						<label for="sellsAction" class="form-label">Souhaitez-vous supprimer l'historique des activités des responsables ?</label>
 						<div class="d-grid gap-2 col-6 mx-auto mt-3">
-							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); confirm('Confirmer la suppression ?') && document.getElementById('userTrackingForm').submit();">Effacer</a>
+							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); confirm('La suppression est définitive.Continuer ?') && document.getElementById('userTrackingForm').submit();">Effacer</a>
 						</div>
 						<form action="{{path('app_settings_userTracking_delete')}}" id="userTrackingForm" method="post" style="display: none;">
 							<input type="hidden" name="_method" value="DELETE"/>

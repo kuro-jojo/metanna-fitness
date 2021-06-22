@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Historique de produits
+{% block title %}Historique des ventes
 {% endblock %}
 
 
@@ -8,32 +8,37 @@
 	<div class="content-wrapper">
 		<h1 class="text-center m-5 fw-bold">Historique des ventes</h1>
 
-		<div class="table-responsive m-5">
-			<table class="table table-hover">
-				<thead class="thead-light">
-					<tr>
-						<th class="header" scope="col">Article</th>
-						<th class="header" scope="col">Prix</th>
-						<th class="header" scope="col">Quantitée vendue</th>
-						<th class="header" scope="col">Ancien stock</th>
-						<th class="header" scope="col">Date de vente</th>
-						<th class="header" scope="col">Effectué par
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for sale in sales %}
+		<div class="mx-auto rounded">
+			<div class="container mx-auto">
+				<table class="table table-hover">
+					<thead class="thead-light">
 						<tr>
-							<th class="p-3" scope="row">{{sale.articleSold.label}}</th>
-							<td class="p-3">{{sale.articleSold.price ~ ' XOF'}}</td>
-							<td class="p-3">{{sale.quantitySold}}</td>
-							<td class="p-3">{{sale.previousStock}}</td>
-							<td class="p-3">{{sale.dateOfSale|localizeddate('long', 'none', 'fr')}}</td>
-							<td class="p-3">{{sale.responsableOfSale.prenom ~ ' ' ~  sale.responsableOfSale.nom}}</td>
+							<th class="header" scope="col">Article</th>
+							<th class="header" scope="col">Prix</th>
+							<th class="header" scope="col">Quantitée vendue</th>
+							<th class="header" scope="col">Ancien stock</th>
+							<th class="header" scope="col">Date de vente</th>
+							<th class="header" scope="col">Effectué par
+							</th>
 						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{% for sale in sales %}
+							<tr>
+								<th class="p-3" scope="row">{{sale.articleSold.label}}</th>
+								<td class="p-3">{{sale.articleSold.price ~ ' XOF'}}</td>
+								<td class="p-3">{{sale.quantitySold}}</td>
+								<td class="p-3">{{sale.previousStock}}</td>
+								<td class="p-3">{{sale.dateOfSale|localizeddate('long', 'none', 'fr')}}</td>
+								<td class="p-3">{{sale.responsableOfSale.prenom ~ ' ' ~  sale.responsableOfSale.nom}}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="d-flex container-perso navigation justify-content-center pb-5">
+				{{ knp_pagination_render(sales) }}
+			</div>
 		</div>
 	</div>
-</div></div>{% endblock %}
+{% endblock %}

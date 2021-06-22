@@ -18,7 +18,7 @@
 {% block body %}
 	<div class="content-wrapper">
 		<h1 class="text-center mt-5 fw-bold">Catalogue</h1>
-		<div class="mb-5" style="position:relative;left:62vw;">
+		<div class="mb-3" style="position:relative;left:62vw;">
 			<a href="{{path('app_article_add')}}" class="btn btn-outline-success">Ajouter un article</a>
 		</div>
 		<div class="py-3">
@@ -85,6 +85,9 @@
 						</tbody>
 					</table>
 				</div>
+			</div>
+			<div class="d-flex container-perso navigation justify-content-center py-5">
+				{{ knp_pagination_render(articles) }}
 			</div>
 		</div>
 	</div>

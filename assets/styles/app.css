@@ -16,7 +16,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@1,500&display=swap');
 :root {
-    --main-color: #FF4500 !important;
+    /* --main-color: var(--main-color) !important; */
+    --main-color: #9E5A25 !important;
 }
 
 .table-main {

@@ -33,15 +33,17 @@ class ArticleController extends AbstractController
 
     private $articleRepository;
     private $categoryRepository;
+    private $saleRepository;
     private $paginator;
     private $em;
     private $flasher;
     private $responsableTracker;
 
-    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator, EntityManagerInterface $em, FlasherInterface $flasher, ResponsableActivityTracker $responsableTracker)
+    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository,SaleRepository $saleRepository, PaginatorInterface $paginator, EntityManagerInterface $em, FlasherInterface $flasher, ResponsableActivityTracker $responsableTracker)
     {
         $this->articleRepository = $articleRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->saleRepository = $saleRepository;
         $this->paginator = $paginator;
         $this->em = $em;
         $this->flasher = $flasher;
@@ -170,10 +172,10 @@ class ArticleController extends AbstractController
      * @param  mixed $saleRepository
      * @return Response
      */
-    public function historyOfsales(SaleRepository $saleRepository): Response
+    public function historyOfsales(Request $request): Response
     {
 
-        $sales = $saleRepository->findAll();
+        $sales = $this->paginator->paginate($this->saleRepository->findAllQuery(),$request->query->getInt('page', 1), 20);
 
         return $this->render('article/history.html.twig', [
             'sales' => $sales
@@ -189,9 +191,10 @@ class ArticleController extends AbstractController
      *
      * @return Response
      */
-    public function catalog(): Response
+    public function catalog(Request $request): Response
     {
-        $articles = $this->articleRepository->findOrderedByCreatedAt();
+        $articles = $this->paginator->paginate($this->articleRepository->findOrderedByCreatedAtQuery(),$request->query->getInt('page', 1), 15);
+
         return $this->render('article/catalogue.html.twig', [
             'articles' => $articles
         ]);

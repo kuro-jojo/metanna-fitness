@@ -9,46 +9,14 @@
 		body {
 			overflow-x: hidden;
 		}
-		th {
-			color: #000;
-			text-align: center;
-		}
-		td,
-		th {
-			text-align: center !important;
-			vertical-align: unset !important;
-		}
-		.table-responsive {
-			height: 75vh;
-			overflow: auto;
-			width: 95%;
-			margin-left: 50px
-		}
-		.header {
-			position: sticky;
-			top: 0;
-		}
-
-		.profil {
-			width: 100px;
-			height: 100px;
-			border-radius: 10px
-		}
-		/* .thumbnail:hover {
-			position: absolute;
-			top: 30%;
-			left: 50%;
-			width: 300px;
-			height: auto;
-		} */
 	</style>
 {% endblock %}
 {% block body %}
 	<div class="content-wrapper">
-		<h1 class="text-center fw-bold">Tous les responsables</h1>
+		<h1 class="text-center fw-bold fs-1 mt-3">Tous les responsables</h1>
 		<div class="mt-5">
-			<div class="mx-auto">
-				<div class="table-responsive">
+			<div class="mx-auto rounded">
+				<div class="container mx-auto">
 					<table class="table table-hover">
 						<thead class="thead-light">
 							<tr>

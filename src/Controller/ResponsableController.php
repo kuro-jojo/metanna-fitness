@@ -35,6 +35,8 @@ class ResponsableController extends AbstractController
     private  const   ROLE_RIGHT_CANCEL_REGISTRATION = "ROLE_RIGHT_CANCEL_REGISTRATION";
     private  const   ROLE_RIGHT_LIST_REGISTRATION = "ROLE_RIGHT_LIST_REGISTRATION";
     private  const   ROLE_RIGHT_EDIT_REGISTRATION = "ROLE_RIGHT_EDIT_REGISTRATION";
+    private  const   ROLE_RIGHT_CASUAL = "ROLE_RIGHT_CASUAL";
+    private  const   ROLE_RIGHT_CASUAL_LIST = "ROLE_RIGHT_CASUAL_LIST";
     private  const   ROLE_RIGHT_SUBSCRIBE_CLIENT = "ROLE_RIGHT_SUBSCRIBE_CLIENT";
     private  const   ROLE_RIGHT_LIST_SUBSCRIPTION = "ROLE_RIGHT_LIST_SUBSCRIPTION";
     private  const   ROLE_RIGHT_SELL_ARTICLE = "ROLE_RIGHT_SELL_ARTICLE";
@@ -266,7 +268,9 @@ class ResponsableController extends AbstractController
                 $this::ROLE_RIGHT_REGISTER_CLIENT => "Inscrire un client",
                 $this::ROLE_RIGHT_CANCEL_REGISTRATION => "Résilier une inscription",
                 $this::ROLE_RIGHT_LIST_REGISTRATION => "Consulter les inscriptions",
-                $this::ROLE_RIGHT_EDIT_REGISTRATION => "Edition d'une inscription/client",
+                $this::ROLE_RIGHT_EDIT_REGISTRATION => "Editer une inscription/client",
+                $this::ROLE_RIGHT_CASUAL => "Enregistrer les clients occasionnels",
+                $this::ROLE_RIGHT_CASUAL_LIST => "Consulter les clients occasionnels",
 
             ],
             "Abonnement" => [

@@ -46,7 +46,7 @@ button {
 }
 
 .btn-orange {
-    background-color: #FF4500 !important;
+    background-color: var(--main-color) !important;
     color: #fff !important;
 }
 
@@ -57,20 +57,20 @@ button {
 .btn-outline-orange {
     background-color: #FFF!important;
     color: #000 !important;
-    border: 1px solid #FF4500 !important;
+    border: 1px solid var(--main-color) !important;
 }
 
 .btn-outline-orange:hover {
-    background-color: #FF4500 !important;
+    background-color: var(--main-color) !important;
     color: #FFF !important
 }
 
 .text-orange {
-    color: #FF4500 !important;
+    color: var(--main-color) !important;
 }
 
 .bg-orange {
-    background-color: #FF4500 !important;
+    background-color: var(--main-color) !important;
 }
 
 .nav-link>i,
@@ -150,11 +150,11 @@ input {
 }
 
 .form {
-    border: 3px solid #FF4500;
+    border: 3px solid var(--main-color);
 }
 
 .glyphicon {
-    color: #FF4500;
+    color: var(--main-color);
     font-size: 20px;
     line-height: 25px;
     position: relative;
@@ -436,7 +436,7 @@ a:hover {
 }
 
 .searchbar:hover>.search-icon {
-    background: #FF4500;
+    background: var(--main-color);
     color: #fff;
 }
 
@@ -448,7 +448,7 @@ a:hover {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    color: #FF4500;
+    color: var(--main-color);
     text-decoration: none;
 }
 
@@ -469,7 +469,7 @@ a:hover {
 }
 
 .card-header {
-    background-color: #FF4500 !important;
+    background-color: var(--main-color) !important;
 }
 
 .card-img {
@@ -481,7 +481,7 @@ a:hover {
 }
 
 .category_block li:hover {
-    background-color: #FF4500;
+    background-color: var(--main-color);
 }
 
 .category_block li:hover a {
