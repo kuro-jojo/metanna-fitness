@@ -15,7 +15,7 @@
 {% block body %}
 	<div class="content-wrapper" class="d-flex flex-column">
 		<h1 class="text-center mt-5 fw-bold">Activités des responsables</h1>
-		<div class="my-5 d-flex justify-content-center">
+		{# <div class="my-5 d-flex justify-content-center">
 			<div class="pl-5 col-md-8 mb-4 bg-light rounded-3 mx-auto">
 				<div class=" py-5">
 				<div class="row">
@@ -24,18 +24,18 @@
 				</div>
 				</div>
 			</div>
-		</div>
-		<div class="py-3">
+		</div> #}
+		<div class="py-5">
 			<div class="mx-auto rounded">
 
 				<div class="container mx-auto">
 					<table class="table table-hover">
 						<thead class="thead-light">
 							<tr>
-								<th class="header sort-by" scope="col">Nom</th>
-								<th class="header sort-by" scope="col">Prénom(s)</th>
-								<th class="header sort-by" scope="col">Date de l'activité</th>
-								<th class="header sort-by" scope="col">Activité</th>
+								<th class="header  " scope="col">Nom</th>
+								<th class="header  " scope="col">Prénom(s)</th>
+								<th class="header  " scope="col">Date de l'activité</th>
+								<th class="header  " scope="col">Activité</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -52,7 +52,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="d-flex container-perso navigation justify-content-center">
+		<div class="d-flex container-perso navigation justify-content-center pb-5">
 			{{ knp_pagination_render(services) }}
 		</div>
 	</div>

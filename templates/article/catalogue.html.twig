@@ -8,7 +8,6 @@
 		body {
 			overflow-x: hidden;
 		}
-		
 	</style>
 {% endblock %}
 {% block javascripts %}
@@ -37,8 +36,8 @@
 						</thead>
 						<tbody>
 							{% for article in articles %}
-								<form action="{{path('app_article_edit',{id:article.id})}}" id="editForm-{{article.id}}"></form>
-								<form id="js-app-delete-article-btn-{{article.id}}" action="{{path('app_article_delete',{id:article.id})}}" method="post">
+								<form action="{{path('app_article_edit',{id:article.id})}}" id="editForm-{{article.id}}" style="display:none"></form>
+								<form id="js-app-delete-article-btn-{{article.id}}" action="{{path('app_article_delete',{id:article.id})}}" method="post" style="display:none">
 									<input type="hidden" name="csrf_token_article" value="{{csrf_token('deletion_article_'~ article.id)}}">
 									<input type="hidden" name="_method" value="DELETE">
 								</form>
@@ -72,12 +71,12 @@
 									{% else %}
 										<td>{{article.stock}}</td>
 									{% endif %}
-									<td id="action-{{article.id}}">
+									<td>
 										<a href="#" class="mr-4" onclick="document.getElementById('editForm-{{article.id}}').submit()">
 											<i class="far fa-edit"></i>
 										</a>
 										<a href="#" data-bs-toggle="modal" data-bs-target="#delete-{{article.id}}">
-											<I class="far fa-minus-square text-danger"></I>
+											<i class="far fa-minus-square text-danger"></i>
 										</a>
 									</td>
 								</tr>
@@ -88,8 +87,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="d-flex container-perso navigation justify-content-center"></div>
 	</div>
+	<script>
+		const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
+const comparer = (idx, asc) => (a, b) => ((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2))(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
+// do the work...
+document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+const table = th.closest('table');
+Array.from(table.querySelectorAll('tr:nth-child(n+2)')).sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc)).forEach(tr => table.appendChild(tr));
+})));
+	</script>
 {% endblock %}
