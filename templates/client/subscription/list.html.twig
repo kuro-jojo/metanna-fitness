@@ -7,7 +7,7 @@
 	{{parent()}}
 
 	<style>
-		tbody tr{
+		tbody tr {
 			cursor: pointer;
 		}
 	</style>
@@ -22,16 +22,16 @@
 			<table class="table table-hover">
 				<thead class="thead-light">
 					<tr>
-						<th class="header" scope="col">Code client</th>
-						<th class="header" scope="col">Nom</th>
-						<th class="header" scope="col">Prénom(s)</th>
+						<th class="header sort-by" scope="col">Code client</th>
+						<th class="header sort-by" scope="col">Nom</th>
+						<th class="header sort-by" scope="col">Prénom(s)</th>
 						<th class="header" scope="col">Téléphone</th>
-						<th class="header" scope="col">Email</th>
-						<th class="header" scope="col">Date de Naissance</th>
-						<th class="header" scope="col">Date d'inscription</th>
-						<th class="header" scope="col">Fin de l'abonnement</th>
-						<th class="header" scope="col">Montant</th>
-						<th class="header" scope="col">Statut de l'abonnement</th>
+						<th class="header sort-by" scope="col">Email</th>
+						<th class="header sort-by" scope="col">Date de Naissance</th>
+						<th class="header sort-by" scope="col">Date d'inscription</th>
+						<th class="header sort-by" scope="col">Fin de l'abonnement</th>
+						<th class="header sort-by" scope="col">Montant</th>
+						<th class="header sort-by" scope="col">Statut de l'abonnement</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -101,4 +101,16 @@
 			</table>
 			<!-- End -->
 		</div>
-	{% endblock %}
+	</div>
+	<script>
+		const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+const comparer = (idx, asc) => (a, b) => ((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2))(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+// do the work...
+document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+const table = th.closest('table');
+Array.from(table.querySelectorAll('tr:nth-child(n+2)')).sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc)).forEach(tr => table.appendChild(tr));
+})));
+	</script>
+{% endblock %}

@@ -1,20 +1,222 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SettingsController!{% endblock %}
+{% block title %}Paramètres
+{% endblock %}
+
+{% block stylesheets %}
+	{{parent()}}
+
+	<style>
+		.content {
+			margin-top: 100px;
+		}
+
+		#amountRegister,
+		#reductionRegister,
+		#amountSubs,
+		#reductionSubs {
+			display: none;
+		}
+		.list-group-item:focus,
+		.list-group-item:hover {
+			background-color: #0c6efd;
+			color: #fff;
+		}
+		#jumbotron,
+		#amounts,
+		#sells,
+		#user-tracking,
+		#clients-tracking {
+			visibility: hidden;
+		}
+	</style>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: {{color}}; padding: 2px 6px; }
-</style>
+	<div class="content-wrapper">
+		<h1 class="text-center pt-2">Modifier les paramètres du site</h1>
+		<div class="content row justify-content-center">
+			<div class="col-md-3 menu">
+				<div class="list-group">
+					<a href="#" class="list-group-item list-group-item-action" onclick="showSetting('amounts');">Montants</a>
+					<a href="#" class="list-group-item list-group-item-action" onclick="showSetting('sells');">Historique des ventes</a>
+					<a href="#" class="list-group-item list-group-item-action" onclick="showSetting('clients-tracking');">Historique des activités des clients</a>
+					<a href="#" class="list-group-item list-group-item-action" onclick="showSetting('user-tracking');">Historique des activités des responsables</a>
+				</div>
+			</div>
+			<div class="col-md-6" id="jumbotron">
+				<div class="h-100 p-5 bg-light border rounded-3">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+					{{form_start(amountForm)}}
+					<div class="ml-3" id="amounts">
+						<div class="row">
+							<div class="col-md-6">
+								<label>Montant des inscriptions</label>
+								<div class="form-check my-3">
+									<input type="radio" class="form-check-input" name="register" id="checkAmountRegister">
+									<label class="form-check-label mb-2" for="checkAmountRegister" onclick="showAmountRegister()">Choisir un montant</label>
+									<div id="amountRegister">
+										{{form_widget(amountForm.amountRegister)}}
+									</div>
+								</div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/kuro-jonathan/Documents/projects/metanna-fitness/src/Controller/SettingsController.php'|file_link(0) }}">src/Controller/SettingsController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/kuro-jonathan/Documents/projects/metanna-fitness/templates/settings/index.html.twig'|file_link(0) }}">templates/settings/index.html.twig</a></code></li>
-    </ul>
-</div>
+								{% if setting is not null %}
+									<div class="form-check my-3">
+										<input type="radio" class="form-check-input" name="register" id="checkReductionRegister">
+										<label class="form-check-label mb-2" for="checkReductionRegister" onclick="showReductionRegister()">Faire une réduction</label>
+										<div id="reductionRegister">
+											{{form_widget(amountForm.reductionRegister)}}
+											<span>Ancien montant :
+												{{setting.defaultRegistrationAmount}}
+												XOF</span><br>
+											<span>Nouveau montant :
+												<span id="reducedRegisterAmount">{{setting.defaultRegistrationAmount}}
+												</span>
+												X0F</span>
+										</div>
+									</div>
+								</div>
+							{% endif %}
+							<div class="col-md-6">
+								<label>Montant des abonnements</label>
+								<div class="form-check my-3">
+									<input type="radio" class="form-check-input" name="subs" id="checkAmountSubs">
+									<label class="form-check-label mb-2" for="checkAmountSubs" onclick="showAmountSubs()">Choisir un montant</label>
+									<div id="amountSubs">
+										{{form_widget(amountForm.amountSubs)}}
+									</div>
+
+								</div>
+								{% if setting is not null %}
+									<div class="form-check my-3">
+										<input type="radio" class="form-check-input" name="subs" id="checkReductionSubs">
+										<label class="form-check-label mb-2" for="checkReductionSubs" onclick="showReductionSubs()">Faire une réduction</label>
+										<div id="reductionSubs">
+											{{form_widget(amountForm.reductionSubs)}}
+											<span>Ancien montant :
+												{{setting.defaultSubsAmount}}
+												XOF</span><br>
+											<span>Nouveau montant :
+												<span id="reducedSubsAmount">{{setting.defaultSubsAmount}}</span>
+												XOF</span>
+										</div>
+									</div>
+								{% endif %}
+							</div>
+						</div>
+						<div class="d-grid gap-2 col-6 mx-auto mt-3">
+							<button type="submit" class="btn btn-outline-success">Changer</button>
+						</div>
+
+					</div>
+					{{form_end(amountForm)}}
+					<div class=" ml-3" id="sells">
+						<label for="sellsAction" class="form-label">Souhaitez-vous supprimer l'historique de vos ventes ?</label>
+						<div class="d-grid gap-2 col-6 mx-auto mt-3">
+							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); confirm('Confirmer la suppression ?') && document.getElementById('sellForm').submit()">Effacer</a>
+						</div>
+						<form action="{{path('app_settings_sells_delete')}}" id="sellForm" method="post" style="display:none">
+							<input type="hidden" name="_method" value="DELETE"/>
+						</form>
+					</div>
+
+					<div class=" ml-3" id="clients-tracking">
+						{# <label for="sellsAction" class="form-label">Souhaitez-vous supprimer l'historique des activités des responsables ?</label>
+						<div class="d-grid gap-2 col-6 mx-auto mt-3">
+							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); confirm('Confirmer la suppression ?') && document.getElementById('clientsTrackingForm').submit();">Effacer</a>
+						</div>
+						<form action="#" id="clientsTrackingForm" method="post" style="display:none">
+							<input type="hidden" name="_method" value="DELETE"/>
+						</form> #}
+					</div>
+
+					<div class=" ml-3" id="user-tracking">
+						<label for="sellsAction" class="form-label">Souhaitez-vous supprimer l'historique des activités des responsables ?</label>
+						<div class="d-grid gap-2 col-6 mx-auto mt-3">
+							<a href="#" class="btn btn-danger" onclick="event.preventDefault(); confirm('Confirmer la suppression ?') && document.getElementById('userTrackingForm').submit();">Effacer</a>
+						</div>
+						<form action="{{path('app_settings_userTracking_delete')}}" id="userTrackingForm" method="post" style="display: none;">
+							<input type="hidden" name="_method" value="DELETE"/>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+	{{parent()}}
+	<script>
+		function showReductionRegister() {
+var r = document.getElementById('reductionRegister');
+var a = document.getElementById('amountRegister');
+
+document.getElementById('amount_setting_amountRegister').value = 0;
+
+r.style.display = "block";
+a.style.display = "none";
+}
+
+function showAmountRegister() {
+var r = document.getElementById('reductionRegister');
+var a = document.getElementById('amountRegister');
+
+document.getElementById('amount_setting_amountRegister').value = 0;
+
+r.style.display = "none";
+a.style.display = "block";
+}
+
+function showReductionSubs() {
+var r = document.getElementById('reductionSubs');
+var a = document.getElementById('amountSubs');
+
+document.getElementById('amount_setting_amountSubs').value = 0;
+
+
+r.style.display = "block";
+a.style.display = "none";
+}
+
+function showAmountSubs() {
+var r = document.getElementById('reductionSubs');
+var a = document.getElementById('amountSubs');
+
+document.getElementById('amount_setting_reductionSubs').value = 0;
+
+
+r.style.display = "none";
+a.style.display = "block";
+}
+
+function showSetting(id) {
+document.getElementById('jumbotron').style.visibility = "visible";
+
+var settings = ['amounts', 'sells', 'clients-tracking', 'user-tracking'];
+settings.forEach(setting => {
+console.log(setting);
+if (setting == id) {
+
+document.getElementById(setting).style.display = "block";
+
+document.getElementById(id).style.visibility = "visible";
+} else {
+
+document.getElementById(setting).style.display = "none";
+}
+});
+}
+
+function changePrice(id) {
+if (id = '1') {
+var priceReduced = document.getElementById('reducedRegisterAmount');
+priceReduced.innerHTML = Math.floor({{ setting.defaultRegistrationAmount }} * (1 - parseInt(document.getElementById("amount_setting_reductionRegister").value) / 100));
+}
+if (id = '0') {
+var priceReduced = document.getElementById('reducedSubsAmount');
+priceReduced.innerHTML = Math.floor({{ setting.defaultSubsAmount }} * (1 - parseInt(document.getElementById("amount_setting_reductionSubs").value) / 100));
+}
+
+}
+	</script>
 {% endblock %}

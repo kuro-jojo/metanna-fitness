@@ -13,14 +13,14 @@
 				<i class="fas fa-expand-arrows-alt"></i>
 			</a>
 		</li>
-		{% if app.user is not null and is_granted("ROLE_ADMIN") %}
+		{# {% if app.user is not null and is_granted("ROLE_ADMIN") %}
 
 			<li class="nav-item">
 				<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
 					<i class="fas fa-th-large"></i>
 				</a>
 			</li>
-		{% endif %}
+		{% endif %} #}
 
 		<li class="nav-item dropdown">
 			<a class="user-panel d-flex text-light" href="#" id="userProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -35,9 +35,7 @@
 				<li>
 					<a class="dropdown-item" href="{{path('app_responsable_edit_profile')}}">Mon profil</a>
 				</li>
-				<li>
-					<a class="dropdown-item" href="#">Another action</a>
-				</li>
+ 
 				<li class="divider"></li>
 				<li>
 					<a class="dropdown-item text-danger" href="{{path('app_logout')}}">Déconnexion</a>

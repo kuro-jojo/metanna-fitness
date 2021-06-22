@@ -7,7 +7,7 @@
 	{{parent()}}
 	<style>
 		body {
-			overflow: hidden;
+			overflow-x: hidden;
 		}
 		th {
 			color: #000;
@@ -61,13 +61,60 @@
 						</thead>
 						<tbody>
 							{% for responsable in responsables %}
+								<div class="modal fade" id="show-{{responsable.id}}" aria-labelledby="label" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content text-dark">
+											<div class="modal-header">
+												<h5 class="modal-title fw-bold" id="label">Droits de
+													{{responsable.prenom}}
+													{{responsable.nom}}</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+											</div>
+
+											<div class="modal-body mx-auto mt-2">
+												<ul>
+													{% for right in responsable.roles %}
+														{% for rightType in rights %}
+
+															{% for key, item in rightType %}
+
+																{% if right == key  %}
+																	<li>{{item}}</li>
+																{% endif %}
+															{% endfor %}
+														{% endfor %}
+													{% endfor %}
+												</ul>
+											</div>
+											<div class="modal-footer d-flex justify-content-center">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+
+											</div>
+										</div>
+									</div>
+
+								</div>
 								<tr>
 									<td class="">{{responsable.nom}}</td>
 									<td class="">{{responsable.prenom}}</td>
 									<td class="">{{'+221 ' ~ responsable.telephone}}</td>
 									<td class="">{{responsable.email}}</td>
-									<td class=""><a href="{{path('app_responsable_edit_right',{id:responsable.id})}}"><i class="fas fa-user-tag" title="Modifier les droits"></i></a></td>
-									
+									<td class="col-2">
+										<div class="row justify-content-center">
+											<div class="col-3">
+												<a href="#" data-bs-toggle="modal" data-bs-target="#show-{{responsable.id}}">
+													<i class="fas fa-eye" title="Voir les droits"></i>
+												</a>
+											</div>
+											<div class="col-3">
+												<a href="{{path('app_responsable_edit_right',{id:responsable.id})}}">
+													<i class="fas fa-user-tag" title="Modifier les droits"></i>
+												</a>
+											</div>
+										</div>
+									</td>
+
 								</tr>
 							{% endfor %}
 						</tbody>

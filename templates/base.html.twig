@@ -8,7 +8,8 @@
 		<meta name="author" content="Jonathan Assamagan">
 		<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon/favicon-32x32.png')}}">
 		<link rel="mask-icon" href="{{ asset('img/favicon/safari-pinned-tab.svg')}}" color="#5bbad5">
-		<meta name="msapplication-TileColor" content="#da532c">
+		<meta
+		name="msapplication-TileColor" content="#da532c">
 		{# <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}"> #}
 		<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
@@ -33,12 +34,35 @@
 				h1 {
 					font-family: 'Brygada 1918', serif;
 					font-size: calc(20px +(60 - 20) *((100vw - 400px) /(1980 - 400)));
-					padding: 20px 0;
+				}
+				.header {
+					cursor: pointer;
+				}
+
+				.sort-by:before,
+				.sort-by:after {
+					border: 4px solid transparent;
+					content: "";
+					display: block;
+					height: 0;
+					right: 5px;
+					top: 50%;
+					position: absolute;
+					width: 0;
+				}
+				.sort-by:before {
+					border-bottom-color: #666;
+					margin-top: -9px;
+				}
+				.sort-by:after {
+					border-top-color: #666;
+					margin-top: 1px;
 				}
 			</style>
 		{% endblock %}
 		{% block javascripts %}
 			<!-- Custom scripts for all pages-->
+
 
 			{{ encore_entry_script_tags('app') }}
 			<script src="//code.jquery.com/jquery.js"></script>
@@ -51,8 +75,8 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-fr_FR.min.js"></script>
 		{% endblock %}
 	</head>
-
-	<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+	{# layout-navbar-fixed layout-footer-fixed #}
+	<body class="hold-transition sidebar-mini layout-fixed ">
 		{{flasher_render()}}
 		<div class="wrapper">
 
@@ -69,5 +93,6 @@
 			{% block body %}{% endblock %}
 
 		</div>
+
 	</body>
 </html>
