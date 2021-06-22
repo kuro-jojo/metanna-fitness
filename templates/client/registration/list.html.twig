@@ -6,12 +6,14 @@
 {% block stylesheets %}
 	{{parent()}}
 	<style>
-
-
 		.profil {
 			width: 100px;
 			height: 100px;
 			border-radius: 10px
+		}
+
+		.pointer-tr {
+			cursor: pointer;
 		}
 	</style>
 {% endblock %}
@@ -56,60 +58,76 @@
 					<tbody>
 						{% if client is defined %}
 							{% if client is not null %}
-								<tr>
-									<th class="text-dark" scope="row">{{client.id}}</th>
-									<td class="text-dark">{{client.nom}}</td>
-									<td class="text-dark">{{client.prenom}}</td>
-									<td class="text-dark">{{'+221 ' ~ client.telephone}}</td>
-									<td class="text-dark">{{client.email}}</td>
-									<td class="text-dark">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
-									{% if client.myRegistration is not null %}
-										<td class="text-dark">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-										<td class="text-dark">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
-										<td class="">
-											<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
-										</td>
-										<td class="text-info">Inscrit</td>
 
+								<form action="{{path('app_register_edit_client',{id:client.id})}}" method="post" id="edit-form-{{client.id}}"></form>
+								
+								{% if client.myRegistration is not null and  (is_granted("ROLE_ADMIN") or is_granted("ROLE_RIGHT_REGISTER_EDIT_CLIENT")) %}
+
+									<tr class="pointer-tr" onclick="document.getElementById('edit-form-{{client.id}}').submit();">
 									{% else %}
-										<td></td>
-										<td></td>
-										<td class="">
-											<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
-										</td>
-										<td class="text-info">Inscription résiliée</td>
-									{% endif %}
-								</tr>
-							{% endif %}
-						{% else %}
+										<tr>
+										{% endif %}
+										<th class="text-dark" scope="row">{{client.id}}</th>
+										<td class="text-dark">{{client.nom}}</td>
+										<td class="text-dark">{{client.prenom}}</td>
+										<td class="text-dark">{{'+221 ' ~ client.telephone}}</td>
+										<td class="text-dark">{{client.email}}</td>
+										<td class="text-dark">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+										{% if client.myRegistration is not null %}
+											<td class="text-dark">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+											<td class="text-dark">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
+											<td class="">
+												<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
+											</td>
+											<td class="text-info">Inscrit</td>
 
-							{% for client in clients %}
-								<tr>
-									<th class="" scope="row">{{client.id}}</th>
-									<td class="">{{client.nom}}</td>
-									<td class="">{{client.prenom}}</td>
-									<td class="">{{'+221 ' ~ client.telephone}}</td>
-									<td class="">{{client.email}}</td>
-									<td class="">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
-									{% if client.myRegistration is not null %}
-										<td class="">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-										<td class="">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
-										<td class="">
-											<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
-										</td>
-										<td class="text-info">Inscrit</td>
+										{% else %}
+											<td></td>
+											<td></td>
+											<td class="">
+												<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
+											</td>
+											<td class="text-info">Inscription résiliée</td>
+										{% endif %}
+									</tr>
+								{% endif %}
+							{% else %}
 
-									{% else %}
-										<td></td>
-										<td></td>
-										<td class="">
-											<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
-										</td>
-										<td class="text-info">Inscription résiliée</td>
-									{% endif %}
-								</tr>
-							{% endfor %}
-						{% endif %}
+								{% for client in clients %}
+									<form action="{{path('app_register_edit_client',{id:client.id})}}" method="post" id="edit-form-{{client.id}}"></form>
+									{% if client.myRegistration is not null and  (is_granted("ROLE_ADMIN") or is_granted("ROLE_RIGHT_REGISTER_EDIT_CLIENT")) %}
+
+										<tr class="pointer-tr" onclick="document.getElementById('edit-form-{{client.id}}').submit();">
+										{% else %}
+											<tr>
+											{% endif %}
+											<th class="" scope="row">{{client.id}}</th>
+											<td class="">{{client.nom}}</td>
+											<td class="">{{client.prenom}}</td>
+											<td class="">{{'+221 ' ~ client.telephone}}</td>
+											<td class="">{{client.email}}</td>
+											<td class="">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+											{% if client.myRegistration is not null %}
+												<td class="">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+												<td class="">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
+												<td class="">
+													<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
+												</td>
+												<td class="text-info">Inscrit</td>
+
+											{% else %}
+												<td></td>
+												<td></td>
+												<td class="">
+													<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
+												</td>
+												<td class="text-info">Inscription résiliée</td>
+											{% endif %}
+										</tr>
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</tbody>
 					</tbody>
 				</table>
 			</div>
