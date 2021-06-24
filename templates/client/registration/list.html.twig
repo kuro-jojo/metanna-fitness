@@ -39,81 +39,48 @@
 				<form action="{{path('app_client_registration_list',{showOnlyRegistered:true})}}" id="formTrue"></form>
 				<form action="{{path('app_client_registration_list',{showOnlyRegistered:false})}}" id="formFalse"></form>
 			</div>
-			<div class="table-responsive mx-auto">
-				<table class="table table-hover  mt-4">
-					<thead class="thead-light">
-						<tr>
-							<th class="header sort-by" scope="col">Code client</th>
-							<th class="header sort-by" scope="col">Nom</th>
-							<th class="header sort-by" scope="col">Prénom(s)</th>
-							<th class="header" scope="col">Téléphone</th>
-							<th class="header sort-by" scope="col">Email</th>
-							<th class="header sort-by" scope="col">Date de Naissance</th>
-							<th class="header sort-by" scope="col">Date d'inscription</th>
-							<th class="header sort-by" scope="col">Montant</th>
-							<th class="header" scope="col">Profil</th>
-							<th class="header sort-by" scope="col">Statut</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% if client is defined %}
-							{% if client is not null %}
+			<div class="mx-auto rounded">
+				<div class="mx-auto">
+					<table class="table table-hover  mt-4">
+						<thead class="thead-light">
+							<tr>
+								<th class="header sort-by" scope="col">Code client</th>
+								<th class="header sort-by" scope="col">Nom</th>
+								<th class="header sort-by" scope="col">Prénom(s)</th>
+								<th class="header" scope="col">Téléphone</th>
+								<th class="header sort-by" scope="col">Email</th>
+								<th class="header sort-by" scope="col">Date de Naissance</th>
+								<th class="header sort-by" scope="col">Date d'inscription</th>
+								<th class="header sort-by" scope="col">Montant</th>
+								<th class="header" scope="col">Profil</th>
+								<th class="header sort-by" scope="col">Statut</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% if client is defined %}
+								{% if client is not null %}
 
-								<form action="{{path('app_register_edit_client',{id:client.id})}}" method="post" id="edit-form-{{client.id}}"></form>
+									<form action="{{path('app_register_edit_client',{id:client.id})}}" method="post" id="edit-form-{{client.id}}" class="d-hidden"></form>
 
-								{% if client.myRegistration is not null and  (is_granted("ROLE_ADMIN") or is_granted("ROLE_RIGHT_REGISTER_EDIT_CLIENT")) %}
-
-									<tr class="pointer-tr" onclick="document.getElementById('edit-form-{{client.id}}').submit();">
-									{% else %}
-										<tr>
-										{% endif %}
-										<th class="text-dark" scope="row">{{client.id}}</th>
-										<td class="text-dark">{{client.nom}}</td>
-										<td class="text-dark">{{client.prenom}}</td>
-										<td class="text-dark">{{'+221 ' ~ client.telephone}}</td>
-										<td class="text-dark">{{client.email}}</td>
-										<td class="text-dark">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
-										{% if client.myRegistration is not null %}
-											<td class="text-dark">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-											<td class="text-dark">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
-											<td class="">
-												<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
-											</td>
-											<td class="text-info">Inscrit</td>
-
-										{% else %}
-											<td></td>
-											<td></td>
-											<td class="">
-												<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
-											</td>
-											<td class="text-info">Inscription résiliée</td>
-										{% endif %}
-									</tr>
-								{% endif %}
-							{% else %}
-
-								{% for client in clients %}
-									<form action="{{path('app_register_edit_client',{id:client.id})}}" method="post" id="edit-form-{{client.id}}"></form>
-									{% if client.myRegistration is not null and  (is_granted("ROLE_ADMIN") or is_granted("ROLE_RIGHT_REGISTER_EDIT_CLIENT")) %}
+									{% if client.myRegistration is not null and  (is_granted("ROLE_ADMIN") or is_granted("ROLE_RIGHT_EDIT_REGISTRATION")) %}
 
 										<tr class="pointer-tr" onclick="document.getElementById('edit-form-{{client.id}}').submit();">
 										{% else %}
 											<tr>
 											{% endif %}
-											<th class="" scope="row">{{client.id}}</th>
-											<td class="">{{client.nom}}</td>
-											<td class="">{{client.prenom}}</td>
-											<td class="">{{'+221 ' ~ client.telephone}}</td>
-											<td class="">{{client.email}}</td>
-											<td class="">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+											<th class="text-dark" scope="row">{{client.id}}</th>
+											<td class="text-dark">{{client.nom}}</td>
+											<td class="text-dark">{{client.prenom}}</td>
+											<td class="text-dark">{{'+221 ' ~ client.telephone}}</td>
+											<td class="text-dark">{{client.email}}</td>
+											<td class="text-dark">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
 											{% if client.myRegistration is not null %}
-												<td class="">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-												<td class="">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
+												<td class="text-dark">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+												<td class="text-dark">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
 												<td class="">
 													<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
 												</td>
-												<td class="text-info">Inscrit</td>
+												<td class="text-info fw-bold fs-5">Inscrit</td>
 
 											{% else %}
 												<td></td>
@@ -121,21 +88,56 @@
 												<td class="">
 													<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
 												</td>
-												<td class="text-info">Inscription résiliée</td>
+												<td class="text-warning fw-bold fs-5">Inscription résiliée</td>
 											{% endif %}
 										</tr>
-									{% endfor %}
-								{% endif %}
+									{% endif %}
+								{% else %}
+
+									{% for client in clients %}
+										<form action="{{path('app_register_edit_client',{id:client.id})}}" method="post" id="edit-form-{{client.id}}" class="d-hidden"></form>
+
+										{% if client.myRegistration is not null and  (is_granted("ROLE_ADMIN") or is_granted("ROLE_RIGHT_EDIT_REGISTRATION")) %}
+
+											<tr class="pointer-tr" onclick="document.getElementById('edit-form-{{client.id}}').submit();">
+											{% else %}
+												<tr>
+												{% endif %}
+												<th class="" scope="row">{{client.id}}</th>
+												<td class="">{{client.nom}}</td>
+												<td class="">{{client.prenom}}</td>
+												<td class="">{{'+221 ' ~ client.telephone}}</td>
+												<td class="">{{client.email}}</td>
+												<td class="">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+												{% if client.myRegistration is not null %}
+													<td class="">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+													<td class="">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
+													<td class="">
+														<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
+													</td>
+													<td class="text-info fw-bold fs-5">Inscrit</td>
+
+												{% else %}
+													<td></td>
+													<td></td>
+													<td class="">
+														<a href="{{asset('uploads/profil/'~ client.profilFileName)}}"><img src="{{asset('uploads/profil/'~ client.profilFileName)}}" alt="photo de profil" class="profil thumbnail"></a>
+													</td>
+													<td class="text-warning fw-bold fs-5">Inscription résiliée</td>
+												{% endif %}
+											</tr>
+										{% endfor %}
+									{% endif %}
+								</tbody>
 							</tbody>
 						</tbody>
-					</tbody>
-				</table>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-	function submitForm() {
+	<script>
+		function submitForm() {
 var input = document.getElementById('showCanceled');
 if (input.checked) {
 document.getElementById('formTrue').submit();
@@ -143,10 +145,10 @@ document.getElementById('formTrue').submit();
 document.getElementById('formFalse').submit();
 }
 }
-</script>
+	</script>
 
-<script>
-	const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+	<script>
+		const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
 const comparer = (idx, asc) => (a, b) => ((v1, v2) => v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2))(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
@@ -155,4 +157,5 @@ document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() =
 const table = th.closest('table');
 Array.from(table.querySelectorAll('tr:nth-child(n+2)')).sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc)).forEach(tr => table.appendChild(tr));
 })));
-</script>{% endblock %}
+	</script>
+{% endblock %}

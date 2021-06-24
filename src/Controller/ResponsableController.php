@@ -36,7 +36,7 @@ class ResponsableController extends AbstractController
     private  const   ROLE_RIGHT_LIST_REGISTRATION = "ROLE_RIGHT_LIST_REGISTRATION";
     private  const   ROLE_RIGHT_EDIT_REGISTRATION = "ROLE_RIGHT_EDIT_REGISTRATION";
     private  const   ROLE_RIGHT_CASUAL = "ROLE_RIGHT_CASUAL";
-    private  const   ROLE_RIGHT_CASUAL_LIST = "ROLE_RIGHT_CASUAL_LIST";
+    private  const   ROLE_RIGHT_LIST_CASUAL = "ROLE_RIGHT_LIST_CASUAL";
     private  const   ROLE_RIGHT_SUBSCRIBE_CLIENT = "ROLE_RIGHT_SUBSCRIBE_CLIENT";
     private  const   ROLE_RIGHT_LIST_SUBSCRIPTION = "ROLE_RIGHT_LIST_SUBSCRIPTION";
     private  const   ROLE_RIGHT_SELL_ARTICLE = "ROLE_RIGHT_SELL_ARTICLE";
@@ -109,9 +109,9 @@ class ResponsableController extends AbstractController
                     'app_verify_email',
                     $user,
                     (new TemplatedEmail())
-                        ->from(new Address('kurojojo08@gmail.com', 'Phantom Bot'))
+                        ->from(new Address('metannafitness88@gmail.com', 'Metanna Fitness'))
                         ->to($user->getEmail())
-                        ->subject('Please Confirm your Email')
+                        ->subject('Veuillez confirmer votre adresse email')
                         ->htmlTemplate('responsable/confirmation_email.html.twig')
                 );
                 // do anything else you need here, like send an email
@@ -193,6 +193,8 @@ class ResponsableController extends AbstractController
 
     #[Route('/responsable/{id<\d+>}/editRight', name: 'app_responsable_edit_right')]
     /**
+     * @IsGranted("ROLE_ADMIN")
+     * 
      * edit responsible right
      *
      * @param  mixed $user
@@ -216,7 +218,7 @@ class ResponsableController extends AbstractController
 
         return $this->render('responsable/edit_right.html.twig', [
             'responsable' => $user,
-            'rights' => $this->getRoles()
+            'rights' => $this->getRights()
         ]);
     }
 
@@ -270,7 +272,7 @@ class ResponsableController extends AbstractController
                 $this::ROLE_RIGHT_LIST_REGISTRATION => "Consulter les inscriptions",
                 $this::ROLE_RIGHT_EDIT_REGISTRATION => "Editer une inscription/client",
                 $this::ROLE_RIGHT_CASUAL => "Enregistrer les clients occasionnels",
-                $this::ROLE_RIGHT_CASUAL_LIST => "Consulter les clients occasionnels",
+                $this::ROLE_RIGHT_LIST_CASUAL => "Consulter les clients occasionnels",
 
             ],
             "Abonnement" => [

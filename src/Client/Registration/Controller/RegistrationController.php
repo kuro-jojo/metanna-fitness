@@ -154,7 +154,7 @@ class RegistrationController extends AbstractController
     #[Route('/client/register/edit/{id<\d+>}', name: 'app_register_edit_client')]
     /**
      * 
-     * @Security("is_granted('ROLE_RIGHT_REGISTER_EDIT_CLIENT') or is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_RIGHT_EDIT_REGISTRATION') or is_granted('ROLE_ADMIN')")
      * 
      * register Allow to register a new customer
      *

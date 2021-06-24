@@ -63,7 +63,7 @@
 								</li>
 							{% endif %}
 
-							{% if "ROLE_ADMIN" in app.user.roles or "ROLE_RIGHT_LIST_CASUAL" in app.user.roles %}
+							{% if "ROLE_ADMIN" in app.user.roles or "ROLE_RIGHT_CASUAL" in app.user.roles %}
 
 								<li class="nav-item">
 									<a href="{{path('app_client_casual')}}" class="nav-link ">
@@ -71,6 +71,10 @@
 										<p>Clients occasionnels</p>
 									</a>
 								</li>
+							{% endif %}
+
+							{% if "ROLE_ADMIN" in app.user.roles or "ROLE_RIGHT_LIST_CASUAL" in app.user.roles %}
+
 								<li class="nav-item">
 									<a href="{{path('app_client_casual_list')}}" class="nav-link ">
 										<i class="nav-fas fas fa-stream nav-icon"></i>
