@@ -3,7 +3,7 @@
 namespace App\Client\Subscription\Controller;
 
 use App\Client\Entity\Client;
-use Flasher\Prime\FlasherInterface;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Client\Repository\ClientRepository;
 use App\Client\Subscription\Repository\SubscriptionRepository;
@@ -21,8 +21,8 @@ class SubscriptionController extends AbstractController
 
     private $flasher;
     private $responsableTracker;
-    
-    public function __construct(FlasherInterface $flasher, ResponsableActivityTracker $responsableTracker)
+
+    public function __construct(ToastrFactory $flasher, ResponsableActivityTracker $responsableTracker)
     {
         $this->flasher = $flasher;
         $this->responsableTracker = $responsableTracker;

@@ -7,7 +7,7 @@ use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Service\FileUploader;
 use App\Repository\SaleRepository;
-use Flasher\Prime\FlasherInterface;
+use Flasher\Toastr\Prime\ToastrFactory;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +39,7 @@ class ArticleController extends AbstractController
     private $flasher;
     private $responsableTracker;
 
-    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository,SaleRepository $saleRepository, PaginatorInterface $paginator, EntityManagerInterface $em, FlasherInterface $flasher, ResponsableActivityTracker $responsableTracker)
+    public function __construct(ArticleRepository $articleRepository, CategoryRepository $categoryRepository, SaleRepository $saleRepository, PaginatorInterface $paginator, EntityManagerInterface $em, ToastrFactory $flasher, ResponsableActivityTracker $responsableTracker)
     {
         $this->articleRepository = $articleRepository;
         $this->categoryRepository = $categoryRepository;
@@ -175,7 +175,7 @@ class ArticleController extends AbstractController
     public function historyOfsales(Request $request): Response
     {
 
-        $sales = $this->paginator->paginate($this->saleRepository->findAllQuery(),$request->query->getInt('page', 1), 20);
+        $sales = $this->paginator->paginate($this->saleRepository->findAllQuery(), $request->query->getInt('page', 1), 20);
 
         return $this->render('article/history.html.twig', [
             'sales' => $sales
@@ -193,7 +193,7 @@ class ArticleController extends AbstractController
      */
     public function catalog(Request $request): Response
     {
-        $articles = $this->paginator->paginate($this->articleRepository->findOrderedByCreatedAtQuery(),$request->query->getInt('page', 1), 15);
+        $articles = $this->paginator->paginate($this->articleRepository->findOrderedByCreatedAtQuery(), $request->query->getInt('page', 1), 15);
 
         return $this->render('article/catalogue.html.twig', [
             'articles' => $articles

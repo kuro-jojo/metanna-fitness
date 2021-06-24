@@ -4,11 +4,11 @@ namespace App\Security;
 
 use App\Entity\User;
 use App\Entity\Service;
-use Flasher\Prime\FlasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\ResponsableActivityTracker;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -41,7 +41,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     private $session;
     private $responsableTracker;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, FlasherInterface $flasher,SessionInterface $session,ResponsableActivityTracker $responsableTracker)
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, ToastrFactory $flasher, SessionInterface $session, ResponsableActivityTracker $responsableTracker)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
@@ -108,10 +108,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         // Save responsable service information
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $request->request->get('email')]);
 
-        $this->responsableTracker->saveTracking($this::SERVICE_NAME,$user);
+        $this->responsableTracker->saveTracking($this::SERVICE_NAME, $user);
 
         $this->session->start();
-        $this->session->set('userId',$user->getId());
+        $this->session->set('userId', $user->getId());
 
         $this->flasher->addSuccess("Connexion réussie");
 

@@ -5,7 +5,7 @@ namespace App\Client\Registration\Controller;
 use DateInterval;
 use App\Client\Entity\Client;
 use App\Service\FileUploader;
-use Flasher\Prime\FlasherInterface;
+use Flasher\Toastr\Prime\ToastrFactory;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Client\Repository\ClientRepository;
@@ -38,7 +38,7 @@ class RegistrationController extends AbstractController
     private $em;
     private $responsableTracker;
 
-    public function __construct(FlasherInterface $flasher, ClientRepository $clientRepository, RegistrationRepository $registrationRepository, EntityManagerInterface $em, ResponsableActivityTracker $responsableTracker)
+    public function __construct(ToastrFactory $flasher, ClientRepository $clientRepository, RegistrationRepository $registrationRepository, EntityManagerInterface $em, ResponsableActivityTracker $responsableTracker)
     {
         $this->flasher = $flasher;
         $this->clientRepository = $clientRepository;
@@ -74,8 +74,8 @@ class RegistrationController extends AbstractController
 
         // Ensure to have a default preview and save the path only for image file
         $path = $this::DEFAULT_IMAGE;
-        
-        
+
+
 
         // $path = $this->session->get('photoProfile', '');
         // dump($path);
@@ -154,7 +154,7 @@ class RegistrationController extends AbstractController
             'formClientRegister' => $form->createView(),
             'registration' => $registration,
             'path' => $path,
-            'default_image'=> $this::DEFAULT_IMAGE
+            'default_image' => $this::DEFAULT_IMAGE
         ]);
     }
 
@@ -186,7 +186,7 @@ class RegistrationController extends AbstractController
         $data = $form->get('registeredClient')->get('photoProfile')->getData();
         if ($data != null && str_starts_with($data->getClientMimeType(), "image/")) {
             $path = $data->getClientOriginalName();
-        }  
+        }
 
         // $path = $this->session->get('photoProfile', '');
         // dump($path);

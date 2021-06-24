@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use Flasher\Prime\FlasherInterface;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Symfony\Component\Mime\Address;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
@@ -32,7 +32,7 @@ class ResetPasswordController extends AbstractController
         $this->resetPasswordHelper = $resetPasswordHelper;
     }
 
-    #[Route('', name : 'app_forgot_password_request')]
+    #[Route('', name: 'app_forgot_password_request')]
 
     /**
      * Display & process form to request a password reset.
@@ -55,7 +55,7 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    #[Route('/check-email', name : 'app_check_email')]
+    #[Route('/check-email', name: 'app_check_email')]
     /**
      * Confirmation page after a user has requested a password reset.
      */
@@ -72,12 +72,12 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    #[Route('/reset/{token}', name : 'app_reset_password')]
+    #[Route('/reset/{token}', name: 'app_reset_password')]
     /**
      * Validates and process the reset URL that the user clicked in their email.
      *
      */
-    public function reset(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token = null, FlasherInterface $flasher): Response
+    public function reset(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $token = null, ToastrFactory $flasher): Response
     {
         if ($token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
@@ -122,7 +122,7 @@ class ResetPasswordController extends AbstractController
 
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
-            $flasher->addInfo('Mot de passe réinitialisé');
+            $flasher->info('Mot de passe réinitialisé');
             return $this->redirectToRoute('app_login');
         }
 
