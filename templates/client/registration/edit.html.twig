@@ -9,14 +9,14 @@
 		.form {
 			margin-left: 20%;
 		}
-		.profil_image {
+		.profile_image {
 			width: 250px;
 			height: 250px;
 		}
 		.card {
 			border: none;
 		}
-		.profil-div {
+		.profile_div {
 			padding-top: 40px;
 		}
 	</style>
@@ -30,7 +30,7 @@
 		function showPreview(event) {
 if (event.target.files.length > 0) {
 var src = URL.createObjectURL(event.target.files[0]);
-var preview = document.getElementById('profilPreview');
+var preview = document.getElementById('profilePreview');
 preview.src = src;
 
 }
@@ -121,19 +121,19 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 								<div class="g-2 mb-3">
 									<div class="col-md-12">
 
-										<label for="client_register_form_photoProfil" class="form-label">Photo de profil
+										<label for="client_register_form_photoProfile" class="form-label">Photo de profil
 											<span class="text-danger">*</span>
 										</label>
-										{{form_widget(formClientRegister.registeredClient.photoProfil)}}
-										{{form_errors(formClientRegister.registeredClient.photoProfil)}}
+										{{form_widget(formClientRegister.registeredClient.photoProfile)}}
+										{{form_errors(formClientRegister.registeredClient.photoProfile)}}
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-1"></div>
 
-						<div class="col-md-4 d-flex justify-content-center profil-div">
-							<img class="profil_image" id="profilPreview" src="{{asset('uploads/profil/'~path)}}" alt="Photo de profil du client">
+						<div class="col-md-4 d-flex justify-content-center profile_div">
+							<img class="profile_image" id="profilePreview" src="{{asset('uploads/client_profile/'~path)}}" alt="Photo de profil du client">
 						</div>
 						<div class="row mt-4 p-0">
 							<div class="col-md-4 text-center">

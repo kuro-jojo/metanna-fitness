@@ -38,24 +38,17 @@ class ClientRepository extends ServiceEntityRepository
     public function findOnlyRegistered()
     {
         return $this->createQueryBuilder('c')
-            ->join('c.myRegistration', 'r', 'r.id = c.myRegistration.id' )
+            ->join('c.myRegistration', 'r', 'r.id = c.myRegistration.id')
             ->orderBy('c.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
-        
+            ->getResult();
     }
-    
-    // public function findOneRegistered($id): ?Client
-    // {
-    //     return $this->createQueryBuilder('c')
-    //         ->andWhere('c.id = :val')
-    //         ->leftJoin("Registration","r",null,"")
-    //         ->andWhere('c.myRegistration IS NOT NULL')
-    //         ->setParameter('val', $id)
-    //         ->getQuery()
-    //         ->getOneOrNullResult()
-    //     ;
-    // }
-    
+
+    public function findAllByResponsable($id)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.myRegistration.responsableOfRegistration = 7')
+            ->getQuery()
+            ->getResult();
+    }
 }

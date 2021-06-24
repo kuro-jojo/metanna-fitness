@@ -2,21 +2,69 @@
 
 {% block title %}Modifier le profil
 {% endblock %}
+
+
+{% block stylesheets %}
+	{{parent()}}
+
+	<style>
+		.content {
+			margin-top: 100px;
+		}
+		.profile-zone {
+			width: 110px;
+			height: 110px;
+		}
+		.img > img {
+			height: 110px;
+			width: 110px;
+			border-radius: 100%;
+			border: 1px solid #000;
+		}
+		.img {
+			position: absolute;
+		}
+		.camera {
+			position: relative;
+			top: 40%;
+			left: 13%;
+			width: 80px;
+			background-color: #f8f9fa;
+		}
+	</style>
+{% endblock %}
 {% block body %}
 
 	<div class="content-wrapper">
-		<div class="container mx-auto pt-3">
+		<h1 class="text-center fs-2 pt-3">Modifier mon profil</h1>
+		<div class="content row justify-content-center">
+			<div class="col-md-6" id="jumbotron">
+				<div class="h-100 bg-light border rounded-3 p-3">
+					{{ form_start(form) }}
+					<div class="row">
+						<div class="col-md-3">
+							<h1 class="text-left fs-6 p-2">Photo de profil</h1>
+							<div class="profile-zone text-center">
+								<div class="img">
+									{% if path == default_image %}
+										<img class="profile_image" id="profilePreview" src="{{asset('img/'~path)}}" alt="Photo de profil">
 
-			<div class="mx-auto card o-hidden border-0 shadow-lg col-sm-8">
-				<div class="card-body p-0">
-					<div class="row ">
-
-						<div class="">
-							<div class="p-5">
-								<div class="text-center ">
-									<h1 class="text-gray-900 mb-4 register-title">Modifier mon profil</h1>
+									{% else %}
+										<img class="profile_image" id="profilePreview" src="{{asset('uploads/user_profile/'~path)}}" alt="Photo de profil">
+									{% endif %}
 								</div>
-								{{ form_start(form) }}
+								<div class="img camera" role="button">
+									<label for="responsable_edit_photoProfile" role="button">
+										<i class="fas fa-camera fs-2"></i>
+									</label>
+								</div>
+							</div>
+							<div class="d-none">
+								{{form_widget(form.photoProfile)}}
+							</div>
+						</div>
+						<div class="col">
+							<div class="row p-3">
 								<div>
 									<div class="col-sm-12">
 										{{ form_row(form.nom) }}
@@ -32,30 +80,55 @@
 										{{ form_row(form.telephone) }}
 									</div>
 								</div>
-								<div class="card border-warning p-4">
-									<div class="card-title">A modifier si nécessaire</div>
+								<div>
+									<div class="col">
+										<a href="#" class="btn btn-dark" onclick="showSetting('password');">Changer le mot de passe</a>
+									</div>
+								</div>
+								<div id="password" class="d-none">
 									<div>
 										<div class="col-sm-8">
 											{{ form_row(form.plainPassword.first) }}
 										</div>
 									</div>
 									<div>
-										<div class="col-sm-8 ">
+
+										<div class="col-sm-8">
 											{{ form_row(form.plainPassword.second) }}
 										</div>
 									</div>
 								</div>
-								<div class="container mt-5">
+								<div class="d-grid col-4 mx-auto mt-3">
 									<button type="submit" class="btn btn-outline-info btn-block">
 										Modifier
 									</button>
 								</div>
 							</div>
-							{{ form_end(form) }}
 						</div>
 					</div>
+					{{ form_end(form) }}
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+
+		function showSetting(id) {
+document.getElementById('jumbotron').style.visibility = "visible";
+
+
+var password = document.getElementById(id);
+password.classList.toggle('d-none');
+}
+
+
+function showPreview(event) {
+if (event.target.files.length > 0) {
+var src = URL.createObjectURL(event.target.files[0]);
+var preview = document.getElementById('profilePreview');
+preview.src = src;
+
+}
+}
+	</script>
 {% endblock %}

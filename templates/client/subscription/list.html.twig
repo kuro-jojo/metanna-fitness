@@ -7,9 +7,7 @@
 	{{parent()}}
 
 	<style>
-		tbody tr {
-			cursor: pointer;
-		}
+
 	</style>
 {% endblock %}
 
@@ -39,7 +37,7 @@
 						<form action="{{path('app_register_edit_client',{id:client.id})}}" method="post" id="edit-form-{{client.id}}"></form>
 						{% if client.myRegistration is not null and  (is_granted("ROLE_ADMIN") or is_granted("ROLE_RIGHT_REGISTER_EDIT_CLIENT")) %}
 
-							<tr class="pointer-tr" onclick="document.getElementById('edit-form-{{client.id}}').submit();">
+							<tr role="button" onclick="document.getElementById('edit-form-{{client.id}}').submit();">
 							{% else %}
 								<tr>
 								{% endif %}

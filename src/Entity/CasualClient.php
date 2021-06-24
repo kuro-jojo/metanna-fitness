@@ -37,6 +37,12 @@ class CasualClient
      */
     private $doneOn;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="casualClients")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $responsableOfRecord;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +92,18 @@ class CasualClient
     public function setDoneOn(\DateTimeInterface $doneOn): self
     {
         $this->doneOn = $doneOn;
+
+        return $this;
+    }
+
+    public function getResponsableOfRecord(): ?User
+    {
+        return $this->responsableOfRecord;
+    }
+
+    public function setResponsableOfRecord(?User $responsableOfRecord): self
+    {
+        $this->responsableOfRecord = $responsableOfRecord;
 
         return $this;
     }

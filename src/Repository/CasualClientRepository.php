@@ -42,4 +42,11 @@ class CasualClientRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->getQuery();
     }
+    public function findAllByResponsableQuery($id)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.responsableOfRecord','r','WITH','r.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+    }
 }

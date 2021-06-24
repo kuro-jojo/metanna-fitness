@@ -6,6 +6,7 @@ use App\Client\Entity\Client;
 use Flasher\Prime\FlasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Client\Repository\ClientRepository;
+use App\Client\Subscription\Repository\SubscriptionRepository;
 use App\Service\ResponsableActivityTracker;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,8 +21,8 @@ class SubscriptionController extends AbstractController
 
     private $flasher;
     private $responsableTracker;
-
-    public function __construct(FlasherInterface $flasher,ResponsableActivityTracker $responsableTracker)
+    
+    public function __construct(FlasherInterface $flasher, ResponsableActivityTracker $responsableTracker)
     {
         $this->flasher = $flasher;
         $this->responsableTracker = $responsableTracker;
@@ -58,7 +59,7 @@ class SubscriptionController extends AbstractController
 
         $em->flush();
         $this->flasher->addInfo("Abonnement renouvelé !!");
-        $this->responsableTracker->saveTracking($this::SUBSCRIPTION_ACTIVITY . $client->getId(),$this->getUser());
+        $this->responsableTracker->saveTracking($this::SUBSCRIPTION_ACTIVITY . $client->getId(), $this->getUser());
 
         return $this->redirectToRoute("app_client_subscription_list");
     }
@@ -73,9 +74,21 @@ class SubscriptionController extends AbstractController
      * @param  mixed $clientRepository
      * @return Response
      */
-    public function listOfSubscription(ClientRepository $clientRepository): Response
+    public function listOfSubscription(ClientRepository $clientRepository, SubscriptionRepository $subscriptionRepository): Response
     {
-        $clients = $clientRepository->findOnlyRegistered();
+        $clients = array();
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $clients = $clientRepository->findOnlyRegistered();
+        } else {
+            $user = $this->getUser();
+
+            // $subscriptions = $subscriptionRepository->findAllByResponsable($this->getUser()->getId());
+            $subscriptions = $user->getSubsRealized();
+            foreach ($subscriptions as $subscription) {
+                array_push($clients, $subscription->getSubscribedClient());
+            }
+        }
         $timeRemaining = null;
 
         foreach ($clients as $key => $client) {
@@ -89,13 +102,13 @@ class SubscriptionController extends AbstractController
                 if ($subscriptionStart <= new \DateTime()) {
                     $today = new \DateTime;
 
-                    $time =  date_diff($today,$subscriptionEnd)->format("%r%a");
+                    $time =  date_diff($today, $subscriptionEnd)->format("%r%a");
                     $timeRemaining[$client->getId()] = $time;
                 }
             }
         }
 
-        $this->responsableTracker->saveTracking($this::SUBSCRIPTION_LIST_ACTIVITY,$this->getUser());
+        $this->responsableTracker->saveTracking($this::SUBSCRIPTION_LIST_ACTIVITY, $this->getUser());
 
         return $this->render("client/subscription/list.html.twig", [
             'clients' => $clients,

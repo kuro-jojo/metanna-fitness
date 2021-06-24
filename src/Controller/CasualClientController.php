@@ -12,15 +12,19 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CasualClientController extends AbstractController
-{   
+{
 
     private const CASUAL_CLIENT_SAVE_ACTIVITY = "Enregistrement d'un client occasionnel";
 
     #[Route('/client/casual', name: 'app_client_casual')]
     /**
+     * 
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_RIGHT_CASUAL')")
+     * 
      * save
      *
      * @param  mixed $request
@@ -30,14 +34,16 @@ class CasualClientController extends AbstractController
     public function save(Request $request, EntityManagerInterface $em, FlasherInterface $flasher, ResponsableActivityTracker $responsableTracker): Response
     {
 
-        $causalClient = new CasualClient;
-        $form = $this->createForm(CasualClientType::class, $causalClient);
+        $casualClient = new CasualClient;
+        $form = $this->createForm(CasualClientType::class, $casualClient);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $causalClient->setDoneOn(new \DateTime());
-            $em->persist($causalClient);
+
+            $casualClient->setDoneOn(new \DateTime());
+            $casualClient->setResponsableOfRecord($this->getUser());
+            $em->persist($casualClient);
             $em->flush();
 
             $flasher->addSuccess('Client enregistré.');
@@ -54,6 +60,8 @@ class CasualClientController extends AbstractController
     #[Route('/client/casual/list', name: 'app_client_casual_list')]
 
     /**
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_RIGHT_LIST_CASUAL')")
+     * 
      * list
      *
      * @param  mixed $casualClientRepository
@@ -61,8 +69,10 @@ class CasualClientController extends AbstractController
      */
     public function list(Request $request, CasualClientRepository $casualClientRepository, PaginatorInterface $paginator): Response
     {
-
-        $casualClients = $paginator->paginate($casualClientRepository->findAllQuery(), $request->query->getInt('page', 1), 15);
+        if ($this->isGranted('ROLE_ADMIN'))
+            $casualClients = $paginator->paginate($casualClientRepository->findAllQuery(), $request->query->getInt('page', 1), 15);
+        else 
+        $casualClients = $paginator->paginate($casualClientRepository->findAllByResponsableQuery($this->getUser()->getId()), $request->query->getInt('page', 1), 15);
 
         return $this->render('client/casual_client/list.html.twig', [
             'casualClients' => $casualClients

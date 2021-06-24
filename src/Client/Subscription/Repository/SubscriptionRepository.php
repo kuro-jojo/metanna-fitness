@@ -2,9 +2,9 @@
 
 namespace App\Client\Subscription\Repository;
 
-use App\Entity\Subscription;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Client\Subscription\Entity\Subscription;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Subscription|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,33 +18,20 @@ class SubscriptionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Subscription::class);
     }
-
-    // /**
-    //  * @return Subscription[] Returns an array of Subscription objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    
+        
+    /**
+     * findAllByResponsable
+     *
+     * @param  mixed $id
+     * @return Subscription []
+     */
+    public function findAllByResponsable($id) 
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('s.responsableOfSubs = :id')
+            ->setParameter('id', $id)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Subscription
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

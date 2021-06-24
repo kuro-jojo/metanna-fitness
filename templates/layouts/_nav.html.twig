@@ -23,10 +23,10 @@
 					{{app.user.prenom ~ ' ' ~ app.user.nom}}
 				</div>
 				<div class="image">
-					<img src="{{asset('img/profil_icon.png')}}" class="img-circle elevation-2" alt="User Image">
+					<img src="{{asset('uploads/user_profile/' ~ app.user.profileFileName)}}" class="img-circle elevation-2" alt="User Image">
 				</div>
 			</a>
-			<ul class="dropdown-menu" aria-labelledby="userProfile" style="position: absolute;top: 49px;left: 23px;">
+			<ul class="dropdown-menu dropdown-menu-end mt-3" aria-labelledby="userProfile"   >
 				<li class="dropdown-item">
 					<a class="text-dark" href="{{path('app_responsable_edit_profile')}}">
 						<i class="nav-fas pr-2 fas fa-user nav-icon mr-1"></i>
