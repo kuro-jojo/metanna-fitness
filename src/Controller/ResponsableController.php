@@ -278,8 +278,8 @@ class ResponsableController extends AbstractController
         $this->flasher->addSuccess('Votre adresse email a bien été vérifiée.');
 
         $roles = $user->getRoles();
-        dump($user->getRoles());
         array_push($roles, $this::ROLE_RESPONSABLE);
+        
         $user->setRoles($roles);
 
         $this->em->flush();

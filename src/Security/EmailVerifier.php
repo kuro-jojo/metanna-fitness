@@ -52,7 +52,7 @@ class EmailVerifier
 
         $user->setIsVerified(true);
         $roles = $user->getRoles();
-        dump($user->getRoles());
+        
         array_push($roles, $this::ROLE_RESPONSABLE);
         $user->setRoles($roles);
 
