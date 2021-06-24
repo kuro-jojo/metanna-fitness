@@ -16,7 +16,6 @@
 ###< symfony/phpunit-bridge ###
 <<<<<<< HEAD
 node_modules
-/public/build
 /public/uploads/client_profile/*
 /public/uploads/user_profile/*
 /public/uploads/product/*
