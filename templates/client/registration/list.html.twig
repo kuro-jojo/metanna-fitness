@@ -68,11 +68,15 @@
 										<td class="text-dark">{{client.prenom}}</td>
 										<td class="text-dark">{{'+221 ' ~ client.telephone}}</td>
 										<td class="text-dark">{{client.email}}</td>
-										<td class="text-dark">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+										<td>
+											{% if client.dateNaissance is not null%}
+												{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}
+											{% endif %}
+										</td>
 										{% if client.myRegistration is not null %}
 											<td class="text-dark">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
 											<td class="text-dark">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
-											<td class="">
+											<td>
 												<a href="{{asset('uploads/client_profile/'~ client.profileFileName)}}"><img src="{{asset('uploads/client_profile/'~ client.profileFileName)}}" alt="photo de profil" class="profile thumbnail"></a>
 											</td>
 											<td class="text-info fw-bold fs-5">Inscrit</td>
@@ -80,7 +84,7 @@
 										{% else %}
 											<td></td>
 											<td></td>
-											<td class="">
+											<td>
 												<a href="{{asset('uploads/client_profile/'~ client.profileFileName)}}"><img src="{{asset('uploads/client_profile/'~ client.profileFileName)}}" alt="photo de profil" class="profile thumbnail"></a>
 											</td>
 											<td class="text-warning fw-bold fs-5">Inscription résiliée</td>
@@ -98,16 +102,20 @@
 										{% else %}
 											<tr>
 											{% endif %}
-											<th class="" scope="row">{{client.id}}</th>
-											<td class="">{{client.nom}}</td>
-											<td class="">{{client.prenom}}</td>
-											<td class="">{{'+221 ' ~ client.telephone}}</td>
-											<td class="">{{client.email}}</td>
-											<td class="">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+											<th scope="row">{{client.id}}</th>
+											<td>{{client.nom}}</td>
+											<td>{{client.prenom}}</td>
+											<td>{{'+221 ' ~ client.telephone}}</td>
+											<td>{{client.email}}</td>
+											<td>
+												{% if client.dateNaissance is not null%}
+													{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}
+												{% endif %}
+											</td>
 											{% if client.myRegistration is not null %}
-												<td class="">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
-												<td class="">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
-												<td class="">
+												<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+												<td>{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
+												<td>
 													<a href="{{asset('uploads/client_profile/'~ client.profileFileName)}}"><img src="{{asset('uploads/client_profile/'~ client.profileFileName)}}" alt="photo de profil" class="profile thumbnail"></a>
 												</td>
 												<td class="text-info fw-bold fs-5">Inscrit</td>
@@ -115,7 +123,7 @@
 											{% else %}
 												<td></td>
 												<td></td>
-												<td class="">
+												<td>
 													<a href="{{asset('uploads/client_profile/'~ client.profileFileName)}}"><img src="{{asset('uploads/client_profile/'~ client.profileFileName)}}" alt="photo de profil" class="profile thumbnail"></a>
 												</td>
 												<td class="text-warning fw-bold fs-5">Inscription résiliée</td>
