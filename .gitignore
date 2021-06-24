@@ -14,16 +14,15 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-<<<<<<< HEAD
+
 node_modules
 /public/uploads/client_profile/*
 /public/uploads/user_profile/*
 /public/uploads/product/*
-=======
+
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
->>>>>>> e98c9b08b73e8c8d72da56a40fcac1acb0cccd85
