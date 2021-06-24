@@ -55,7 +55,7 @@ class ClientFormType extends AbstractType
                     'class' => 'text-center text-dark',
                 ]
             ])
-            ->add('photoProfil', FileType::class, [
+            ->add('photoProfile', FileType::class, [
                 'label' => 'Photo de profil',
                 'mapped' => false,
                 'attr' => [

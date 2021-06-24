@@ -95,12 +95,23 @@ class User implements UserInterface
      */
     private $isVerified = false;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CasualClient::class, mappedBy="responsableOfRecord")
+     */
+    private $casualClients;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $profileFileName;
+
     public function __construct()
     {
         $this->registrationsRealized = new ArrayCollection();
         $this->subsRealized = new ArrayCollection();
         $this->mySales = new ArrayCollection();
         $this->services = new ArrayCollection();
+        $this->casualClients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -346,6 +357,48 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CasualClient[]
+     */
+    public function getCasualClients(): Collection
+    {
+        return $this->casualClients;
+    }
+
+    public function addCasualClient(CasualClient $casualClient): self
+    {
+        if (!$this->casualClients->contains($casualClient)) {
+            $this->casualClients[] = $casualClient;
+            $casualClient->setResponsableOfRecord($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCasualClient(CasualClient $casualClient): self
+    {
+        if ($this->casualClients->removeElement($casualClient)) {
+            // set the owning side to null (unless already changed)
+            if ($casualClient->getResponsableOfRecord() === $this) {
+                $casualClient->setResponsableOfRecord(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getProfileFileName(): ?string
+    {
+        return $this->profileFileName;
+    }
+
+    public function setProfileFileName(?string $profileFileName): self
+    {
+        $this->profileFileName = $profileFileName;
 
         return $this;
     }

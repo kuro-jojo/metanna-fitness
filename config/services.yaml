@@ -4,7 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    profil_directory: '%kernel.project_dir%/public/uploads/profil'
+    client_profile_directory: '%kernel.project_dir%/public/uploads/client_profile'
+    user_profile_directory: '%kernel.project_dir%/public/uploads/user_profile'
     product_directory: '%kernel.project_dir%/public/uploads/product'
 
 services:
@@ -31,7 +32,8 @@ services:
 
     App\Service\FileUploader:
         arguments:
-            $profilDirectory: '%profil_directory%'
+            $clientProfileDirectory: '%client_profile_directory%'
+            $userProfileDirectory: '%user_profile_directory%'
             $productDirectory: '%product_directory%'
 
 

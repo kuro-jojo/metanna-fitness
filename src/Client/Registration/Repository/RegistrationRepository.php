@@ -2,9 +2,9 @@
 
 namespace App\Client\Registration\Repository;
 
-use App\Entity\Registration;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Client\Registration\Entity\Registration;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Registration|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,15 +36,12 @@ class RegistrationRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Registration
+    public function findAllByResponsable($id)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('r.responsableOfRegistration = :id')
+            ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

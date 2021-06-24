@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\ResponsableType;
+use App\Service\FileUploader;
 use App\Security\EmailVerifier;
 use App\Form\ResponsableEditType;
 use App\Repository\UserRepository;
@@ -15,6 +16,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,6 +48,8 @@ class ResponsableController extends AbstractController
     private  const   ROLE_RIGHT_LIST_RESPONSABLE = "ROLE_RIGHT_LIST_RESPONSABLE";
     private  const   ROLE_RIGHT_RESPONSABLE_ACTIVITIES = "ROLE_RIGHT_RESPONSABLE_ACTIVITIES";
 
+    private const DEFAULT_IMAGE = "profile_icon.png";
+
     private $emailVerifier;
     private $flasher;
     private $em;
@@ -69,7 +73,7 @@ class ResponsableController extends AbstractController
      * @Security("is_granted('ROLE_RIGHT_ADD_RESPONSABLE') or is_granted('ROLE_ADMIN')")
      * 
      */
-    public function addResponsable(Request $request): Response
+    public function addResponsable(Request $request, FileUploader $fileUploader): Response
     {
         $user = new User();
 
@@ -100,6 +104,9 @@ class ResponsableController extends AbstractController
                     )
                 );
                 $user->setRoles($rights);
+
+                
+                $user->setProfileFileName($this::DEFAULT_IMAGE);
 
                 $this->em->persist($user);
                 $this->em->flush();
@@ -162,13 +169,28 @@ class ResponsableController extends AbstractController
      *
      * @return Response
      */
-    public function editProfile(Request $request): Response
+    public function editProfile(Request $request, FileUploader $fileUploader): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(ResponsableEditType::class, $user);
         $form->handleRequest($request);
 
+        $path = $user->getProfileFileName() != null ? $user->getProfileFileName() :  $this::DEFAULT_IMAGE;
+
+        $data = $form->get('photoProfile')->getData();
+        if ($data != null && str_starts_with($data->getClientMimeType(), "image/")) {
+            $path = $data->getClientOriginalName();
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
+            
+
+            if ($data) {
+                $photoProfileName = $fileUploader->upload($data, 'user_profile');
+                $user->setProfileFileName($photoProfileName);
+            }
+
+
             if ($form->get('plainPassword')->getData() != null) {
 
                 $user->setPassword(
@@ -188,6 +210,8 @@ class ResponsableController extends AbstractController
         }
         return $this->render('responsable/edit_profile.html.twig', [
             'form' => $form->createView(),
+            'path' => $path,
+            'default_image' => $this::DEFAULT_IMAGE
         ]);
     }
 

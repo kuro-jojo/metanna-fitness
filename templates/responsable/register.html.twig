@@ -91,7 +91,8 @@
 									</button>
 								</div>
 							</div>
-							{{ form_end(registrationForm) }}
+							{{ form_widget(registrationForm._token) }}
+							{{ form_end(registrationForm, {'render_rest': false}) }}
 						</div>
 					</div>
 				</div>

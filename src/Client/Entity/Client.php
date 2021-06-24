@@ -15,9 +15,13 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @UniqueEntity(
+ *  fields={"telephone"},
+ *  message="Ce numéro de téléphone est déjà utilisé.")
  */
 class Client
 {
@@ -43,13 +47,13 @@ class Client
     private $prenom;
 
     /**
-     *  @Assert\NotBlank(
+     * @Assert\NotBlank(
      *      message="Veuillez entrer un numéro de téléphone")
      * @Assert\Regex(
      *      pattern="/^(00221)?(7[786])(\d){7}$/",
      *      message="Respectez le format 77 xxx xx xx ",
      *          )
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $telephone;
     /**
@@ -86,7 +90,7 @@ class Client
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $profilFileName;
+    private $profileFileName;
 
     public function __construct()
     {
@@ -233,14 +237,14 @@ class Client
         return $this;
     }
 
-    public function getProfilFileName(): ?string
+    public function getProfileFileName(): ?string
     {
-        return $this->profilFileName;
+        return $this->profileFileName;
     }
 
-    public function setProfilFileName(string $profilFileName): self
+    public function setProfileFileName(string $profileFileName): self
     {
-        $this->profilFileName = $profilFileName;
+        $this->profileFileName = $profileFileName;
 
         return $this;
     }

@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Client\Registration\Entity\Registration;
 use App\Client\Subscription\Entity\Subscription;
 use App\Client\Registration\Form\ClientRegistrationFormType;
+use App\Client\Registration\Repository\RegistrationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Client\Registration\Form\ClientEditRegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,15 +30,19 @@ class RegistrationController extends AbstractController
     private const REGISTRATION_CANCEL_ACTIVITY = "Résiliation d'une inscription";
     private const REGISTRATION_LIST_ACTIVITY = "Consultation des clients inscrits";
 
+    private const DEFAULT_IMAGE = "profile_icon.png";
+
     private $flasher;
     private $clientRepository;
+    private $registrationRepository;
     private $em;
     private $responsableTracker;
 
-    public function __construct(FlasherInterface $flasher, ClientRepository $clientRepository, EntityManagerInterface $em, ResponsableActivityTracker $responsableTracker)
+    public function __construct(FlasherInterface $flasher, ClientRepository $clientRepository, RegistrationRepository $registrationRepository, EntityManagerInterface $em, ResponsableActivityTracker $responsableTracker)
     {
         $this->flasher = $flasher;
         $this->clientRepository = $clientRepository;
+        $this->registrationRepository = $registrationRepository;
         $this->em = $em;
         $this->responsableTracker = $responsableTracker;
     }
@@ -68,35 +73,36 @@ class RegistrationController extends AbstractController
 
 
         // Ensure to have a default preview and save the path only for image file
-        $path = "profil_icon.png";
-        $data = $form->get('registeredClient')->get('photoProfil')->getData();
-        if ($data != null && str_starts_with($data->getClientMimeType(), "image/")) {
-            $path = $data->getClientOriginalName();
-        }
+        $path = $this::DEFAULT_IMAGE;
+        
+        
 
-        // $path = $this->session->get('photoProfil', '');
+        // $path = $this->session->get('photoProfile', '');
         // dump($path);
         // if (!empty($path)) {
         //     if ($data != null && str_starts_with($data->getClientMimeType(), "image/")) {
         //         $path = $data->getClientOriginalName();
         //     }else 
-        //     $data = $form->get('registeredClient')->get('photoProfil')->getData();
+        //     $data = $form->get('registeredClient')->get('photoProfile')->getData();
 
         // } else {
-        //     $path = "profil_icon.png";
+        //     $path = "profile_icon.png";
         // }
         // dump($data);
 
-        // $this->session->set('photoProfil', $path);
+        // $this->session->set('photoProfile', $path);
         // $this->session->set('data', $data);
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $data = $form->get('registeredClient')->get('photoProfile')->getData();
+            if ($data != null && str_starts_with($data->getClientMimeType(), "image/")) {
+                $path = $data->getClientOriginalName();
+            }
             $client = new Client;
             $client = $form->get('registeredClient')->getData();
 
             if ($data) {
-                $photoProfilName = $fileUploader->upload($data, 'profil');
-                $client->setProfilFileName($photoProfilName);
+                $photoProfileName = $fileUploader->upload($data, 'client_profile');
+                $client->setProfileFileName($photoProfileName);
             }
 
             // Remove the 00221 of the phone number
@@ -147,7 +153,8 @@ class RegistrationController extends AbstractController
         return $this->render('client/registration/registration.html.twig', [
             'formClientRegister' => $form->createView(),
             'registration' => $registration,
-            'path' => $path
+            'path' => $path,
+            'default_image'=> $this::DEFAULT_IMAGE
         ]);
     }
 
@@ -175,32 +182,32 @@ class RegistrationController extends AbstractController
 
 
         // Ensure to have a default preview and save the path only for image file
-        $path = $client->getProfilFileName();
-        $data = $form->get('registeredClient')->get('photoProfil')->getData();
+        $path = $client->getProfileFileName();
+        $data = $form->get('registeredClient')->get('photoProfile')->getData();
         if ($data != null && str_starts_with($data->getClientMimeType(), "image/")) {
             $path = $data->getClientOriginalName();
-        }
+        }  
 
-        // $path = $this->session->get('photoProfil', '');
+        // $path = $this->session->get('photoProfile', '');
         // dump($path);
         // if (!empty($path)) {
         //     if ($data != null && str_starts_with($data->getClientMimeType(), "image/")) {
         //         $path = $data->getClientOriginalName();
         //     }else 
-        //     $data = $form->get('registeredClient')->get('photoProfil')->getData();
+        //     $data = $form->get('registeredClient')->get('photoProfile')->getData();
 
         // } else {
-        //     $path = "profil_icon.png";
+        //     $path = "profile_icon.png";
         // }
         // dump($data);
 
-        // $this->session->set('photoProfil', $path);
+        // $this->session->set('photoProfile', $path);
         // $this->session->set('data', $data);
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($data) {
-                $photoProfilName = $fileUploader->upload($data, 'profil');
-                $client->setProfilFileName($photoProfilName);
+                $photoProfileName = $fileUploader->upload($data, 'client_profile');
+                $client->setProfileFileName($photoProfileName);
             }
 
             // Remove the 00221 of the phone number
@@ -275,15 +282,27 @@ class RegistrationController extends AbstractController
      * @param  mixed $showOnlyRegistered
      * @return Response
      */
-    public function listOfRegistration(bool $showOnlyRegistered = false): Response
+    public function listOfRegistrations(bool $showOnlyRegistered = false): Response
     {
         $checked = "";
-        if ($showOnlyRegistered) {
-            $clients = $this->clientRepository->findOnlyRegistered();
-            $checked = "checked";
+        $clients = array();
+        if ($this->isGranted('ROLE_ADMIN')) {
+            if (!$showOnlyRegistered)
+                $clients = $this->clientRepository->findAll();
+            else {
+                $clients = $this->clientRepository->findOnlyRegistered();
+                $checked = "checked";
+            }
         } else {
-            $clients = $this->clientRepository->findAll();
+            $user = $this->getUser();
+            $registrations = $user->getRegistrationsRealized();
+            // $registrations = $this->registrationRepository->findAllByResponsable($this->getUser()->getId());
+            foreach ($registrations as $registration) {
+                array_push($clients, $registration->getRegisteredClient());
+            }
         }
+
+
         $this->responsableTracker->saveTracking($this::REGISTRATION_LIST_ACTIVITY, $this->getUser());
 
         return $this->render("client/registration/list.html.twig", [
