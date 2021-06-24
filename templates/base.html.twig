@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="author" content="Jonathan Assamagan">
-		
+
 		<link rel="apple-touch-icon" sizes="57x57" href="{{ asset('img/favicon/apple-icon-57x57.png')}}">
 		<link rel="apple-touch-icon" sizes="60x60" href="{{ asset('img/favicon/apple-icon-60x60.png')}}">
 		<link rel="apple-touch-icon" sizes="72x72" href="{{ asset('img/favicon/apple-icon-72x72.png')}}">
@@ -27,6 +27,7 @@
 
 		<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
+
 		<title>
 			{% block title %}Metanna-Fitness
 			{% endblock %}
@@ -39,8 +40,7 @@
 				body {
 					overflow-x: hidden;
 				}
-				#flasher-container-top-right {
-					position: absolute !important;
+				.toast-top-right {
 					top: 10% !important;
 				}
 				.dropdown-item.active,
@@ -90,27 +90,25 @@
 
 
 			{{ encore_entry_script_tags('app') }}
-			<script src="//code.jquery.com/jquery.js"></script>
 
+			<script src="//code.jquery.com/jquery.js"></script>
 			<script src="https://kit.fontawesome.com/bca57ce0fe.js" crossorigin="anonymous"></script>
 
 
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/i18n/defaults-fr_FR.min.js"></script>
+
 		{% endblock %}
 	</head>
 	{# layout-navbar-fixed layout-footer-fixed #}
 	<body class="hold-transition sidebar-mini layout-fixed ">
-		{{flasher_render()}}
 		<div class="wrapper">
-
 			{% if app.user is not null %}
 				{% include "layouts/_nav.html.twig" %}
 
 				{% include "layouts/_sidebar.html.twig" %}
 			{% endif %}
-			{# {{ include('@MercurySeriesFlashy/flashy.html.twig') }} #}
 
 			{% if app.user is not null and is_granted("ROLE_ADMIN") %}
 				{% include "layouts/_control_sidebar.html.twig" %}
@@ -120,4 +118,5 @@
 		</div>
 
 	</body>
+	{{ flasher_render() }}
 </html>

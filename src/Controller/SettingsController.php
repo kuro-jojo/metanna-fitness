@@ -6,7 +6,7 @@ use App\Entity\Settings;
 use App\Entity\AmountSetting;
 use App\Form\AmountSettingType;
 use App\Repository\SaleRepository;
-use Flasher\Prime\FlasherInterface;
+use Flasher\Toastr\Prime\ToastrFactory;
 use App\Repository\ServiceRepository;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +29,7 @@ class SettingsController extends AbstractController
     private $flasher;
     private $responsableTracker;
 
-    public function __construct(EntityManagerInterface $em, FlasherInterface $flasher,ResponsableActivityTracker $responsableTracker)
+    public function __construct(EntityManagerInterface $em, ToastrFactory $flasher, ResponsableActivityTracker $responsableTracker)
     {
         $this->em = $em;
         $this->flasher = $flasher;
@@ -77,7 +77,6 @@ class SettingsController extends AbstractController
             $this->flasher->addSuccess('Les montants ont été edités !');
 
             $this->responsableTracker->saveTracking($this::SETTING_AMOUNT_ACTIVITY, $this->getUser());
-            
         }
 
 
@@ -105,7 +104,7 @@ class SettingsController extends AbstractController
         }
 
         $this->flasher->addInfo('L historique des ventes a été supprimé !!');
-        
+
         $this->responsableTracker->saveTracking($this::SETTING_SALES_ACTIVITY, $this->getUser());
 
         return $this->redirectToRoute('app_settings');

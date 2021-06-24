@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CasualClient;
 use App\Form\CasualClientType;
-use Flasher\Prime\FlasherInterface;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CasualClientRepository;
 use App\Service\ResponsableActivityTracker;
@@ -31,7 +31,7 @@ class CasualClientController extends AbstractController
      * @param  mixed $em
      * @return Response
      */
-    public function save(Request $request, EntityManagerInterface $em, FlasherInterface $flasher, ResponsableActivityTracker $responsableTracker): Response
+    public function save(Request $request, EntityManagerInterface $em, ToastrFactory $flasher, ResponsableActivityTracker $responsableTracker): Response
     {
 
         $casualClient = new CasualClient;
@@ -46,7 +46,7 @@ class CasualClientController extends AbstractController
             $em->persist($casualClient);
             $em->flush();
 
-            $flasher->addSuccess('Client enregistré.');
+            $flasher->success('Client enregistré.');
 
             $responsableTracker->saveTracking($this::CASUAL_CLIENT_SAVE_ACTIVITY, $this->getUser());
 
@@ -71,8 +71,8 @@ class CasualClientController extends AbstractController
     {
         if ($this->isGranted('ROLE_ADMIN'))
             $casualClients = $paginator->paginate($casualClientRepository->findAllQuery(), $request->query->getInt('page', 1), 15);
-        else 
-        $casualClients = $paginator->paginate($casualClientRepository->findAllByResponsableQuery($this->getUser()->getId()), $request->query->getInt('page', 1), 15);
+        else
+            $casualClients = $paginator->paginate($casualClientRepository->findAllByResponsableQuery($this->getUser()->getId()), $request->query->getInt('page', 1), 15);
 
         return $this->render('client/casual_client/list.html.twig', [
             'casualClients' => $casualClients

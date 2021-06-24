@@ -8,7 +8,7 @@ use App\Service\FileUploader;
 use App\Security\EmailVerifier;
 use App\Form\ResponsableEditType;
 use App\Repository\UserRepository;
-use Flasher\Prime\FlasherInterface;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\ResponsableActivityTracker;
@@ -58,7 +58,7 @@ class ResponsableController extends AbstractController
     private $responsableTracker;
 
 
-    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $em, FlasherInterface $flasher, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ResponsableActivityTracker $responsableTracker)
+    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $em, ToastrFactory $flasher, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ResponsableActivityTracker $responsableTracker)
     {
         $this->emailVerifier = $emailVerifier;
         $this->em = $em;
@@ -105,7 +105,7 @@ class ResponsableController extends AbstractController
                 );
                 $user->setRoles($rights);
 
-                
+
                 $user->setProfileFileName($this::DEFAULT_IMAGE);
 
                 $this->em->persist($user);
@@ -183,7 +183,7 @@ class ResponsableController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
 
             if ($data) {
                 $photoProfileName = $fileUploader->upload($data, 'user_profile');

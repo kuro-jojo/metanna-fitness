@@ -29,6 +29,7 @@ class AppFixtures extends Fixture
         $user->setRoles(["ROLE_ADMIN", "ROLE_RESPONSABLE"]);
         $user->setPassword($this->encoder->encodePassword($user,"admin"));
         $user->setIsVerified(true);
+        $user->setProfileFileName("profile_icon.png");
         $manager->persist($user);
 
         $settings = new Settings;
