@@ -7,15 +7,16 @@
 		</li>
 	</ul>
 
-	<ul class="navbar-nav ml-auto">
+	<ul
+		class="navbar-nav ml-auto">
 		{# {% if app.user is not null and is_granted("ROLE_ADMIN") %}
-																
-																			<li class="nav-item">
-																				<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-																					<i class="fas fa-th-large"></i>
-																				</a>
-																			</li>
-																		{% endif %} #}
+																				
+																							<li class="nav-item">
+																								<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+																									<i class="fas fa-th-large"></i>
+																								</a>
+																							</li>
+																						{% endif %} #}
 
 		<li class="nav-item dropdown">
 			<a class="user-panel d-flex text-light" href="#" id="userProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -23,10 +24,14 @@
 					{{app.user.prenom ~ ' ' ~ app.user.nom}}
 				</div>
 				<div class="image">
-					<img src="{{asset('uploads/user_profile/' ~ app.user.profileFileName)}}" class="img-circle elevation-2" alt="User Image">
+					{% if app.user.profileFileName == 'profile_icon.png' %}
+						<img src="{{asset('img/' ~ app.user.profileFileName)}}" class="img-circle elevation-2" alt="User Image">
+					{% else %}
+						<img src="{{asset('uploads/user_profile/' ~ app.user.profileFileName)}}" class="img-circle elevation-2" alt="User Image">
+					{% endif %}
 				</div>
 			</a>
-			<ul class="dropdown-menu dropdown-menu-end mt-3" aria-labelledby="userProfile"   >
+			<ul class="dropdown-menu dropdown-menu-end mt-3" aria-labelledby="userProfile">
 				<li class="dropdown-item">
 					<a class="text-dark" href="{{path('app_responsable_edit_profile')}}">
 						<i class="nav-fas pr-2 fas fa-user nav-icon mr-1"></i>
