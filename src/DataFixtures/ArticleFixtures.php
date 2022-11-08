@@ -23,7 +23,7 @@ class ArticleFixtures extends Fixture
         $category3 = new Category();
         $category3->setName('Vêtements');
         
-        for ($i=0; $i < 20; $i++) { 
+        for ($i=0; $i < 5; $i++) { 
             $article = new Article;
             $article->setLabel($faker->word);
             $article->setStock(rand(0,20));
