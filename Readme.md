@@ -62,12 +62,12 @@ Cette application gère une salle de sport
 
 ## Accueil
 
-![Accueil](https://ibb.co/K7qK8tF)
+![Accueil](https://i.postimg.cc/sX6YBsbR/accueil.png)
 
 ## Ajout d'un client
 
-![Ajout client](https://ibb.co/R9RPg4V)
+![Ajout client](https://i.postimg.cc/vZr5rWCh/reg.png)
 
 ## Administration du site
 
-![Administration](https://ibb.co/ZK5HKPs)
+![Administration](https://i.postimg.cc/TwwmvB1N/settings.png)
