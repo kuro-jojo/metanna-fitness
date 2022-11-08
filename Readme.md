@@ -62,7 +62,7 @@ Cette application gère une salle de sport
 
 ## Accueil
 
-![Accueil](https://i.postimg.cc/sX6YBsbR/accueil.png)
+![Accueil](https://i.postimg.cc/BZjYxVpC/accueil.png)
 
 ## Ajout d'un client
 
