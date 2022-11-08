@@ -26,9 +26,14 @@ Cette application gère une salle de sport
 # Démarrer le projet
 
     composer install -- to install all dependencies
-    docker-compose up -d ou docker compose up -d
-    symfony console serve -d
-    npm run build  --- to build the js and css scripts
+    docker compose up -d ou docker compose up -d
+    symfony console make:migration
+    symfony console doctrine:migrations:migrate -- to create the database schemes
+    symfony console doctrine:fixtures:load -- load fake data (optional)
+    npm install -- to install dependencies
+    npm run build  -- to build the js and css scripts
+    symfony server:start -d
+    
     
     
 # Déploiement
