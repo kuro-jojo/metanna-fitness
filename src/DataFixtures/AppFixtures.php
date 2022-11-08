@@ -22,10 +22,10 @@ class AppFixtures extends Fixture
     {
         $user = new User;
 
-        $user->setNom("ASSAMAGAN");
+        $user->setNom("Doe");
         $user->setPrenom("Jonathan");
         $user->setEmail("admin@example.com");
-        $user->setTelephone("77 830 96 15");
+        $user->setTelephone("77 777 77 77");
         $user->setRoles(["ROLE_ADMIN", "ROLE_RESPONSABLE"]);
         $user->setPassword($this->encoder->encodePassword($user,"admin"));
         $user->setIsVerified(true);
