@@ -4,15 +4,14 @@ Cette application gère une salle de sport
 
     # Prérequis :
         docker
-        docker-compose
 
     On utilise un webmail avec l'image schickling/mailcatcher
         
-    docker-composer up -d
+    docker compose up -d
    
 ## Template et Bootstrap
     # Installation
-        npm require bootstrap@next
+        composer require bootstrap@next
         composer require encore -- Install webpack encore to manage js and css files
 
     # Version 1  
@@ -27,7 +26,7 @@ Cette application gère une salle de sport
 # Démarrer le projet
 
     composer install -- to install all dependencies
-    docker-composer up -d
+    docker-compose up -d ou docker compose up -d
     symfony console serve -d
     npm run build  --- to build the js and css scripts
     
@@ -58,3 +57,17 @@ Cette application gère une salle de sport
         web: heroku-php-apache2 public/
         
     # install apache pack to manage internal links
+
+# Images
+
+## Accueil
+
+![Accueil](https://ibb.co/K7qK8tF)
+
+## Ajout d'un client
+
+![Ajout client](https://ibb.co/R9RPg4V)
+
+## Administration du site
+
+![Administration](https://ibb.co/ZK5HKPs)

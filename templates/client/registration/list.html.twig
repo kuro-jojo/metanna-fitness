@@ -47,8 +47,8 @@
 							<th class="header sort-by" scope="col">Date de Naissance</th>
 							<th class="header sort-by" scope="col">Date d'inscription</th>
 							<th class="header sort-by" scope="col">Montant</th>
-							<th class="header" scope="col">e</th>
 							<th class="header sort-by" scope="col">Statut</th>
+							<th class="header" scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -76,18 +76,18 @@
 										{% if client.myRegistration is not null %}
 											<td class="text-dark">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
 											<td class="text-dark">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
+											<td class="text-info fw-bold fs-5">Inscrit</td>
 											<td>
 												<a href="{{asset('uploads/client_profile/'~ client.profileFileName)}}"><img src="{{asset('uploads/client_profile/'~ client.profileFileName)}}" alt="photo de profil" class="profile thumbnail"></a>
 											</td>
-											<td class="text-info fw-bold fs-5">Inscrit</td>
 
 										{% else %}
 											<td></td>
 											<td></td>
+											<td class="text-warning fw-bold fs-5">Inscription résiliée</td>
 											<td>
 												<a href="{{asset('uploads/client_profile/'~ client.profileFileName)}}"><img src="{{asset('uploads/client_profile/'~ client.profileFileName)}}" alt="photo de profil" class="profile thumbnail"></a>
 											</td>
-											<td class="text-warning fw-bold fs-5">Inscription résiliée</td>
 										{% endif %}
 									</tr>
 								{% endif %}
@@ -115,18 +115,18 @@
 											{% if client.myRegistration is not null %}
 												<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
 												<td>{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
+												<td class="text-info fw-bold fs-5">Inscrit</td>
 												<td>
 													<a href="{{asset('uploads/client_profile/'~ client.profileFileName)}}"><img src="{{asset('uploads/client_profile/'~ client.profileFileName)}}" alt="photo de profil" class="profile thumbnail"></a>
 												</td>
-												<td class="text-info fw-bold fs-5">Inscrit</td>
 
 											{% else %}
 												<td></td>
 												<td></td>
+												<td class="text-warning fw-bold fs-5">Inscription résiliée</td>
 												<td>
 													<a href="{{asset('uploads/client_profile/'~ client.profileFileName)}}"><img src="{{asset('uploads/client_profile/'~ client.profileFileName)}}" alt="photo de profil" class="profile thumbnail"></a>
 												</td>
-												<td class="text-warning fw-bold fs-5">Inscription résiliée</td>
 											{% endif %}
 										</tr>
 									{% endfor %}
