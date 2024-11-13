@@ -3,6 +3,7 @@
 /.env.local
 /.env.local.php
 /.env.*.local
+.env*
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
@@ -19,7 +20,7 @@ node_modules
 /public/uploads/client_profile/*
 /public/uploads/user_profile/*
 /public/uploads/product/*
-
+/public/build/*
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
