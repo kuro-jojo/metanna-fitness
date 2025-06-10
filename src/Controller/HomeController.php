@@ -6,14 +6,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    /**
-     * @IsGranted("ROLE_RESPONSABLE")
+    #[IsGranted(new Expression("is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_ADMIN')" ))]
+    /** 
      * 
      * index
      *

@@ -10,8 +10,9 @@ use App\Client\Subscription\Repository\SubscriptionRepository;
 use App\Service\ResponsableActivityTracker;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class SubscriptionController extends AbstractController
 {
@@ -30,9 +31,8 @@ class SubscriptionController extends AbstractController
 
 
     #[Route('/client/subscription/renew/{id<\d+>}', name: 'app_client_subscription_renew')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SUBSCRIBE_CLIENT') or is_granted('ROLE_ADMIN')"))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_SUBSCRIBE_CLIENT') or is_granted('ROLE_ADMIN')")
      * 
      * renew a customer subscription
      *
@@ -65,9 +65,8 @@ class SubscriptionController extends AbstractController
     }
 
     #[Route('/client/subscription/list', name: 'app_client_subscription_list')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_LIST_SUBSCRIPTION') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_LIST_SUBSCRIPTION') or is_granted('ROLE_ADMIN')")
      * 
      * list of all subscripted customers
      *

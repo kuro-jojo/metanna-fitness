@@ -17,9 +17,10 @@ use App\Client\Registration\Entity\Registration;
 use App\Client\Subscription\Entity\Subscription;
 use App\Client\Registration\Form\ClientRegistrationFormType;
 use App\Client\Registration\Repository\RegistrationRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Client\Registration\Form\ClientEditRegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class RegistrationController extends AbstractController
 {
@@ -48,9 +49,8 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/client/register', name: 'app_register_client')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_REGISTER_CLIENT') or is_granted('ROLE_ADMIN')"))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_REGISTER_CLIENT') or is_granted('ROLE_ADMIN')")
      * 
      * register Allow to register a new customer
      *
@@ -159,9 +159,8 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/client/register/edit/{id<\d+>}', name: 'app_register_edit_client')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_EDIT_REGISTRATION') or is_granted('ROLE_ADMIN')"))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_EDIT_REGISTRATION') or is_granted('ROLE_ADMIN')")
      * 
      * register Allow to register a new customer
      *
@@ -250,9 +249,8 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/client/registration/cancel/{id<\d+>}', name: 'app_client_registration_cancel')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_CANCEL_REGISTRATION') or is_granted('ROLE_ADMIN')"))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_CANCEL_REGISTRATION') or is_granted('ROLE_ADMIN')")
      * 
      * cancel the registration of a customer
      *
@@ -273,9 +271,8 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/client/registration/list/{showOnlyRegistered}', name: 'app_client_registration_list')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_LIST_REGISTRATION') or is_granted('ROLE_ADMIN')"))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_LIST_REGISTRATION') or is_granted('ROLE_ADMIN')")
      * 
      * list of all registered customers
      * 

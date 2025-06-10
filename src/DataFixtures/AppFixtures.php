@@ -6,19 +6,19 @@ use App\Entity\Settings;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
 
     private $encoder;
 
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordHasherInterface $encoder)
     {
         $this->encoder = $encoder;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : void
     {
         $user = new User;
 
@@ -27,7 +27,7 @@ class AppFixtures extends Fixture
         $user->setEmail("admin@example.com");
         $user->setTelephone("77 777 77 77");
         $user->setRoles(["ROLE_ADMIN", "ROLE_RESPONSABLE"]);
-        $user->setPassword($this->encoder->encodePassword($user,"admin"));
+        $user->setPassword($this->encoder->hashPassword($user,"admin"));
         $user->setIsVerified(true);
         $user->setProfileFileName("profile_icon.png");
         $manager->persist($user);

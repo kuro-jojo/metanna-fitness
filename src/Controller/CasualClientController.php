@@ -12,8 +12,9 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class CasualClientController extends AbstractController
 {
@@ -21,9 +22,8 @@ class CasualClientController extends AbstractController
     private const CASUAL_CLIENT_SAVE_ACTIVITY = "Enregistrement d'un client occasionnel";
 
     #[Route('/client/casual', name: 'app_client_casual')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_CASUAL') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_RIGHT_CASUAL')")
      * 
      * save
      *
@@ -59,8 +59,8 @@ class CasualClientController extends AbstractController
 
     #[Route('/client/casual/list', name: 'app_client_casual_list')]
 
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_LIST_CASUAL') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_RIGHT_LIST_CASUAL')")
      * 
      * list
      *

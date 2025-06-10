@@ -8,17 +8,21 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class ResponsableServiceController extends AbstractController
 {
 
    #[Route('/responsable/service', name: 'app_responsable_service')]
+   #[IsGranted(new Expression("is_granted('ROLE_RIGHT_RESPONSABLE_ACTIVITIES') or is_granted('ROLE_ADMIN')" ))]
    /**
     * 
-     @Security("is_granted('ROLE_RIGHT_RESPONSABLE_ACTIVITIES') or is_granted('ROLE_ADMIN')")
+    * all services
+    *
+    * @return Response
     */
 
    public function allServices(Request $request, ServiceRepository $serviceRepository, PaginatorInterface $paginator): Response

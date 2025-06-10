@@ -48,17 +48,17 @@
 								<td class="p-3">{{client.email}}</td>
 
 								{% if client.dateNaissance is not null %}
-									<td class="p-3">{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+									<td class="p-3">{{client.dateNaissance|date('d M Y')}}</td>
 								{% else %}
 									<td></td>
 								{% endif %}
 								{% if client.myRegistration is not null %}
-									<td class="p-3">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+									<td class="p-3">{{client.myRegistration.dateOfRegistration|date('d M Y')}}</td>
 								{% else %}
 									<td></td>
 								{% endif %}
 								{% if client.mySubscription is not null %}
-									<td class="p-3">{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
+									<td class="p-3">{{client.mySubscription.endOfSubs|date('d M Y')}}</td>
 									<td class="p-3">{{client.mySubscription.amountOfSubs ~ ' XOF'}}</td>
 
 									{% set content = "" %}

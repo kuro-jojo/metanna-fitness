@@ -10,9 +10,10 @@ use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 
 #[Route('/client', name: 'app_client')]
@@ -28,9 +29,8 @@ class ClientController extends AbstractController
     }
 
     #[Route('/registration/search', name: '_registration_search', methods: ['GET'])]
-
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_REGISTER_CLIENT') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * @Security("is_granted('ROLE_RIGHT_REGISTER_CLIENT') or is_granted('ROLE_ADMIN')")
      *
      * searchClient
      *
@@ -58,9 +58,8 @@ class ClientController extends AbstractController
     }
 
     #[Route('/registration/cancel', name: '_registration_cancel_search', methods: ['GET'])]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_CANCEL_REGISTRATION') or is_granted('ROLE_ADMIN')" ))]
     /** 
-     * 
-     * @Security("is_granted('ROLE_RIGHT_CANCEL_REGISTRATION') or is_granted('ROLE_ADMIN')")
      * 
      * search a customer
      *
@@ -85,9 +84,8 @@ class ClientController extends AbstractController
 
 
     #[Route('/subscription/renew', name: '_subscription_renew_search', methods: ['GET'])]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SUBSCRIBE_CLIENT') or is_granted('ROLE_ADMIN')" ))]
     /** 
-     * 
-     * @Security("is_granted('ROLE_RIGHT_SUBSCRIBE_CLIENT') or is_granted('ROLE_ADMIN')")
      * 
      * search a customer
      *

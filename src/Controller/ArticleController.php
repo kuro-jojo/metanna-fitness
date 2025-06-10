@@ -16,9 +16,9 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/article', name: 'app_article')]
 
@@ -51,9 +51,8 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/list/{id<\d+>}/{article}', name: '_list')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')")
      * 
      * return list Of Articles depends on the category
      *
@@ -94,9 +93,8 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/search/{id<\d+>}', name: '_search')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')")
      * 
      * articleSearch
      *
@@ -120,9 +118,8 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/sell/{id<\d+>}', name: '_sell')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_SELL_ARTICLE') or is_granted('ROLE_ADMIN')")
      * 
      * sell an article
      *
@@ -163,9 +160,8 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/history', name: '_history')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SALES_HISTORY') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_SALES_HISTORY') or is_granted('ROLE_ADMIN')")
      * 
      * history of all sales by responsable
      *
@@ -183,9 +179,8 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/catalogue', name: '_catalogue')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
      * 
      * manage the stock of articles
      *
@@ -201,9 +196,8 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/add', name: '_add')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
      * 
      * add a new Article
      *
@@ -240,9 +234,9 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/edit/{id<\d+>}', name: '_edit', methods: ['GET', 'PUT'])]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
-     *  
+     * 
      * edit an article
      *
      * @param  mixed $article
@@ -276,9 +270,8 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/delete/{id<\d+>}', name: '_delete', methods: ['DELETE'])]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_SALES_MANAGEMENT') or is_granted('ROLE_ADMIN')")
      * 
      * delete an article
      *

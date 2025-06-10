@@ -10,7 +10,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateAdminUserCommand extends Command
 {
@@ -18,12 +18,12 @@ class CreateAdminUserCommand extends Command
     protected static $defaultDescription = 'Create a new and only admin';
 
     private $em;
-    private $passwordEncoder;
+    private $passwordHasher;
 
-    public function __construct(EntityManagerInterface $em,UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher)
     {
         $this->em = $em;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
 
         parent::__construct();
     }
@@ -56,7 +56,7 @@ class CreateAdminUserCommand extends Command
         $admin->setNom($nom);
         $admin->setPrenom($prenom);
         $admin->setEmail($email);
-        $admin->setPassword($this->passwordEncoder->encodePassword($admin,$password));
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, $password));
 
         $admin->setRoles(['ROLE_ADMIN','ROLE_RESPONSABLE']);
         $admin->setIsVerified(true);

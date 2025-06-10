@@ -44,7 +44,7 @@
 									<td class="">{{casualClient.nom is not null ? casualClient.nom : 'Non renseigné' }}</td>
 									<td class="">{{casualClient.prenom is not null ? casualClient.prenom : 'Non renseigné'}}</td>
 									<td class="">{{casualClient.amount ~ ' XOF'}}</td>
-									<td class="col-2">{{casualClient.doneOn |localizeddate('long', 'short', 'fr')}}</td>
+									<td class="col-2">{{casualClient.doneOn |format_datetime('long', 'short', 'fr')}}</td>
 								</tr>
 							{% endfor %}
 						</tbody>

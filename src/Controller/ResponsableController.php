@@ -17,11 +17,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class ResponsableController extends AbstractController
 {
@@ -58,7 +58,7 @@ class ResponsableController extends AbstractController
     private $responsableTracker;
 
 
-    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $em, ToastrFactory $flasher, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ResponsableActivityTracker $responsableTracker)
+    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $em, ToastrFactory $flasher, UserPasswordHasherInterface $passwordEncoder, UserRepository $userRepository, ResponsableActivityTracker $responsableTracker)
     {
         $this->emailVerifier = $emailVerifier;
         $this->em = $em;
@@ -69,8 +69,8 @@ class ResponsableController extends AbstractController
     }
 
     #[Route('/responsable/register', name: 'app_responsable_register')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_ADD_RESPONSABLE') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * @Security("is_granted('ROLE_RIGHT_ADD_RESPONSABLE') or is_granted('ROLE_ADMIN')")
      * 
      */
     public function addResponsable(Request $request, FileUploader $fileUploader): Response
@@ -98,7 +98,7 @@ class ResponsableController extends AbstractController
 
                 // encode the plain password
                 $user->setPassword(
-                    $this->passwordEncoder->encodePassword(
+                    $this->passwordEncoder->hashPassword(
                         $user,
                         $form->get('plainPassword')->getData()
                     )
@@ -136,9 +136,8 @@ class ResponsableController extends AbstractController
     }
 
     #[Route('/responsable/list', name: 'app_responsable_list')]
+    #[IsGranted(new Expression("is_granted('ROLE_RIGHT_LIST_RESPONSABLE') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * 
-     * @Security("is_granted('ROLE_RIGHT_LIST_RESPONSABLE') or is_granted('ROLE_ADMIN')")
      * 
      * list all responsables
      *
@@ -162,9 +161,9 @@ class ResponsableController extends AbstractController
     }
 
     #[Route('/responsable/editProfile', name: 'app_responsable_edit_profile')]
+    #[IsGranted(new Expression("is_granted('ROLE_RESPONSABLE') or is_granted('ROLE_ADMIN')" ))]
     /**
-     * @IsGranted("ROLE_RESPONSABLE")
-     *  
+     * 
      * editProfile
      *
      * @return Response
@@ -216,8 +215,8 @@ class ResponsableController extends AbstractController
     }
 
     #[Route('/responsable/{id<\d+>}/editRight', name: 'app_responsable_edit_right')]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_RIGHT_RESPONSABLE_ACTIVITIES')" ))]
     /**
-     * @IsGranted("ROLE_ADMIN")
      * 
      * edit responsible right
      *

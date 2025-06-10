@@ -34,6 +34,7 @@
 		</title>
 
 		{% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
 			{{ encore_entry_link_tags('app') }}
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
 			<style>
@@ -86,6 +87,7 @@
 			</style>
 		{% endblock %}
 		{% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
 			<!-- Custom scripts for all pages-->
 
 

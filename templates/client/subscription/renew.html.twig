@@ -95,17 +95,17 @@
 							<td >{{client.email}}</td>
 
 							{% if client.dateNaissance is not null %}
-								<td >{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}</td>
+								<td >{{client.dateNaissance|date('d M Y')}}</td>
 							{% else %}
 								<td></td>
 							{% endif %}
 							{% if client.myRegistration is not null %}
-								<td >{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+								<td >{{client.myRegistration.dateOfRegistration|date('d M Y')}}</td>
 							{% else %}
 								<td></td>
 							{% endif %}
 							{% if client.mySubscription is not null %}
-								<td >{{client.mySubscription.endOfSubs|localizeddate('long', 'none', 'fr')}}</td>
+								<td >{{client.mySubscription.endOfSubs|date('d M Y')}}</td>
 								<td >{{client.mySubscription.amountOfSubs  ~ ' XOF'}}</td>
 								{% set content = "" %}
 								{% set color = "success" %}

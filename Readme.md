@@ -30,8 +30,8 @@ Cette application gère une salle de sport
     symfony console make:migration
     symfony console doctrine:migrations:migrate -- to create the database schemes
     symfony console doctrine:fixtures:load -- load fake data (optional)
-    npm install -- to install dependencies
-    npm run build  -- to build the js and css scripts
+    npm install ou yarn install -- to install dependencies
+    npm run dev ou yarn dev  -- to build the js and css scripts
     symfony server:start -d
     
     

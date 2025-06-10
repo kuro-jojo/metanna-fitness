@@ -70,11 +70,11 @@
 										<td class="text-dark">{{client.email}}</td>
 										<td>
 											{% if client.dateNaissance is not null%}
-												{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}
+												{{client.dateNaissance|date('d M Y')}}
 											{% endif %}
 										</td>
 										{% if client.myRegistration is not null %}
-											<td class="text-dark">{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+											<td class="text-dark">{{client.myRegistration.dateOfRegistration|date('d M Y')}}</td>
 											<td class="text-dark">{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
 											<td class="text-info fw-bold fs-5">Inscrit</td>
 											<td>
@@ -109,11 +109,11 @@
 											<td>{{client.email}}</td>
 											<td>
 												{% if client.dateNaissance is not null%}
-													{{client.dateNaissance|localizeddate('long', 'none', 'fr')}}
+													{{client.dateNaissance|date('d M Y')}}
 												{% endif %}
 											</td>
 											{% if client.myRegistration is not null %}
-												<td>{{client.myRegistration.dateOfRegistration|localizeddate('long', 'none', 'fr')}}</td>
+												<td>{{client.myRegistration.dateOfRegistration|date('d M Y')}}</td>
 												<td>{{client.myRegistration.amountOfRegistration ~ ' XOF'}}</td>
 												<td class="text-info fw-bold fs-5">Inscrit</td>
 												<td>

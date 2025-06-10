@@ -43,7 +43,7 @@
 								<tr>
 									<td>{{service.responsable.nom}}</td>
 									<td>{{service.responsable.prenom}}</td>
-									<td>{{service.dateOfService|localizeddate('long', 'medium', 'fr')}}</td>
+									<td>{{service.dateOfService|format_datetime('long', 'medium', 'fr')}}</td>
 									<td>{{service.serviceName}}</td>
 								</tr>
 							{% endfor %}

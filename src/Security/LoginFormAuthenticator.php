@@ -70,6 +70,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             $credentials['email']
         );
 
+        echo "ERRORRRRRRRRRRRRRRRRRRRRRRRRRRRR";
+
         return $credentials;
     }
 

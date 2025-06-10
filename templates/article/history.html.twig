@@ -29,7 +29,7 @@
 								<td class="p-3">{{sale.articleSold.price ~ ' XOF'}}</td>
 								<td class="p-3">{{sale.quantitySold}}</td>
 								<td class="p-3">{{sale.previousStock}}</td>
-								<td class="p-3">{{sale.dateOfSale|localizeddate('long', 'none', 'fr')}}</td>
+								<td class="p-3">{{sale.dateOfSale|date('d M Y')}}</td>
 								<td class="p-3">{{sale.responsableOfSale.prenom ~ ' ' ~  sale.responsableOfSale.nom}}</td>
 							</tr>
 						{% endfor %}

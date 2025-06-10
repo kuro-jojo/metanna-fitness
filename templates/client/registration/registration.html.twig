@@ -143,7 +143,7 @@ document.getElementById('client_registration_form_deadline').value = deadline;
 							</div>
 							<div class="col-md-4 text-center">
 								<label for="client_registration_form_deadline" class="form-label">Date de fin de l'inscription</label>
-								<input type="text" id="client_registration_form_deadline" name="client_registration_form[deadline]" required="required" disabled class="text-center form-control" value="{{registration.deadline|localizeddate('long', 'none', 'fr')}}">
+								<input type="text" id="client_registration_form_deadline" name="client_registration_form[deadline]" required="required" disabled class="text-center form-control" value="{{registration.deadline|date('d M Y')}}">
 
 							</div>
 							<div class="col-md-4 text-center">
